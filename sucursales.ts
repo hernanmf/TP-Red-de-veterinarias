@@ -1,4 +1,4 @@
-import { Paciente } from "./source/Paciente";
+import { Paciente } from "../Paciente";
 
 
 export default class Sucursal {
