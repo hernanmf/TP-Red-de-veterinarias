@@ -1,3 +1,7 @@
+import Sucursal from "./sucursales";
+import 
+
+
 export default class Veterinaria {
     private nombre : string; 
     private sucursales:Array<Sucursal>;
