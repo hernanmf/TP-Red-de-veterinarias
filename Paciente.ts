@@ -1,4 +1,4 @@
-export class Paciente {
+export default class Paciente {
   private IDdueño: number;
   private Nombre: string;
   private Especie: string;
