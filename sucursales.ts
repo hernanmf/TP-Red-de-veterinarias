@@ -1,4 +1,4 @@
-import { Paciente } from "./Paciente";
+import  Paciente  from "./Paciente";
 import Cliente from "./cliente"
 
 export default class Sucursal {
@@ -21,11 +21,21 @@ export default class Sucursal {
     public getTelefono():number{
         return this.telefono
     }
-    public getCliente(n):Cliente{
-        return this.clientes[n]
+    public getCliente(id:number){
+        
+        for (let i=0;i<this.clientes.length;i++){
+            if(id=== this.clientes[i].id_Cliente){
+            return this.clientes[i];    
+            }
+         }
     }
-    public getPaciente(posicion):Paciente{
-        return this.clientes[posicion].getPacientes();
+    public getPaciente(id_Cliente:number, nombrePaciente:string){
+        
+        for (let i=0;i<this.clientes.length;i++){
+            if(id_Cliente=== this.clientes[i].id_Cliente){
+            return this.clientes[i].getPacientes(nombrePaciente);    
+            }
+         }
     }
     public setDireccion(nuevaDireccion:string):void{
         this.direccion= nuevaDireccion;
@@ -45,8 +55,5 @@ export default class Sucursal {
             id: ${this.clientes[i].getIdCliente()}`)
         }
     }
-
-
-    public listarSucursales(){}
 
 }
