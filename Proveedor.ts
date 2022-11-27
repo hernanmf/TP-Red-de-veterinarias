@@ -1,4 +1,4 @@
-export class Proveedor {
+export default class Proveedor {
   private IDproveedor: number;
   private Nombre: string;
   private Telefono: number;
