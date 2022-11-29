@@ -1,4 +1,5 @@
 import Sucursal from "./sucursales";
+import Proveedor from "./Proveedor";
 
 export default class Veterinaria {
   private nombre: string;
@@ -23,19 +24,89 @@ export default class Veterinaria {
     this.nombre = nuevoNombre;
   }
 
-  public getSucursal() {}
+  public getSucursal(IDsucursal:number) {
+    return this.sucursales.find(Element=>Element.getIDsucursal()===IDsucursal);
+       
+  }
 
-  public setSucursal() {}
+  public setSucursal(IDsucursal:number,nuevaSucursal:Sucursal) {
+    
 
-  public getProveedor() {}
+    let i: number = 0;
+  while (
+  i < this.sucursales.length &&
+  this.sucursales[i].IDsucursal != IDsucursal
+    ) {
+  i++;
+    }
+  if (this.sucursales[i].IDsucursal===IDsucursal) {
+  this.sucursales[i]=nuevaSucursal
+  console.log("se cambio la sucursal");
+  }else{
+  console.log("no se encontro la sucursal");
+  }
+    
+  }
 
-  public setProveedor() {}
+  public getProveedor(IDproveedor:number) {
+    return this.proveedores.find(Element=>Element.getIDProveedor()===IDproveedor);
+  }
 
-  public borrarSucursal() {}
+  public setProveedor(IDproveedor:number,nuevoProveedor:Proveedor) {
+    let i: number = 0;
+    while (
+    i < this.proveedores.length &&
+    this.proveedores[i].getIDProveedor() != IDproveedor
+      ) {
+    i++;
+      }
+    if (this.proveedores[i].getIDProveedor()===IDproveedor) {
+    this.proveedores[i]=nuevoProveedor
+    console.log("se cambio el proveedor");
+    }else{
+    console.log("no se encontro el Proveedor");
+    }
+      
+  }
 
-  public borrarProveedor() {}
+  public borrarSucursal(IDsucursal:number) {
+    
+    let i: number = 0;
+  while (
+  i < this.sucursales.length &&
+  this.sucursales[i].IDsucursal != IDsucursal
+    ) {
+  i++;
+    }
+  if (this.sucursales[i].IDsucursal===IDsucursal) {
+   this.sucursales.splice(i,1)
+  console.log("se elimino la sucursal");
+  }else{
+  console.log("no se encontro la sucursal a eliminar");
+  }
+  }
 
-  public listarSucursal() {}
+  public borrarProveedor(IDproveedor:number) {
+    let i: number = 0;
+    while (
+    i < this.proveedores.length &&
+    this.proveedores[i].getIDProveedor() != IDproveedor
+      ) {
+    i++;
+      }
+    if (this.proveedores[i].getIDProveedor()===IDproveedor) {
+    this.proveedores.splice(i,1)
+    console.log("se elimino el proveedor");
+    }else{
+    console.log("no se encontro el Proveedor a eliminar");
+    }
+  }
 
-  public listarProveedor() {}
+  public listarSucursal():Array<Sucursal> {
+    return this.sucursales
+  }
+
+  public listarProveedor():Array<Proveedor> {
+    return this.proveedores
+  }
 }

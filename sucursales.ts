@@ -14,6 +14,10 @@ export default class Sucursal {
         this.clientes=clientes;
     }
 
+    public getIDsucursal():number{
+        return this.IDsucursal
+    }
+
     public getDireccion():string{
         return this.direccion
     }
