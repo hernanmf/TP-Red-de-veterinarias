@@ -98,6 +98,20 @@ function menuModificarProveedor(): void {
       "Ingrese el id del proveedor que desea cambiar(0 para cancelar operacion): "
     )
   );
+  if (IDaCambiar === 0) {
+    console.log("Modificacion cancelada");
+    setTimeout(() => {
+      console.log(" ");
+    }, 2000);
+  } else {
+    let NvoProveedor: Proveedor;
+    NvoProveedor = new Proveedor(IDaCambiar, " ", 1);
+    NvoProveedor.setNombre(
+      ReadlineSync.question(
+        "Nuevo nombre para el proveedor, si no cambia, ingrese el mismo: "
+      )
+    );
+  }
 }
 function menuBorrarProveedor(): void {}
 function menuNuevoProveedor(): void {}
