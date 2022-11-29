@@ -1,13 +1,13 @@
 "use strict";
 exports.__esModule = true;
 var Cliente = /** @class */ (function () {
-    function Cliente(id_Cliente, nombre, telefono, esVip, pacientes, cantidadVisitas) {
+    function Cliente(id_Cliente, nombre, telefono, esVip, cantidadVisitas, pacientes) {
         this.id_Cliente = id_Cliente;
         this.nombre = nombre;
         this.telefono = telefono;
         this.esVip = esVip;
-        this.pacientes = pacientes;
         this.cantidadVisitas = cantidadVisitas;
+        this.pacientes = pacientes;
     }
     Cliente.prototype.getIdCliente = function () {
         return this.id_Cliente;
@@ -33,11 +33,25 @@ var Cliente = /** @class */ (function () {
     Cliente.prototype.setTelefone = function (nuevoTelefono) {
         this.telefono = nuevoTelefono;
     };
-    /* public setPaciente(nuevoPaciente: Paciente) {
-      this.pacientes = nuevoPaciente;
-    } */
-    Cliente.prototype.registrarVisita = function () { };
-    Cliente.prototype.listarPacientes = function () { };
+    Cliente.prototype.setPaciente = function (arregloPacientes, nuevoPaciente) {
+        this.pacientes[arregloPacientes.length] = nuevoPaciente;
+    };
+    Cliente.prototype.registrarVisita = function (cantidadVisitas) {
+        this.cantidadVisitas += 1;
+        return cantidadVisitas;
+    };
+    Cliente.prototype.listarPacientes = function (arregloPacientes) {
+        for (var i = 0; i < arregloPacientes.length; i++) {
+            console.log("Nombre Paciente:  ".concat(arregloPacientes[i].getNombre()));
+        }
+    };
+    Cliente.prototype.borrarPaciente = function (arregloPacientes, nombrePaciente) {
+        for (var i = 0; i < arregloPacientes.length; i++) {
+            if (arregloPacientes[i].getNombre() === nombrePaciente) {
+                arregloPacientes.splice(i, 1);
+            }
+        }
+    };
     return Cliente;
 }());
 exports["default"] = Cliente;
