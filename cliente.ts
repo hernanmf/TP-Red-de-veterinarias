@@ -9,56 +9,59 @@ export default class Cliente{
     public pacientes : Array<Paciente>;
     
 
-     public constructor(id_Cliente: number, nombre: string, telefono: number, esVip: boolean, cantidadVisitas: number, pacientes: Array<Paciente>) {
-        this.id_Cliente = id_Cliente;
-        this.nombre = nombre;
-        this.telefono = telefono;
-        this.esVip = esVip;
-        this.cantidadVisitas = cantidadVisitas;
-        this.pacientes = pacientes;
-        
-     }
-     public getIdCliente(): number {
-        return this.id_Cliente;
-     }
-     public getNombre(): string {
-        return this.nombre;
-     }
-     public getTelefono(): number {
-        return this.telefono;
-     }
-     public getEsVip(): boolean {
-        return this.esVip;
-     }
-     public getPacientes(n): Paciente {
-        return this.pacientes[n];
-     }
-     public getCantidadVisitas(): number{
-        return this.cantidadVisitas;
-     }
-     public setNombre(nuevoNombre: string) {
-        this.nombre = nuevoNombre;
-     }
-     public setTelefone(nuevoTelefono: number) {
-        this.telefono = nuevoTelefono;
-     }
-     public setPaciente(arregloPacientes : Array<Paciente>, nuevoPaciente: Paciente) {
-        this.pacientes[arregloPacientes.length] = nuevoPaciente;
-     }
-     public registrarVisita(cantidadVisitas: number): number {
-         this.cantidadVisitas += 1;
-         return cantidadVisitas;
-     }
-     public listarPacientes(arregloPacientes: Array<Paciente>) {
-         for (let i: number = 0; i <arregloPacientes.length; i++){
-            console.log(`Nombre Paciente:  ${arregloPacientes[i].getNombre()}`);
-         }
-     }
-     public borrarPaciente(arregloPacientes: Array<Paciente>, nombrePaciente: string) {
-         for (let i: number = 0; i <arregloPacientes.length; i++){
-            if (arregloPacientes[i].getNombre() === nombrePaciente){
-               arregloPacientes.splice(i, 1);
-            }
-         }
-     }
+
+     public constructor(
+    id_Cliente: number,
+    nombre: string,
+    telefono: number,
+    esVip: boolean,
+    cantidadVisitas: number,
+    pacientes: Array<Paciente>,
+    
+  ) {
+    this.id_Cliente = id_Cliente;
+    this.nombre = nombre;
+    this.telefono = telefono;
+    this.esVip = esVip;
+    this.cantidadVisitas = cantidadVisitas;
+    this.pacientes = pacientes;
+    
+  }
+  public getIdCliente(): number {
+    return this.id_Cliente;
+  }
+  public getNombre(): string {
+    return this.nombre;
+  }
+  public getTelefono(): number {
+    return this.telefono;
+  }
+  public getEsVip(): boolean {
+    return this.esVip;
+  }
+  public getPacientes(n): Paciente {
+    return this.pacientes[n];
+  }
+  public getCantidadVisitas(): number {
+    return this.cantidadVisitas;
+  }
+  public setNombre(nuevoNombre: string) {
+    this.nombre = nuevoNombre;
+  }
+  public setTelefone(nuevoTelefono: number) {
+    this.telefono = nuevoTelefono;
+  }
+  /* public setPaciente(nuevoPaciente: Paciente) {
+    this.pacientes = nuevoPaciente;
+  } */
+  public registrarVisita() {
+    this.cantidadVisitas++;
+  }
+
+  public listarPacientes(): Array<Paciente> {
+    return this.pacientes;
+  }
+  /*   public borrarPaciente(arregloPaciente:<Paciente>, nombrePaciente:string){
+
+     } */
 }
