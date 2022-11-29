@@ -58,12 +58,10 @@ export default class Sucursal {
     public borrarCliente(posicion:number){
         this.clientes=this.clientes.splice(posicion,1)
     }
-    public listarClientes():void{
-        for(let i=0;i<this.clientes.length;i++){
-            console.log(`cliente: ${this.clientes[i].getNombre()}
-            id: ${this.clientes[i].getIdCliente()}`)
-        }
+    public listarClientes():Array<Cliente> {
+      return this.clientes;
     }
+
   }
 
 }

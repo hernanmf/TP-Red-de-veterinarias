@@ -50,8 +50,13 @@ export default class Cliente {
   /* public setPaciente(nuevoPaciente: Paciente) {
     this.pacientes = nuevoPaciente;
   } */
-  public registrarVisita() {}
-  public listarPacientes() {}
+  public registrarVisita() {
+    this.cantidadVisitas++;
+  }
+
+  public listarPacientes(): Array<Paciente> {
+    return this.pacientes;
+  }
   /*   public borrarPaciente(arregloPaciente:<Paciente>, nombrePaciente:string){
 
      } */

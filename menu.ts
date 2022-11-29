@@ -10,7 +10,7 @@ import * as ReadFileSync from "readline-sync";
 import * as ReadlineSync from "readline-sync";
 
 /* menues en funcion */
-function menuBienvenida(): void {
+export function menuBienvenida(): void {
   let opcionMenuBienvenida: number = Number(8);
   /* MOSTRAR NOMBRE */
   while (opcionMenuBienvenida != Number(0)) {
