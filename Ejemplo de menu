@@ -1,4 +1,4 @@
-Bienvenidos a nuestro programa
+Bienvenidos a nuestro programa HECHO
 Mostrar nombre
 
 1er menu
@@ -10,7 +10,24 @@ Mostrar nombre
 
 ---
 
-menu de sucursal
+menu de proveedores HECHO
+
+1 listar proveedores
+2 borrar proveedor
+3 crear proveedor
+4 modificar proveedor
+
+9 volver atras
+
+FALTA
+LISTAR
+BORRAR
+CREAR
+MODIFICAR
+
+---
+
+menu de sucursal HECHO
 
 listar sucursales
 1 ingresar a sucursal
@@ -19,7 +36,6 @@ listar sucursales
 4 modificar sucursal
 
 9 volver
-0 salir
 
 ---
 
@@ -31,10 +47,8 @@ mostrar id - direccion - telefono
 3 ingresar a cliente
 4 borrar cliente
 5 crear cliente
-6 modificar cliente
 
 9 volver atras
-0 salir
 
 ---
 
@@ -45,18 +59,9 @@ mostrar id - nombre - telefono - vip? - visitas
 2 borrar paciente
 3 crear paciente
 4 modificar paciente
+5 Registrar visita
+6 modificar cliente
 
 9 volver atras
-0 salir
 
 ---
-
-menu de proveedores
-
-1 listar proveedores
-2 borrar proveedor
-3 crear proveedor
-4 modificar proveedor
-
-9 volver atras
-0 salir

@@ -2,17 +2,22 @@ import  Paciente  from "./Paciente";
 import Cliente from "./cliente"
 
 export default class Sucursal {
-    public IDsucursal:number;
-    public direccion:string;
-    public telefono:number;
-    public clientes:Array<Cliente>;
+  public IDsucursal: number;
+  public direccion: string;
+  public telefono: number;
+  public clientes: Array<Cliente>;
 
-    public constructor(IDsucursal:number,direccion:string,telefono:number,clientes:Array<Cliente>){
-        this.IDsucursal=IDsucursal;
-        this.direccion=direccion;
-        this.telefono=telefono;
-        this.clientes=clientes;
-    }
+  public constructor(
+    IDsucursal: number,
+    direccion: string,
+    telefono: number,
+    clientes: Array<Cliente>
+  ) {
+    this.IDsucursal = IDsucursal;
+    this.direccion = direccion;
+    this.telefono = telefono;
+    this.clientes = clientes;
+  }
 
     public getIDsucursal():number{
         return this.IDsucursal
@@ -59,5 +64,6 @@ export default class Sucursal {
             id: ${this.clientes[i].getIdCliente()}`)
         }
     }
+  }
 
 }
