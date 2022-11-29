@@ -14,12 +14,13 @@ function menuBienvenida(): void {
   let opcionMenuBienvenida: number = Number(8);
   /* MOSTRAR NOMBRE */
   while (opcionMenuBienvenida != Number(0)) {
+    console.clear();
     console.log("------------------------- ");
     console.log("BIENVENIDOS A CAMERUNSOFT");
     console.log("------------------------- ");
     console.log(" ");
-    console.log("1 - Ver Sucursales");
-    console.log("2 - Ver Proveedores");
+    console.log("1 - Ver Proveedores");
+    console.log("2 - Ver Sucursales");
     console.log(" ");
     console.log("------------------------- ");
     console.log("0 - Salir");
@@ -30,13 +31,19 @@ function menuBienvenida(): void {
 
     switch (opcionMenuBienvenida) {
       case 1:
-        menuSucursales();
-        break;
-      case 2:
         menuProveedores();
         break;
-      default:
+      case 2:
+        menuSucursales();
+        break;
+      case 0:
         console.log("FIN DEL PROGRAMA");
+        break;
+      default:
+        console.log("Opcion erronea");
+        setTimeout(() => {
+          console.log(" ");
+        }, 2000);
         break;
     }
   }
@@ -45,16 +52,16 @@ function menuBienvenida(): void {
 function menuProveedores(): void {
   let opcionMenuProveedores: number = Number(8);
   while (opcionMenuProveedores != Number(9)) {
-    console.log("------------------------- ");
-    /* LISTAR PROVEEDORES */
+    console.clear();
     console.log("------------------------- ");
     console.log("PROVEEDORES");
     console.log("------------------------- ");
+    /* LISTAR PROVEEDORES */
+    console.log("------------------------- ");
     console.log(" ");
-    console.log("1 - Ingresar a proveedor");
-    console.log("2 - Modificar proveedor");
-    console.log("3 - Borrar proveedor");
-    console.log("4 - Nuevo proveedor");
+    console.log("1 - Modificar proveedor");
+    console.log("2 - Borrar proveedor");
+    console.log("3 - Nuevo proveedor");
     console.log(" ");
     console.log("------------------------- ");
     console.log("9 - Atras");
@@ -65,22 +72,40 @@ function menuProveedores(): void {
 
     switch (opcionMenuProveedores) {
       case 1:
+        menuModificarProveedor();
         break;
       case 2:
+        menuBorrarProveedor();
         break;
       case 3:
-        break;
-      case 4:
+        menuNuevoProveedor();
         break;
       default:
+        console.log("Opcion erronea");
+        setTimeout(() => {
+          console.log(" ");
+        }, 2000);
         break;
     }
   }
 }
 
+function menuModificarProveedor(): void {
+  console.clear();
+  /* LISTAR PROVEEDORES */
+  let IDaCambiar: number = Number(
+    ReadlineSync.question(
+      "Ingrese el id del proveedor que desea cambiar(0 para cancelar operacion): "
+    )
+  );
+}
+function menuBorrarProveedor(): void {}
+function menuNuevoProveedor(): void {}
+
 function menuSucursales(): void {
   let opcionMenuSucursal: number = Number(8);
   while (opcionMenuSucursal != Number(9)) {
+    console.clear();
     console.log("------------------------- ");
     /* LISTAR SUCURSALES */
     console.log("------------------------- ");
@@ -102,20 +127,31 @@ function menuSucursales(): void {
         menuEnSucursal();
         break;
       case 2:
+        menuModificarSucursal();
         break;
       case 3:
+        menuBorrarSucursal();
         break;
       case 4:
+        menuNuevaSucursal();
         break;
       default:
+        console.log("Opcion erronea");
+        setTimeout(() => {
+          console.log(" ");
+        }, 2000);
         break;
     }
   }
 }
+function menuModificarSucursal(): void {}
+function menuBorrarSucursal(): void {}
+function menuNuevaSucursal(): void {}
 
 function menuEnSucursal(): void {
   let opcionMenuEnSucursal: number = Number(8);
   while (opcionMenuEnSucursal != Number(9)) {
+    console.clear();
     console.log("------------------------- ");
     /* MOSTRAR ID DIRECCION Y TELEFONO */
     console.log("------------------------- ");
@@ -123,8 +159,8 @@ function menuEnSucursal(): void {
     console.log("1 - Listar clientes");
     console.log("2 - Listar pacientes");
     console.log("3 - Ingresar a cliente");
-    console.log("5 - Borrar cliente");
-    console.log("6 - Nuevo cliente");
+    console.log("4 - Borrar cliente");
+    console.log("5 - Nuevo cliente");
     console.log(" ");
     console.log("------------------------- ");
     console.log("9 - Atras");
@@ -141,22 +177,31 @@ function menuEnSucursal(): void {
         /* LISTAR PACIENTES */
         break;
       case 3:
+        menuEnCliente();
         break;
       case 4:
+        menuBorrarCliente();
         break;
       case 5:
-        break;
-      case 6:
+        menuNuevoCliente();
         break;
       default:
+        console.log("Opcion erronea");
+        setTimeout(() => {
+          console.log(" ");
+        }, 2000);
         break;
     }
   }
 }
 
+function menuBorrarCliente(): void {}
+function menuNuevoCliente(): void {}
+
 function menuEnCliente(): void {
   let opcionMenuEnCliente: number = Number(8);
   while (opcionMenuEnCliente != Number(9)) {
+    console.clear();
     console.log("------------------------- ");
     /* MOSTRAR ID NOMBRE TELEFONO ESVIP? VISITAS*/
     console.log("------------------------- ");
@@ -175,23 +220,43 @@ function menuEnCliente(): void {
 
     switch (opcionMenuEnCliente) {
       case 1:
+        registrarVisita();
         break;
       case 2:
-        /* LISTAR PACIENTES */
+        menuModificarCliente();
         break;
       case 3:
+        /* LISTAR PACIENTES */
         break;
       case 4:
+        menuModificarPaciente();
         break;
       case 5:
+        menuBorrarPaciente();
         break;
       case 6:
+        menuNuevoPaciente();
         break;
       default:
+        console.log("Opcion erronea");
+        setTimeout(() => {
+          console.log(" ");
+        }, 2000);
         break;
     }
   }
 }
 
+function registrarVisita(): void {}
+function menuModificarCliente(): void {}
+function menuModificarPaciente(): void {}
+function menuBorrarPaciente(): void {}
+function menuNuevoPaciente(): void {}
+
 //INICIO DEL PROGRAMA
+
+/* CARGA DE BBDD */
+
 menuBienvenida();
+
+/* GUARDADO DE BBDD */
