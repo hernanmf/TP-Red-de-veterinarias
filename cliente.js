@@ -33,24 +33,14 @@ var Cliente = /** @class */ (function () {
     Cliente.prototype.setTelefone = function (nuevoTelefono) {
         this.telefono = nuevoTelefono;
     };
-    Cliente.prototype.setPaciente = function (arregloPacientes, nuevoPaciente) {
-        this.pacientes[arregloPacientes.length] = nuevoPaciente;
+    /* public setPaciente(nuevoPaciente: Paciente) {
+      this.pacientes = nuevoPaciente;
+    } */
+    Cliente.prototype.registrarVisita = function () {
+        this.cantidadVisitas++;
     };
-    Cliente.prototype.registrarVisita = function (cantidadVisitas) {
-        this.cantidadVisitas += 1;
-        return cantidadVisitas;
-    };
-    Cliente.prototype.listarPacientes = function (arregloPacientes) {
-        for (var i = 0; i < arregloPacientes.length; i++) {
-            console.log("Nombre Paciente:  ".concat(arregloPacientes[i].getNombre()));
-        }
-    };
-    Cliente.prototype.borrarPaciente = function (arregloPacientes, nombrePaciente) {
-        for (var i = 0; i < arregloPacientes.length; i++) {
-            if (arregloPacientes[i].getNombre() === nombrePaciente) {
-                arregloPacientes.splice(i, 1);
-            }
-        }
+    Cliente.prototype.listarPacientes = function () {
+        return this.pacientes;
     };
     return Cliente;
 }());

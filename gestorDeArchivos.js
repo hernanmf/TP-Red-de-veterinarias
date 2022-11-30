@@ -1,14 +1,15 @@
 "use strict";
 exports.__esModule = true;
-exports.cargaArreglos = exports.crearPaciente = exports.crearProveedor = exports.crearCliente = void 0;
+exports.crearPaciente = exports.crearProveedor = exports.crearSucursal = exports.crearCliente = exports.LectorArchivos = void 0;
 var fs = require("fs");
 var cliente_1 = require("./cliente");
 var paciente_1 = require("./paciente");
 var proveedor_1 = require("./proveedor");
+var sucursales_1 = require("./sucursales");
 var LectorArchivos = /** @class */ (function () {
     function LectorArchivos(txtFileLocation) {
-        var archivoTxt = fs.readFileSync(txtFileLocation, 'utf-8');
-        this.arregloString = archivoTxt.split(';'); //vamos a tener nuestro "objetos" separados por ;
+        var archivoTxt = fs.readFileSync(txtFileLocation, "utf-8");
+        this.arregloString = archivoTxt.split(";"); //vamos a tener nuestro "objetos" separados por ;
     }
     LectorArchivos.prototype.mostrarArreglo = function () {
         console.log(this.arregloString);
@@ -18,10 +19,10 @@ var LectorArchivos = /** @class */ (function () {
     };
     return LectorArchivos;
 }());
-exports["default"] = LectorArchivos;
+exports.LectorArchivos = LectorArchivos;
 //funcion que genera un Objeto de tipo Cliente desde una base de datos(.txt)==>
 function crearCliente(cliente, arregloClientes, arregloPacientes) {
-    var propiedadCliente = cliente.split(',');
+    var propiedadCliente = cliente.split(",");
     var idCliente = Number(propiedadCliente[0]);
     var nombreCliente = propiedadCliente[1];
     var telefonoCliente = Number(propiedadCliente[2]);
@@ -33,9 +34,20 @@ function crearCliente(cliente, arregloClientes, arregloPacientes) {
     return listaCliente;
 }
 exports.crearCliente = crearCliente;
+function crearSucursal(sucursal, arregloSucursales) {
+    var propiedadSucursal = sucursal.split(",");
+    var IDsucursal = Number(propiedadSucursal[0]);
+    var Direccion = propiedadSucursal[1];
+    var Telefono = Number(propiedadSucursal[2]);
+    var listaSucursal = arregloSucursales;
+    var nuevaSucursal = new sucursales_1["default"](IDsucursal, Direccion, Telefono, arregloClientes);
+    listaSucursal.push(nuevaSucursal);
+    return listaSucursal;
+}
+exports.crearSucursal = crearSucursal;
 //funcion que genera un Objeto de tipo Proveedor desde una base de datos(.txt)==>
 function crearProveedor(proveedor, arregloProveedor) {
-    var propiedadProveedor = proveedor.split(',');
+    var propiedadProveedor = proveedor.split(",");
     var idProveedor = Number(propiedadProveedor[0]);
     var nombreProveedor = propiedadProveedor[1];
     var telProveedor = Number(propiedadProveedor[2]);
@@ -47,7 +59,7 @@ function crearProveedor(proveedor, arregloProveedor) {
 exports.crearProveedor = crearProveedor;
 //funcion que genera un Objeto de tipo Paciente desde una base de datos(.txt)==>
 function crearPaciente(paciente, arregloPacientes, arregloHistClinica) {
-    var propiedadPaciente = paciente.split(',');
+    var propiedadPaciente = paciente.split(",");
     var idPaciente = Number(propiedadPaciente[0]);
     var nombrePaciente = propiedadPaciente[1];
     var especie = propiedadPaciente[2];
@@ -59,24 +71,24 @@ function crearPaciente(paciente, arregloPacientes, arregloHistClinica) {
 }
 exports.crearPaciente = crearPaciente;
 //Cargamos los arreglos clientes, pacientes y proveedores--->
-function cargaArreglos() {
-    var datosClientes = new LectorArchivos('./baseDeDatos/clientes.txt');
-    var arregloClientes = [];
-    var datosPacientes = new LectorArchivos('./baseDeDatos/paciente.txt');
-    var arregloPacientes = [];
-    var datosProveedor = new LectorArchivos('./baseDeDatos/proveedores.txt');
-    var arregloProveedor = [];
-    var arregloHistClinica = [];
-    for (var i = 0; i < datosClientes.getArregloString().length; i++) {
-        crearCliente(datosClientes.getArregloString()[i], arregloClientes, arregloPacientes);
-    }
-    for (var i = 0; i < datosPacientes.getArregloString().length; i++) {
-        crearPaciente(datosPacientes.getArregloString()[i], arregloPacientes, arregloHistClinica);
-    }
-    for (var i = 0; i < datosProveedor.getArregloString().length; i++) {
-        crearProveedor(datosProveedor.getArregloString()[i], arregloProveedor);
-    }
-    return { arregloClientes: arregloClientes, arregloPacientes: arregloPacientes, arregloProveedor: arregloProveedor };
+var datosSucursales = new LectorArchivos("./baseDeDatos/sucursales.txt");
+var arregloSucursales = [];
+var datosClientes = new LectorArchivos("./baseDeDatos/clientes.txt");
+var arregloClientes = [];
+var datosPacientes = new LectorArchivos("./baseDeDatos/paciente.txt");
+var arregloPacientes = [];
+var datosProveedor = new LectorArchivos("./baseDeDatos/proveedores.txt");
+var arregloProveedor = [];
+var arregloHistClinica = [];
+for (var i = 0; i < datosClientes.getArregloString().length; i++) {
+    crearCliente(datosClientes.getArregloString()[i], arregloClientes, arregloPacientes);
 }
-exports.cargaArreglos = cargaArreglos;
-console.log(cargaArreglos());
+for (var i = 0; i < datosPacientes.getArregloString().length; i++) {
+    crearPaciente(datosPacientes.getArregloString()[i], arregloPacientes, arregloHistClinica);
+}
+for (var i = 0; i < datosProveedor.getArregloString().length; i++) {
+    crearProveedor(datosProveedor.getArregloString()[i], arregloProveedor);
+}
+for (var i = 0; i < datosSucursales.getArregloString().length; i++) {
+    crearSucursal(datosSucursales.getArregloString()[i], arregloSucursales);
+}

@@ -4,10 +4,64 @@ import Proveedor from "./Proveedor";
 import Sucursal from "./sucursales";
 import Veterinarias from "./veterinarias";
 import generadorDeID from "./generadorId";
+import {
+  LectorArchivos,
+  crearCliente,
+  crearPaciente,
+  crearProveedor,
+  crearSucursal,
+} from "./GestorDeArchivos";
 
 /* import * as fs from "fs"; */
 import * as ReadFileSync from "readline-sync";
 import * as ReadlineSync from "readline-sync";
+import Veterinaria from "./veterinarias";
+
+//Cargamos los arreglos clientes, pacientes y proveedores--->
+let datosSucursales: LectorArchivos = new LectorArchivos(
+  "./baseDeDatos/sucursales.txt"
+);
+let arregloSucursales: Array<Sucursal> = [];
+
+let datosClientes: LectorArchivos = new LectorArchivos(
+  "./baseDeDatos/clientes.txt"
+);
+let arregloClientes: Array<Cliente> = [];
+let datosPacientes: LectorArchivos = new LectorArchivos(
+  "./baseDeDatos/paciente.txt"
+);
+let arregloPacientes: Array<Paciente> = [];
+let datosProveedor: LectorArchivos = new LectorArchivos(
+  "./baseDeDatos/proveedores.txt"
+);
+let arregloProveedor: Array<Proveedor> = [];
+let arregloHistClinica: Array<string> = [];
+for (let i: number = 0; i < datosClientes.getArregloString().length; i++) {
+  crearCliente(
+    datosClientes.getArregloString()[i],
+    arregloClientes,
+    arregloPacientes
+  );
+}
+for (let i: number = 0; i < datosPacientes.getArregloString().length; i++) {
+  crearPaciente(
+    datosPacientes.getArregloString()[i],
+    arregloPacientes,
+    arregloHistClinica
+  );
+}
+for (let i: number = 0; i < datosProveedor.getArregloString().length; i++) {
+  crearProveedor(datosProveedor.getArregloString()[i], arregloProveedor);
+}
+
+for (let i: number = 0; i < datosSucursales.getArregloString().length; i++) {
+  crearSucursal(datosSucursales.getArregloString()[i], arregloSucursales);
+}
+var veterinariaInstanciada = new Veterinaria(
+  "Camerun Soft",
+  arregloSucursales,
+  arregloProveedor
+);
 
 /* menues en funcion */
 export function menuBienvenida(): void {
@@ -105,14 +159,19 @@ function menuModificarProveedor(): void {
     }, 2000);
   } else {
     let NvoProveedor: Proveedor;
-    NvoProveedor = new Proveedor(IDaCambiar, " ", 1);
-    NvoProveedor.setNombre(
-      ReadlineSync.question(
+    let NvoNombre: string = ReadlineSync.question(
+      "Nuevo nombre para el proveedor, si no cambia, ingrese el mismo: "
+    );
+    let nvoTelefono: number = Number(
+      ReadlineSync.questionInt(
         "Nuevo nombre para el proveedor, si no cambia, ingrese el mismo: "
       )
     );
+    NvoProveedor = new Proveedor(IDaCambiar, NvoNombre, nvoTelefono);
+    veterinariaInstanciada.setProveedor(IDaCambiar, NvoProveedor);
   }
 }
+
 function menuBorrarProveedor(): void {}
 function menuNuevoProveedor(): void {}
 
