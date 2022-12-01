@@ -66,7 +66,6 @@ var veterinariaInstanciada = new Veterinaria(
 /* menues en funcion */
 export function menuBienvenida(): void {
   let opcionMenuBienvenida: number = Number(8);
-  /* MOSTRAR NOMBRE */
   while (opcionMenuBienvenida != Number(0)) {
     console.clear();
     console.log("------------------------- ");
@@ -110,7 +109,7 @@ function menuProveedores(): void {
     console.log("------------------------- ");
     console.log("PROVEEDORES");
     console.log("------------------------- ");
-    /* LISTAR PROVEEDORES */
+    mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
     console.log("------------------------- ");
     console.log(" ");
     console.log("1 - Modificar proveedor");
@@ -146,7 +145,7 @@ function menuProveedores(): void {
 
 function menuModificarProveedor(): void {
   console.clear();
-  /* LISTAR PROVEEDORES */
+  mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
   let IDaCambiar: number = Number(
     ReadlineSync.question(
       "Ingrese el id del proveedor que desea cambiar(0 para cancelar operacion): "
@@ -172,6 +171,20 @@ function menuModificarProveedor(): void {
   }
 }
 
+function mostrarListaProveedores(lista: Array<Proveedor>): void {
+  console.log("-- ID Proveedor / Nombre / Telefono --");
+  for (let i: number = 0; i < lista.length; i++) {
+    console.log(
+      lista[i].getIDProveedor() +
+        " / " +
+        lista[i].getNombre() +
+        " / " +
+        lista[i].getTelefono()
+    );
+  }
+  console.log("---------------------------------------");
+}
+
 function menuBorrarProveedor(): void {}
 function menuNuevoProveedor(): void {}
 
@@ -180,9 +193,9 @@ function menuSucursales(): void {
   while (opcionMenuSucursal != Number(9)) {
     console.clear();
     console.log("------------------------- ");
-    /* LISTAR SUCURSALES */
-    console.log("------------------------- ");
     console.log("SUCURSALES");
+    console.log("------------------------- ");
+    mostrarListaSucursales(veterinariaInstanciada.listarSucursal());
     console.log("------------------------- ");
     console.log(" ");
     console.log("1 - Ingresar a sucursal");
@@ -220,6 +233,19 @@ function menuSucursales(): void {
 function menuModificarSucursal(): void {}
 function menuBorrarSucursal(): void {}
 function menuNuevaSucursal(): void {}
+function mostrarListaSucursales(lista: Array<Sucursal>): void {
+  console.log("-- ID Sucursal / Direccion / Telefono --");
+  for (let i: number = 0; i < lista.length; i++) {
+    console.log(
+      lista[i].getIDsucursal() +
+        " / " +
+        lista[i].getDireccion() +
+        " / " +
+        lista[i].getTelefono()
+    );
+  }
+  console.log("----------------------------------------");
+}
 
 function menuEnSucursal(): void {
   let opcionMenuEnSucursal: number = Number(8);
