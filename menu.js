@@ -31,7 +31,6 @@ var veterinariaInstanciada = new veterinarias_1["default"]("Camerun Soft", arreg
 /* menues en funcion */
 function menuBienvenida() {
     var opcionMenuBienvenida = Number(8);
-    /* MOSTRAR NOMBRE */
     while (opcionMenuBienvenida != Number(0)) {
         console.clear();
         console.log("------------------------- ");
@@ -72,7 +71,8 @@ function menuProveedores() {
         console.log("------------------------- ");
         console.log("PROVEEDORES");
         console.log("------------------------- ");
-        /* LISTAR PROVEEDORES */
+        console.log(" ");
+        mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
         console.log("------------------------- ");
         console.log(" ");
         console.log("1 - Modificar proveedor");
@@ -104,10 +104,10 @@ function menuProveedores() {
 }
 function menuModificarProveedor() {
     console.clear();
-    /* LISTAR PROVEEDORES */
+    mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
     var IDaCambiar = Number(ReadlineSync.question("Ingrese el id del proveedor que desea cambiar(0 para cancelar operacion): "));
     if (IDaCambiar === 0) {
-        console.log("Modificacion cancelada");
+        console.log("MODIFICACION CANCELADA");
         setTimeout(function () {
             console.log(" ");
         }, 2000);
@@ -115,10 +115,26 @@ function menuModificarProveedor() {
     else {
         var NvoProveedor = void 0;
         var NvoNombre = ReadlineSync.question("Nuevo nombre para el proveedor, si no cambia, ingrese el mismo: ");
-        var nvoTelefono = Number(ReadlineSync.questionInt("Nuevo nombre para el proveedor, si no cambia, ingrese el mismo: "));
+        var nvoTelefono = Number(ReadlineSync.questionInt("Nuevo telefono para el proveedor, si no cambia, ingrese el mismo: "));
         NvoProveedor = new Proveedor_1["default"](IDaCambiar, NvoNombre, nvoTelefono);
         veterinariaInstanciada.setProveedor(IDaCambiar, NvoProveedor);
+        /* console.log("MODIFICACION REALIZADA"); */
+        setTimeout(function () {
+            console.log("MODIFICACION REALIZADA");
+        }, 2000);
     }
+}
+function mostrarListaProveedores(lista) {
+    console.log("ID Proveedor / Nombre / Telefono");
+    console.log(" ");
+    for (var i = 0; i < lista.length; i++) {
+        console.log(lista[i].getIDProveedor() +
+            " / " +
+            lista[i].getNombre() +
+            " / " +
+            lista[i].getTelefono());
+    }
+    console.log(" ");
 }
 function menuBorrarProveedor() { }
 function menuNuevoProveedor() { }
@@ -127,9 +143,10 @@ function menuSucursales() {
     while (opcionMenuSucursal != Number(9)) {
         console.clear();
         console.log("------------------------- ");
-        /* LISTAR SUCURSALES */
-        console.log("------------------------- ");
         console.log("SUCURSALES");
+        console.log("------------------------- ");
+        console.log(" ");
+        mostrarListaSucursales(veterinariaInstanciada.listarSucursal());
         console.log("------------------------- ");
         console.log(" ");
         console.log("1 - Ingresar a sucursal");
@@ -166,6 +183,18 @@ function menuSucursales() {
 function menuModificarSucursal() { }
 function menuBorrarSucursal() { }
 function menuNuevaSucursal() { }
+function mostrarListaSucursales(lista) {
+    console.log("ID Sucursal / Direccion / Telefono");
+    console.log(" ");
+    for (var i = 0; i < lista.length; i++) {
+        console.log(lista[i].getIDsucursal() +
+            " / " +
+            lista[i].getDireccion() +
+            " / " +
+            lista[i].getTelefono());
+    }
+    console.log(" ");
+}
 function menuEnSucursal() {
     var opcionMenuEnSucursal = Number(8);
     while (opcionMenuEnSucursal != Number(9)) {
@@ -186,7 +215,7 @@ function menuEnSucursal() {
         opcionMenuEnSucursal = Number(ReadlineSync.question("Ingrese una opcion: "));
         switch (opcionMenuEnSucursal) {
             case 1:
-                /* LISTAR CLIENTES */
+                /* mostrarListaClientes(veterinariaInstanciada.litarCliente()); */
                 break;
             case 2:
                 /* LISTAR PACIENTES */
@@ -208,6 +237,22 @@ function menuEnSucursal() {
                 break;
         }
     }
+}
+function mostrarListaClientes(lista) {
+    console.log("ID Cliente / Nombre / Telefono / Cantidad de visitas / ¿Es vip?");
+    console.log(" ");
+    for (var i = 0; i < lista.length; i++) {
+        console.log(lista[i].getIdCliente() +
+            " / " +
+            lista[i].getNombre() +
+            " / " +
+            lista[i].getTelefono() +
+            " / " +
+            lista[i].getCantidadVisitas() +
+            " / " +
+            lista[i].getEsVip());
+    }
+    console.log(" ");
 }
 function menuBorrarCliente() { }
 function menuNuevoCliente() { }
