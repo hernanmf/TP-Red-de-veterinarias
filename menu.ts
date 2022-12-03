@@ -222,7 +222,7 @@ function menuSucursales(): void {
 
     switch (opcionMenuSucursal) {
       case 1:
-        menuEnSucursal();
+        menuEntrarASucursal();
         break;
       case 2:
         menuModificarSucursal();
@@ -242,6 +242,32 @@ function menuSucursales(): void {
     }
   }
 }
+function menuEntrarASucursal() {
+  let IDSucursalAInstanciar: number = Number(
+    ReadlineSync.question(
+      "Ingrese el id de la sucursal a la que desea ingresar(0 para cancelar operacion): "
+    )
+  );
+  if (IDSucursalAInstanciar != 0) {
+    let i: number = 0;
+    while (
+      i < veterinariaInstanciada.listarSucursal.length &&
+      veterinariaInstanciada.listarSucursal[i].getIDsucursal() !=
+        IDSucursalAInstanciar
+    ) {
+      i++;
+    }
+    if (i < veterinariaInstanciada.listarSucursal.length) {
+      sucursalInstanciada = veterinariaInstanciada.listarSucursal[i];
+      menuEnSucursal();
+    } else {
+      console.log(
+        "EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO"
+      );
+    }
+  }
+}
+
 function menuModificarSucursal(): void {}
 function menuBorrarSucursal(): void {}
 function menuNuevaSucursal(): void {}
@@ -260,11 +286,19 @@ function mostrarListaSucursales(lista: Array<Sucursal>): void {
   console.log(" ");
 }
 
-function menuEnSucursal(): void {
+function menuEnSucursal() {
   let opcionMenuEnSucursal: number = Number(8);
   while (opcionMenuEnSucursal != Number(9)) {
     console.clear();
     console.log("------------------------- ");
+    console.log(
+      "ID Sucursal: " +
+        sucursalInstanciada.getIDsucursal() +
+        " Direccion: " +
+        sucursalInstanciada.getDireccion() +
+        " Telefono: " +
+        sucursalInstanciada.getTelefono()
+    );
     /* MOSTRAR ID DIRECCION Y TELEFONO */
     console.log("------------------------- ");
     console.log(" ");

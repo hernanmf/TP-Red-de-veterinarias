@@ -28,6 +28,8 @@ for (var i = 0; i < datosSucursales.getArregloString().length; i++) {
     (0, GestorDeArchivos_1.crearSucursal)(datosSucursales.getArregloString()[i], arregloSucursales);
 }
 var veterinariaInstanciada = new veterinarias_1["default"]("Camerun Soft", arregloSucursales, arregloProveedor);
+var sucursalInstanciada;
+var clienteInstanciado;
 /* menues en funcion */
 function menuBienvenida() {
     var opcionMenuBienvenida = Number(8);
@@ -162,7 +164,7 @@ function menuSucursales() {
         opcionMenuSucursal = Number(ReadlineSync.question("Ingrese una opcion: "));
         switch (opcionMenuSucursal) {
             case 1:
-                menuEnSucursal();
+                menuEntrarASucursal();
                 break;
             case 2:
                 menuModificarSucursal();
@@ -179,6 +181,24 @@ function menuSucursales() {
                     console.log(" ");
                 }, 2000);
                 break;
+        }
+    }
+}
+function menuEntrarASucursal() {
+    var IDSucursalAInstanciar = Number(ReadlineSync.question("Ingrese el id de la sucursal a la que desea ingresar(0 para cancelar operacion): "));
+    if (IDSucursalAInstanciar != 0) {
+        var i = 0;
+        while (i < veterinariaInstanciada.listarSucursal.length &&
+            veterinariaInstanciada.listarSucursal[i].getIDsucursal() !=
+                IDSucursalAInstanciar) {
+            i++;
+        }
+        if (i < veterinariaInstanciada.listarSucursal.length) {
+            sucursalInstanciada = veterinariaInstanciada.listarSucursal[i];
+            menuEnSucursal();
+        }
+        else {
+            console.log("EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO");
         }
     }
 }
@@ -202,6 +222,12 @@ function menuEnSucursal() {
     while (opcionMenuEnSucursal != Number(9)) {
         console.clear();
         console.log("------------------------- ");
+        console.log("ID Sucursal: " +
+            sucursalInstanciada.getIDsucursal() +
+            " Direccion: " +
+            sucursalInstanciada.getDireccion() +
+            " Telefono: " +
+            sucursalInstanciada.getTelefono());
         /* MOSTRAR ID DIRECCION Y TELEFONO */
         console.log("------------------------- ");
         console.log(" ");
