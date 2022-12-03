@@ -30,12 +30,23 @@ var Cliente = /** @class */ (function () {
     Cliente.prototype.setNombre = function (nuevoNombre) {
         this.nombre = nuevoNombre;
     };
-    Cliente.prototype.setTelefone = function (nuevoTelefono) {
+    Cliente.prototype.setTelefono = function (nuevoTelefono) {
         this.telefono = nuevoTelefono;
     };
-    /* public setPaciente(nuevoPaciente: Paciente) {
-      this.pacientes = nuevoPaciente;
-    } */
+    Cliente.prototype.setPaciente = function (IDpaciente, nuevoPaciente) {
+        var i = 0;
+        while (i < this.pacientes.length &&
+            this.pacientes[i].getIDpaciente() != IDpaciente) {
+            i++;
+        }
+        if (i < this.pacientes.length) {
+            this.pacientes[i] = nuevoPaciente;
+            console.log("MODIFICACION REALIZADA");
+        }
+        else {
+            console.log("EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO");
+        }
+    };
     Cliente.prototype.registrarVisita = function () {
         this.cantidadVisitas++;
     };

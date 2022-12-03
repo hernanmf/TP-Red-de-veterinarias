@@ -88,16 +88,10 @@ export function crearPaciente(
 ): Array<Paciente> {
   let propiedadPaciente: string[] = paciente.split(",");
   let idPaciente: number = Number(propiedadPaciente[0]);
-  let nombrePaciente: string = propiedadPaciente[1];
+  let nombre: string = propiedadPaciente[1];
   let especie: string = propiedadPaciente[2];
-  let historiaClinica: string = propiedadPaciente[3];
   let listaPaciente: Array<Paciente> = arregloPacientes;
-  let nuevoPaciente: Paciente = new Paciente(
-    idPaciente,
-    nombrePaciente,
-    especie,
-    arregloHistClinica
-  );
+  let nuevoPaciente: Paciente = new Paciente(idPaciente, nombre, especie);
   listaPaciente.push(nuevoPaciente);
   return listaPaciente;
 }

@@ -61,11 +61,10 @@ exports.crearProveedor = crearProveedor;
 function crearPaciente(paciente, arregloPacientes, arregloHistClinica) {
     var propiedadPaciente = paciente.split(",");
     var idPaciente = Number(propiedadPaciente[0]);
-    var nombrePaciente = propiedadPaciente[1];
+    var nombre = propiedadPaciente[1];
     var especie = propiedadPaciente[2];
-    var historiaClinica = propiedadPaciente[3];
     var listaPaciente = arregloPacientes;
-    var nuevoPaciente = new paciente_1["default"](idPaciente, nombrePaciente, especie, arregloHistClinica);
+    var nuevoPaciente = new paciente_1["default"](idPaciente, nombre, especie);
     listaPaciente.push(nuevoPaciente);
     return listaPaciente;
 }

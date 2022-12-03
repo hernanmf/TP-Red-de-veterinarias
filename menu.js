@@ -46,12 +46,15 @@ function menuBienvenida() {
         opcionMenuBienvenida = Number(ReadlineSync.question("Ingrese una opcion: "));
         switch (opcionMenuBienvenida) {
             case 1:
+                console.clear();
                 menuProveedores();
                 break;
             case 2:
+                console.clear();
                 menuSucursales();
                 break;
             case 0:
+                console.clear();
                 console.log("FIN DEL PROGRAMA");
                 break;
             default:
@@ -67,7 +70,7 @@ exports.menuBienvenida = menuBienvenida;
 function menuProveedores() {
     var opcionMenuProveedores = Number(8);
     while (opcionMenuProveedores != Number(9)) {
-        console.clear();
+        /* ß */
         console.log("------------------------- ");
         console.log("PROVEEDORES");
         console.log("------------------------- ");
@@ -83,11 +86,16 @@ function menuProveedores() {
         console.log("9 - Atras");
         console.log("------------------------- ");
         opcionMenuProveedores = Number(ReadlineSync.question("Ingrese una opcion: "));
+        console.clear;
         switch (opcionMenuProveedores) {
             case 1:
+                console.clear();
+                mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
                 menuModificarProveedor();
                 break;
             case 2:
+                console.clear();
+                mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
                 menuBorrarProveedor();
                 break;
             case 3:
@@ -103,8 +111,6 @@ function menuProveedores() {
     }
 }
 function menuModificarProveedor() {
-    console.clear();
-    mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
     var IDaCambiar = Number(ReadlineSync.question("Ingrese el id del proveedor que desea cambiar(0 para cancelar operacion): "));
     if (IDaCambiar === 0) {
         console.log("MODIFICACION CANCELADA");
@@ -118,10 +124,6 @@ function menuModificarProveedor() {
         var nvoTelefono = Number(ReadlineSync.questionInt("Nuevo telefono para el proveedor, si no cambia, ingrese el mismo: "));
         NvoProveedor = new Proveedor_1["default"](IDaCambiar, NvoNombre, nvoTelefono);
         veterinariaInstanciada.setProveedor(IDaCambiar, NvoProveedor);
-        /* console.log("MODIFICACION REALIZADA"); */
-        setTimeout(function () {
-            console.log("MODIFICACION REALIZADA");
-        }, 2000);
     }
 }
 function mostrarListaProveedores(lista) {
@@ -215,7 +217,7 @@ function menuEnSucursal() {
         opcionMenuEnSucursal = Number(ReadlineSync.question("Ingrese una opcion: "));
         switch (opcionMenuEnSucursal) {
             case 1:
-                /* mostrarListaClientes(veterinariaInstanciada.litarCliente()); */
+                /*mostrarListaClientes(veterinariaInstanciada.listarClientes()); */
                 break;
             case 2:
                 /* LISTAR PACIENTES */

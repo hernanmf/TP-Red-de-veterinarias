@@ -63,6 +63,9 @@ var veterinariaInstanciada = new Veterinaria(
   arregloProveedor
 );
 
+var sucursalInstanciada: Sucursal;
+var clienteInstanciado: Cliente;
+
 /* menues en funcion */
 export function menuBienvenida(): void {
   let opcionMenuBienvenida: number = Number(8);
@@ -84,12 +87,15 @@ export function menuBienvenida(): void {
 
     switch (opcionMenuBienvenida) {
       case 1:
+        console.clear();
         menuProveedores();
         break;
       case 2:
+        console.clear();
         menuSucursales();
         break;
       case 0:
+        console.clear();
         console.log("FIN DEL PROGRAMA");
         break;
       default:
@@ -105,7 +111,7 @@ export function menuBienvenida(): void {
 function menuProveedores(): void {
   let opcionMenuProveedores: number = Number(8);
   while (opcionMenuProveedores != Number(9)) {
-    console.clear();
+    /* ß */
     console.log("------------------------- ");
     console.log("PROVEEDORES");
     console.log("------------------------- ");
@@ -123,12 +129,17 @@ function menuProveedores(): void {
     opcionMenuProveedores = Number(
       ReadlineSync.question("Ingrese una opcion: ")
     );
+    console.clear;
 
     switch (opcionMenuProveedores) {
       case 1:
+        console.clear();
+        mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
         menuModificarProveedor();
         break;
       case 2:
+        console.clear();
+        mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
         menuBorrarProveedor();
         break;
       case 3:
@@ -145,8 +156,6 @@ function menuProveedores(): void {
 }
 
 function menuModificarProveedor(): void {
-  console.clear();
-  mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
   let IDaCambiar: number = Number(
     ReadlineSync.question(
       "Ingrese el id del proveedor que desea cambiar(0 para cancelar operacion): "
@@ -169,10 +178,6 @@ function menuModificarProveedor(): void {
     );
     NvoProveedor = new Proveedor(IDaCambiar, NvoNombre, nvoTelefono);
     veterinariaInstanciada.setProveedor(IDaCambiar, NvoProveedor);
-    /* console.log("MODIFICACION REALIZADA"); */
-    setTimeout(() => {
-      console.log("MODIFICACION REALIZADA");
-    }, 2000);
   }
 }
 
@@ -278,7 +283,7 @@ function menuEnSucursal(): void {
 
     switch (opcionMenuEnSucursal) {
       case 1:
-        /* mostrarListaClientes(veterinariaInstanciada.litarCliente()); */
+        /*mostrarListaClientes(veterinariaInstanciada.listarClientes()); */
         break;
       case 2:
         /* LISTAR PACIENTES */

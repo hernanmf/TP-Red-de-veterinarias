@@ -32,14 +32,14 @@ export default class Sucursal {
   }
   public getCliente(id: number) {
     for (let i = 0; i < this.clientes.length; i++) {
-      if (id === this.clientes[i].id_Cliente) {
+      if (id === this.clientes[i].getIdCliente()) {
         return this.clientes[i];
       }
     }
   }
   public getPaciente(id_Cliente: number, nombrePaciente: string) {
     for (let i = 0; i < this.clientes.length; i++) {
-      if (id_Cliente === this.clientes[i].id_Cliente) {
+      if (id_Cliente === this.clientes[i].getIdCliente()) {
         return this.clientes[i].getPacientes(nombrePaciente);
       }
     }
@@ -50,9 +50,24 @@ export default class Sucursal {
   public setTelefono(nuevoTelefono: number): void {
     this.telefono = nuevoTelefono;
   }
-  public setCliente(posicion: number, nuevoCliente: Cliente): void {
-    this.clientes[posicion] = nuevoCliente;
+  public setCliente(id_Cliente: number, nuevoCliente: Cliente) {
+    let i: number = 0;
+    while (
+      i < this.clientes.length &&
+      this.clientes[i].getIdCliente() != id_Cliente
+    ) {
+      i++;
+    }
+    if (i < this.clientes.length) {
+      this.clientes[i] = nuevoCliente;
+      console.log("MODIFICACION REALIZADA");
+    } else {
+      console.log(
+        "EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO"
+      );
+    }
   }
+
   public borrarCliente(posicion: number) {
     this.clientes = this.clientes.splice(posicion, 1);
   }

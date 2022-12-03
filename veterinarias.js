@@ -21,12 +21,12 @@ var Veterinaria = /** @class */ (function () {
             this.sucursales[i].IDsucursal != IDsucursal) {
             i++;
         }
-        if (this.sucursales[i].IDsucursal === IDsucursal) {
+        if (i < this.sucursales.length) {
             this.sucursales[i] = nuevaSucursal;
-            console.log("se cambio la sucursal");
+            console.log("MODIFICACION REALIZADA");
         }
         else {
-            console.log("no se encontro la sucursal");
+            console.log("EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO");
         }
     };
     Veterinaria.prototype.getProveedor = function (IDproveedor) {
@@ -38,13 +38,24 @@ var Veterinaria = /** @class */ (function () {
             this.proveedores[i].getIDProveedor() != IDproveedor) {
             i++;
         }
-        if (this.proveedores[i].getIDProveedor() === IDproveedor) {
+        if (i < this.proveedores.length) {
+            /*preguntando si this.proveedores[i].getIDProveedor() === IDproveedor, si no existe en el array se rompe, entonces preguntamos si i no llego al largo del arreglo, que quiere decir q encontro una existencia del id*/
             this.proveedores[i] = nuevoProveedor;
-            console.log("se cambio el proveedor");
+            console.log("MODIFICACION REALIZADA");
         }
         else {
-            console.log("no se encontro el Proveedor");
+            console.log("EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO");
         }
+        /*   let proveedorExiste: Array<Proveedor> = this.proveedores.filter(
+          (Element) => Element.getIDProveedor() === IDproveedor
+        );
+        if ((proveedorExiste.length = 1)) {
+          this.proveedores.push(nuevoProveedor);
+          console.log("MODIFICACION REALIZADA");
+        } else {
+          console.log(
+            "EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO"
+          ); CONDIGO ALTERNATIVO QUE NO FUNCIONO*/
     };
     Veterinaria.prototype.borrarSucursal = function (IDsucursal) {
         var i = 0;

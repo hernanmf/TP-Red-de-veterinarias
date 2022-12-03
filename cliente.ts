@@ -1,23 +1,20 @@
 import Paciente from "./Paciente";
 
-export default class Cliente{
-    public id_Cliente : number;
-    public nombre :  string;
-    public telefono : number;
-    public esVip : boolean;
-    public cantidadVisitas :  number;
-    public pacientes : Array<Paciente>;
-    
+export default class Cliente {
+  private id_Cliente: number;
+  private nombre: string;
+  private telefono: number;
+  private esVip: boolean;
+  private cantidadVisitas: number;
+  private pacientes: Array<Paciente>;
 
-
-     public constructor(
+  public constructor(
     id_Cliente: number,
     nombre: string,
     telefono: number,
     esVip: boolean,
     cantidadVisitas: number,
-    pacientes: Array<Paciente>,
-    
+    pacientes: Array<Paciente>
   ) {
     this.id_Cliente = id_Cliente;
     this.nombre = nombre;
@@ -25,7 +22,6 @@ export default class Cliente{
     this.esVip = esVip;
     this.cantidadVisitas = cantidadVisitas;
     this.pacientes = pacientes;
-    
   }
   public getIdCliente(): number {
     return this.id_Cliente;
@@ -48,12 +44,28 @@ export default class Cliente{
   public setNombre(nuevoNombre: string) {
     this.nombre = nuevoNombre;
   }
-  public setTelefone(nuevoTelefono: number) {
+  public setTelefono(nuevoTelefono: number) {
     this.telefono = nuevoTelefono;
   }
-  /* public setPaciente(nuevoPaciente: Paciente) {
-    this.pacientes = nuevoPaciente;
-  } */
+
+  public setPaciente(IDpaciente: number, nuevoPaciente: Paciente) {
+    let i: number = 0;
+    while (
+      i < this.pacientes.length &&
+      this.pacientes[i].getIDpaciente() != IDpaciente
+    ) {
+      i++;
+    }
+    if (i < this.pacientes.length) {
+      this.pacientes[i] = nuevoPaciente;
+      console.log("MODIFICACION REALIZADA");
+    } else {
+      console.log(
+        "EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO"
+      );
+    }
+  }
+
   public registrarVisita() {
     this.cantidadVisitas++;
   }
@@ -61,6 +73,7 @@ export default class Cliente{
   public listarPacientes(): Array<Paciente> {
     return this.pacientes;
   }
+
   /*   public borrarPaciente(arregloPaciente:<Paciente>, nombrePaciente:string){
 
      } */
