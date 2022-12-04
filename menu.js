@@ -48,15 +48,15 @@ function menuBienvenida() {
         opcionMenuBienvenida = Number(ReadlineSync.question("Ingrese una opcion: "));
         switch (opcionMenuBienvenida) {
             case 1:
-                console.clear();
+                /* console.clear(); */
                 menuProveedores();
                 break;
             case 2:
-                console.clear();
+                /* console.clear(); */
                 menuSucursales();
                 break;
             case 0:
-                console.clear();
+                /* console.clear(); */
                 console.log("FIN DEL PROGRAMA");
                 break;
             default:
@@ -91,12 +91,12 @@ function menuProveedores() {
         console.clear;
         switch (opcionMenuProveedores) {
             case 1:
-                console.clear();
+                /* console.clear(); */
                 mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
                 menuModificarProveedor();
                 break;
             case 2:
-                console.clear();
+                /* console.clear(); */
                 mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
                 menuBorrarProveedor();
                 break;
@@ -145,7 +145,7 @@ function menuNuevoProveedor() { }
 function menuSucursales() {
     var opcionMenuSucursal = Number(8);
     while (opcionMenuSucursal != Number(9)) {
-        console.clear();
+        /* console.clear(); */
         console.log("------------------------- ");
         console.log("SUCURSALES");
         console.log("------------------------- ");
@@ -188,13 +188,13 @@ function menuEntrarASucursal() {
     var IDSucursalAInstanciar = Number(ReadlineSync.question("Ingrese el id de la sucursal a la que desea ingresar(0 para cancelar operacion): "));
     if (IDSucursalAInstanciar != 0) {
         var i = 0;
-        while (i < veterinariaInstanciada.listarSucursal.length &&
-            veterinariaInstanciada.listarSucursal[i].getIDsucursal() !=
-                IDSucursalAInstanciar) {
+        var listaDeSucursales = veterinariaInstanciada.listarSucursal();
+        while (i < listaDeSucursales.length &&
+            listaDeSucursales[i].getIDsucursal() != IDSucursalAInstanciar) {
             i++;
         }
-        if (i < veterinariaInstanciada.listarSucursal.length) {
-            sucursalInstanciada = veterinariaInstanciada.listarSucursal[i];
+        if (i < listaDeSucursales.length) {
+            sucursalInstanciada = veterinariaInstanciada.getSucursal(IDSucursalAInstanciar);
             menuEnSucursal();
         }
         else {
@@ -220,7 +220,7 @@ function mostrarListaSucursales(lista) {
 function menuEnSucursal() {
     var opcionMenuEnSucursal = Number(8);
     while (opcionMenuEnSucursal != Number(9)) {
-        console.clear();
+        /* console.clear(); */
         console.log("------------------------- ");
         console.log("ID Sucursal: " +
             sucursalInstanciada.getIDsucursal() +
@@ -228,7 +228,9 @@ function menuEnSucursal() {
             sucursalInstanciada.getDireccion() +
             " Telefono: " +
             sucursalInstanciada.getTelefono());
-        /* MOSTRAR ID DIRECCION Y TELEFONO */
+        console.log("------------------------- ");
+        console.log(" ");
+        mostrarListaClientes(sucursalInstanciada.listarClientes());
         console.log("------------------------- ");
         console.log(" ");
         console.log("1 - Listar clientes");
@@ -240,16 +242,16 @@ function menuEnSucursal() {
         console.log("------------------------- ");
         console.log("9 - Atras");
         console.log("------------------------- ");
-        opcionMenuEnSucursal = Number(ReadlineSync.question("Ingrese una opcion: "));
+        opcionMenuEnSucursal = Number(ReadlineSync.questionInt("Ingrese una opcion: "));
         switch (opcionMenuEnSucursal) {
             case 1:
-                /*mostrarListaClientes(veterinariaInstanciada.listarClientes()); */
+                mostrarListaClientes(sucursalInstanciada.listarClientes());
                 break;
             case 2:
                 /* LISTAR PACIENTES */
                 break;
             case 3:
-                menuEnCliente();
+                menuEntrarACliente();
                 break;
             case 4:
                 menuBorrarCliente();
@@ -267,6 +269,7 @@ function menuEnSucursal() {
     }
 }
 function mostrarListaClientes(lista) {
+    console.log("CLIENTES");
     console.log("ID Cliente / Nombre / Telefono / Cantidad de visitas / ¿Es vip?");
     console.log(" ");
     for (var i = 0; i < lista.length; i++) {
@@ -284,12 +287,50 @@ function mostrarListaClientes(lista) {
 }
 function menuBorrarCliente() { }
 function menuNuevoCliente() { }
+function menuEntrarACliente() {
+    var IDClienteAInstanciar = Number(ReadlineSync.question("Ingrese el id del cliente al que desea ingresar(0 para cancelar operacion): "));
+    if (IDClienteAInstanciar != 0) {
+        var i = 0;
+        var listaDeClientes = sucursalInstanciada.listarClientes();
+        while (i < listaDeClientes.length &&
+            listaDeClientes[i].getIdCliente() != IDClienteAInstanciar) {
+            i++;
+        }
+        if (i < listaDeClientes.length) {
+            clienteInstanciado = sucursalInstanciada.getCliente(IDClienteAInstanciar);
+            menuEnCliente();
+        }
+        else {
+            console.log("EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO");
+        }
+    }
+}
 function menuEnCliente() {
     var opcionMenuEnCliente = Number(8);
+    var listaDePacientes = clienteInstanciado.listarPacientes();
     while (opcionMenuEnCliente != Number(9)) {
-        console.clear();
+        /* console.clear(); */
         console.log("------------------------- ");
-        /* MOSTRAR ID NOMBRE TELEFONO ESVIP? VISITAS*/
+        console.log("ID Cliente: " +
+            clienteInstanciado.getIdCliente() +
+            " Nombre: " +
+            clienteInstanciado.getNombre() +
+            " Telefono: " +
+            clienteInstanciado.getTelefono() +
+            " Es Vip?: " +
+            clienteInstanciado.getEsVip() +
+            " Visitas: " +
+            clienteInstanciado.getCantidadVisitas());
+        console.log(" ");
+        console.log("ID Paciente / Nombre / Especie");
+        for (var i = 0; i < listaDePacientes.length; i++) {
+            console.log(listaDePacientes[i].getIDpaciente() +
+                " / " +
+                listaDePacientes[i].getNombre() +
+                " / " +
+                listaDePacientes[i].getEspecie());
+        }
+        console.log(" ");
         console.log("------------------------- ");
         console.log(" ");
         console.log("1 - Registrar visita");
