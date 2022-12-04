@@ -502,35 +502,37 @@ function menuEnCliente(): void {
 }
 
 function menuModificarCliente(): void {
-  let IDaCambiar: number = Number(
-    ReadlineSync.question(
-      "Ingrese el id del cliente que desea modificar(0 para cancelar operacion): "
+  let nuevoCliente: Cliente;
+  let nuevoNombre: string = ReadlineSync.question(
+    "Ingrese el nuevo nombre del cliente, si no cambia, ingrese el mismo: "
+  );
+  let nuevoTelefono: number = Number(
+    ReadlineSync.questionInt(
+      "Ingrese el nuevo telefono del cliente, si no cambia, ingrese el mismo: "
     )
   );
-  if (IDaCambiar === 0) {
-    console.log("MODIFICACION CANCELADA");
-    setTimeout(() => {
-      console.log(" ");
-    }, 2000);
-  } else {
-    let nuevoCliente: Cliente;
-    let nuevoNombre: string = ReadlineSync.question(
-      "Ingrese el nuevo nombre del cliente, si no cambia, ingrese el mismo: "
+  let estaSeguro: number = 0;
+  while (estaSeguro != 1 && estaSeguro != 2) {
+    estaSeguro = Number(
+      ReadlineSync.questionInt("Esta seguro de realizar los cambios? 1-Si 2-No")
     );
-    let nuevoTelefono: number = Number(
-      ReadlineSync.questionInt(
-        "Ingrese el nuevo telefono del cliente, si no cambia, ingrese el mismo: "
-      )
-    );
+  }
+  if (estaSeguro == 1) {
     nuevoCliente = new Cliente(
-      IDaCambiar,
+      clienteInstanciado.getIdCliente(),
       nuevoNombre,
       nuevoTelefono,
       clienteInstanciado.getEsVip(),
       clienteInstanciado.getCantidadVisitas(),
       clienteInstanciado.listarPacientes()
     );
-    sucursalInstanciada.setCliente(IDaCambiar, nuevoCliente);
+    sucursalInstanciada.setCliente(
+      clienteInstanciado.getIdCliente(),
+      nuevoCliente
+    );
+    console.log("CAMBIOS GUARDADOS");
+  } else {
+    console.log("CAMBIOS DESCARTADOS");
   }
 }
 
@@ -575,6 +577,8 @@ function menuRegistrarVisita() {
     console.log(
       "VISITA REGISTRADA!! GRACIAS POR ELEGIRNOS!! VUELVA PRONTOOOSSSSS"
     );
+  } else {
+    console.log("LA VISITA NO SE HA REGISTRADO");
   }
 }
 

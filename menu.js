@@ -1,7 +1,10 @@
 "use strict";
 exports.__esModule = true;
 exports.menuBienvenida = void 0;
+var cliente_1 = require("./cliente");
+var Paciente_1 = require("./Paciente");
 var Proveedor_1 = require("./Proveedor");
+var sucursales_1 = require("./sucursales");
 var GestorDeArchivos_1 = require("./GestorDeArchivos");
 var ReadlineSync = require("readline-sync");
 var veterinarias_1 = require("./veterinarias");
@@ -202,7 +205,22 @@ function menuEntrarASucursal() {
         }
     }
 }
-function menuModificarSucursal() { }
+function menuModificarSucursal() {
+    var IDaCambiar = Number(ReadlineSync.question("Ingrese el id de la sucursal que desea cambiar(0 para cancelar operacion): "));
+    if (IDaCambiar === 0) {
+        console.log("MODIFICACION CANCELADA");
+        setTimeout(function () {
+            console.log(" ");
+        }, 2000);
+    }
+    else {
+        var nuevaSucursal = void 0;
+        var nuevaDireccion = ReadlineSync.question("Ingrese la nueva direccion de la sucursal, si no cambia, ingrese la misma: ");
+        var nuevoTelefono = Number(ReadlineSync.questionInt("Ingrese el nuevo telefono de la sucursal, si no cambia, ingrese el mismo: "));
+        nuevaSucursal = new sucursales_1["default"](IDaCambiar, nuevaDireccion, nuevoTelefono, sucursalInstanciada.listarClientes());
+        veterinariaInstanciada.setSucursal(IDaCambiar, nuevaSucursal);
+    }
+}
 function menuBorrarSucursal() { }
 function menuNuevaSucursal() { }
 function mostrarListaSucursales(lista) {
@@ -346,7 +364,7 @@ function menuEnCliente() {
         opcionMenuEnCliente = Number(ReadlineSync.question("Ingrese una opcion: "));
         switch (opcionMenuEnCliente) {
             case 1:
-                registrarVisita();
+                menuRegistrarVisita();
                 break;
             case 2:
                 menuModificarCliente();
@@ -372,9 +390,49 @@ function menuEnCliente() {
         }
     }
 }
-function registrarVisita() { }
-function menuModificarCliente() { }
-function menuModificarPaciente() { }
+function menuModificarCliente() {
+    var IDaCambiar = Number(ReadlineSync.question("Ingrese el id del cliente que desea modificar(0 para cancelar operacion): "));
+    if (IDaCambiar === 0) {
+        console.log("MODIFICACION CANCELADA");
+        setTimeout(function () {
+            console.log(" ");
+        }, 2000);
+    }
+    else {
+        var nuevoCliente = void 0;
+        var nuevoNombre = ReadlineSync.question("Ingrese el nuevo nombre del cliente, si no cambia, ingrese el mismo: ");
+        var nuevoTelefono = Number(ReadlineSync.questionInt("Ingrese el nuevo telefono del cliente, si no cambia, ingrese el mismo: "));
+        nuevoCliente = new cliente_1["default"](IDaCambiar, nuevoNombre, nuevoTelefono, clienteInstanciado.getEsVip(), clienteInstanciado.getCantidadVisitas(), clienteInstanciado.listarPacientes());
+        sucursalInstanciada.setCliente(IDaCambiar, nuevoCliente);
+    }
+}
+function menuModificarPaciente() {
+    var IDaCambiar = Number(ReadlineSync.question("Ingrese el id del paciente que desea cambiar(0 para cancelar operacion): "));
+    if (IDaCambiar === 0) {
+        console.log("MODIFICACION CANCELADA");
+        setTimeout(function () {
+            console.log(" ");
+        }, 2000);
+    }
+    else {
+        var nuevoPaciente = void 0;
+        var nuevoNombre = ReadlineSync.question("Ingrese el nuevo nombre del paciente, si no cambia, ingrese el mismo: ");
+        nuevoPaciente = new Paciente_1["default"](IDaCambiar, nuevoNombre, clienteInstanciado.getPacientes(IDaCambiar).getEspecie());
+        clienteInstanciado.setPaciente(IDaCambiar, nuevoPaciente);
+    }
+}
+function menuRegistrarVisita() {
+    var estaSeguro = 0;
+    while (estaSeguro != 1 && estaSeguro != 2) {
+        estaSeguro = Number(ReadlineSync.question("El cliente tiene " +
+            clienteInstanciado.getCantidadVisitas() +
+            " visitas, esta seguro que desea registrar una visita nueva? 1-Si 2-No"));
+    }
+    if (estaSeguro == 1) {
+        clienteInstanciado.registrarVisita();
+        console.log("VISITA REGISTRADA!! GRACIAS POR ELEGIRNOS!! VUELVA PRONTOOOSSSSS");
+    }
+}
 function menuBorrarPaciente() { }
 function menuNuevoPaciente() { }
 //INICIO DEL PROGRAMA
