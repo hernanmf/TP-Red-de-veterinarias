@@ -74,4 +74,3 @@ export function crearPaciente(paciente: string, arregloPacientes: Array<Paciente
         crearProveedor(datosProveedor.getArregloString()[i], arregloProveedor);
     }
 
-
