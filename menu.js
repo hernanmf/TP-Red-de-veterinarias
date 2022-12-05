@@ -391,19 +391,20 @@ function menuEnCliente() {
     }
 }
 function menuModificarCliente() {
-    var IDaCambiar = Number(ReadlineSync.question("Ingrese el id del cliente que desea modificar(0 para cancelar operacion): "));
-    if (IDaCambiar === 0) {
-        console.log("MODIFICACION CANCELADA");
-        setTimeout(function () {
-            console.log(" ");
-        }, 2000);
+    var nuevoCliente;
+    var nuevoNombre = ReadlineSync.question("Ingrese el nuevo nombre del cliente, si no cambia, ingrese el mismo: ");
+    var nuevoTelefono = Number(ReadlineSync.questionInt("Ingrese el nuevo telefono del cliente, si no cambia, ingrese el mismo: "));
+    var estaSeguro = 0;
+    while (estaSeguro != 1 && estaSeguro != 2) {
+        estaSeguro = Number(ReadlineSync.questionInt("Esta seguro de realizar los cambios? 1-Si 2-No"));
+    }
+    if (estaSeguro == 1) {
+        nuevoCliente = new cliente_1["default"](clienteInstanciado.getIdCliente(), nuevoNombre, nuevoTelefono, clienteInstanciado.getEsVip(), clienteInstanciado.getCantidadVisitas(), clienteInstanciado.listarPacientes());
+        sucursalInstanciada.setCliente(clienteInstanciado.getIdCliente(), nuevoCliente);
+        console.log("CAMBIOS GUARDADOS");
     }
     else {
-        var nuevoCliente = void 0;
-        var nuevoNombre = ReadlineSync.question("Ingrese el nuevo nombre del cliente, si no cambia, ingrese el mismo: ");
-        var nuevoTelefono = Number(ReadlineSync.questionInt("Ingrese el nuevo telefono del cliente, si no cambia, ingrese el mismo: "));
-        nuevoCliente = new cliente_1["default"](IDaCambiar, nuevoNombre, nuevoTelefono, clienteInstanciado.getEsVip(), clienteInstanciado.getCantidadVisitas(), clienteInstanciado.listarPacientes());
-        sucursalInstanciada.setCliente(IDaCambiar, nuevoCliente);
+        console.log("CAMBIOS DESCARTADOS");
     }
 }
 function menuModificarPaciente() {
@@ -431,6 +432,9 @@ function menuRegistrarVisita() {
     if (estaSeguro == 1) {
         clienteInstanciado.registrarVisita();
         console.log("VISITA REGISTRADA!! GRACIAS POR ELEGIRNOS!! VUELVA PRONTOOOSSSSS");
+    }
+    else {
+        console.log("LA VISITA NO SE HA REGISTRADO");
     }
 }
 function menuBorrarPaciente() { }
