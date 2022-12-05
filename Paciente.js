@@ -1,14 +1,13 @@
 "use strict";
 exports.__esModule = true;
 var Paciente = /** @class */ (function () {
-    function Paciente(IDdueño, Nombre, Especie, HistoriaClinica) {
-        this.IDdueño = IDdueño;
+    function Paciente(IDpaciente, Nombre, Especie) {
+        this.IDpaciente = IDpaciente;
         this.Nombre = Nombre;
         this.Especie = Especie;
-        this.HistoriaClinica = HistoriaClinica;
     }
-    Paciente.prototype.getIDdueño = function () {
-        return this.IDdueño;
+    Paciente.prototype.getIDpaciente = function () {
+        return this.IDpaciente;
     };
     Paciente.prototype.getNombre = function () {
         return this.Nombre;
@@ -16,17 +15,11 @@ var Paciente = /** @class */ (function () {
     Paciente.prototype.getEspecie = function () {
         return this.Especie;
     };
-    Paciente.prototype.getHistoriaClinica = function () {
-        return this.HistoriaClinica;
-    };
     Paciente.prototype.setNombre = function (Nombre) {
         this.Nombre = Nombre;
     };
     Paciente.prototype.setEspecie = function (Especie) {
         this.Especie = Especie;
-    };
-    Paciente.prototype.addHistoriaClinica = function (NuevaHistoria) {
-        this.HistoriaClinica.push(NuevaHistoria);
     };
     return Paciente;
 }());

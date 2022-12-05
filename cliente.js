@@ -30,27 +30,28 @@ var Cliente = /** @class */ (function () {
     Cliente.prototype.setNombre = function (nuevoNombre) {
         this.nombre = nuevoNombre;
     };
-    Cliente.prototype.setTelefone = function (nuevoTelefono) {
+    Cliente.prototype.setTelefono = function (nuevoTelefono) {
         this.telefono = nuevoTelefono;
     };
-    Cliente.prototype.setPaciente = function (arregloPacientes, nuevoPaciente) {
-        this.pacientes[arregloPacientes.length] = nuevoPaciente;
-    };
-    Cliente.prototype.registrarVisita = function (cantidadVisitas) {
-        this.cantidadVisitas += 1;
-        return cantidadVisitas;
-    };
-    Cliente.prototype.listarPacientes = function (arregloPacientes) {
-        for (var i = 0; i < arregloPacientes.length; i++) {
-            console.log("Nombre Paciente:  ".concat(arregloPacientes[i].getNombre()));
+    Cliente.prototype.setPaciente = function (IDpaciente, nuevoPaciente) {
+        var i = 0;
+        while (i < this.pacientes.length &&
+            this.pacientes[i].getIDpaciente() != IDpaciente) {
+            i++;
+        }
+        if (i < this.pacientes.length) {
+            this.pacientes[i] = nuevoPaciente;
+            console.log("MODIFICACION REALIZADA");
+        }
+        else {
+            console.log("EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO");
         }
     };
-    Cliente.prototype.borrarPaciente = function (arregloPacientes, nombrePaciente) {
-        for (var i = 0; i < arregloPacientes.length; i++) {
-            if (arregloPacientes[i].getNombre() === nombrePaciente) {
-                arregloPacientes.splice(i, 1);
-            }
-        }
+    Cliente.prototype.registrarVisita = function () {
+        this.cantidadVisitas++;
+    };
+    Cliente.prototype.listarPacientes = function () {
+        return this.pacientes;
     };
     return Cliente;
 }());

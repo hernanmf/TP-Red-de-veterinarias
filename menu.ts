@@ -4,15 +4,71 @@ import Proveedor from "./Proveedor";
 import Sucursal from "./sucursales";
 import Veterinarias from "./veterinarias";
 import generadorDeID from "./generadorId";
+import {
+  LectorArchivos,
+  crearCliente,
+  crearPaciente,
+  crearProveedor,
+  crearSucursal,
+} from "./GestorDeArchivos";
 
 /* import * as fs from "fs"; */
 import * as ReadFileSync from "readline-sync";
 import * as ReadlineSync from "readline-sync";
+import Veterinaria from "./veterinarias";
+
+//Cargamos los arreglos clientes, pacientes y proveedores--->
+let datosSucursales: LectorArchivos = new LectorArchivos(
+  "./baseDeDatos/sucursales.txt"
+);
+let arregloSucursales: Array<Sucursal> = [];
+
+let datosClientes: LectorArchivos = new LectorArchivos(
+  "./baseDeDatos/clientes.txt"
+);
+let arregloClientes: Array<Cliente> = [];
+let datosPacientes: LectorArchivos = new LectorArchivos(
+  "./baseDeDatos/paciente.txt"
+);
+let arregloPacientes: Array<Paciente> = [];
+let datosProveedor: LectorArchivos = new LectorArchivos(
+  "./baseDeDatos/proveedores.txt"
+);
+let arregloProveedor: Array<Proveedor> = [];
+let arregloHistClinica: Array<string> = [];
+for (let i: number = 0; i < datosClientes.getArregloString().length; i++) {
+  crearCliente(
+    datosClientes.getArregloString()[i],
+    arregloClientes,
+    arregloPacientes
+  );
+}
+for (let i: number = 0; i < datosPacientes.getArregloString().length; i++) {
+  crearPaciente(
+    datosPacientes.getArregloString()[i],
+    arregloPacientes,
+    arregloHistClinica
+  );
+}
+for (let i: number = 0; i < datosProveedor.getArregloString().length; i++) {
+  crearProveedor(datosProveedor.getArregloString()[i], arregloProveedor);
+}
+
+for (let i: number = 0; i < datosSucursales.getArregloString().length; i++) {
+  crearSucursal(datosSucursales.getArregloString()[i], arregloSucursales);
+}
+var veterinariaInstanciada = new Veterinaria(
+  "Camerun Soft",
+  arregloSucursales,
+  arregloProveedor
+);
+
+var sucursalInstanciada: Sucursal;
+var clienteInstanciado: Cliente;
 
 /* menues en funcion */
 export function menuBienvenida(): void {
   let opcionMenuBienvenida: number = Number(8);
-  /* MOSTRAR NOMBRE */
   while (opcionMenuBienvenida != Number(0)) {
     console.clear();
     console.log("------------------------- ");
@@ -31,12 +87,15 @@ export function menuBienvenida(): void {
 
     switch (opcionMenuBienvenida) {
       case 1:
+        console.clear();
         menuProveedores();
         break;
       case 2:
+        console.clear();
         menuSucursales();
         break;
       case 0:
+        console.clear();
         console.log("FIN DEL PROGRAMA");
         break;
       default:
@@ -52,11 +111,12 @@ export function menuBienvenida(): void {
 function menuProveedores(): void {
   let opcionMenuProveedores: number = Number(8);
   while (opcionMenuProveedores != Number(9)) {
-    console.clear();
+    /* ß */
     console.log("------------------------- ");
     console.log("PROVEEDORES");
     console.log("------------------------- ");
-    /* LISTAR PROVEEDORES */
+    console.log(" ");
+    mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
     console.log("------------------------- ");
     console.log(" ");
     console.log("1 - Modificar proveedor");
@@ -69,12 +129,17 @@ function menuProveedores(): void {
     opcionMenuProveedores = Number(
       ReadlineSync.question("Ingrese una opcion: ")
     );
+    console.clear;
 
     switch (opcionMenuProveedores) {
       case 1:
+        console.clear();
+        mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
         menuModificarProveedor();
         break;
       case 2:
+        console.clear();
+        mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
         menuBorrarProveedor();
         break;
       case 3:
@@ -91,28 +156,46 @@ function menuProveedores(): void {
 }
 
 function menuModificarProveedor(): void {
-  console.clear();
-  /* LISTAR PROVEEDORES */
   let IDaCambiar: number = Number(
     ReadlineSync.question(
       "Ingrese el id del proveedor que desea cambiar(0 para cancelar operacion): "
     )
   );
   if (IDaCambiar === 0) {
-    console.log("Modificacion cancelada");
+    console.log("MODIFICACION CANCELADA");
     setTimeout(() => {
       console.log(" ");
     }, 2000);
   } else {
     let NvoProveedor: Proveedor;
-    NvoProveedor = new Proveedor(IDaCambiar, " ", 1);
-    NvoProveedor.setNombre(
-      ReadlineSync.question(
-        "Nuevo nombre para el proveedor, si no cambia, ingrese el mismo: "
+    let NvoNombre: string = ReadlineSync.question(
+      "Nuevo nombre para el proveedor, si no cambia, ingrese el mismo: "
+    );
+    let nvoTelefono: number = Number(
+      ReadlineSync.questionInt(
+        "Nuevo telefono para el proveedor, si no cambia, ingrese el mismo: "
       )
     );
+    NvoProveedor = new Proveedor(IDaCambiar, NvoNombre, nvoTelefono);
+    veterinariaInstanciada.setProveedor(IDaCambiar, NvoProveedor);
   }
 }
+
+function mostrarListaProveedores(lista: Array<Proveedor>): void {
+  console.log("ID Proveedor / Nombre / Telefono");
+  console.log(" ");
+  for (let i: number = 0; i < lista.length; i++) {
+    console.log(
+      lista[i].getIDProveedor() +
+        " / " +
+        lista[i].getNombre() +
+        " / " +
+        lista[i].getTelefono()
+    );
+  }
+  console.log(" ");
+}
+
 function menuBorrarProveedor(): void {}
 function menuNuevoProveedor(): void {}
 
@@ -121,9 +204,10 @@ function menuSucursales(): void {
   while (opcionMenuSucursal != Number(9)) {
     console.clear();
     console.log("------------------------- ");
-    /* LISTAR SUCURSALES */
-    console.log("------------------------- ");
     console.log("SUCURSALES");
+    console.log("------------------------- ");
+    console.log(" ");
+    mostrarListaSucursales(veterinariaInstanciada.listarSucursal());
     console.log("------------------------- ");
     console.log(" ");
     console.log("1 - Ingresar a sucursal");
@@ -138,7 +222,7 @@ function menuSucursales(): void {
 
     switch (opcionMenuSucursal) {
       case 1:
-        menuEnSucursal();
+        menuEntrarASucursal();
         break;
       case 2:
         menuModificarSucursal();
@@ -158,15 +242,63 @@ function menuSucursales(): void {
     }
   }
 }
+function menuEntrarASucursal() {
+  let IDSucursalAInstanciar: number = Number(
+    ReadlineSync.question(
+      "Ingrese el id de la sucursal a la que desea ingresar(0 para cancelar operacion): "
+    )
+  );
+  if (IDSucursalAInstanciar != 0) {
+    let i: number = 0;
+    while (
+      i < veterinariaInstanciada.listarSucursal.length &&
+      veterinariaInstanciada.listarSucursal[i].getIDsucursal() !=
+        IDSucursalAInstanciar
+    ) {
+      i++;
+    }
+    if (i < veterinariaInstanciada.listarSucursal.length) {
+      sucursalInstanciada = veterinariaInstanciada.listarSucursal[i];
+      menuEnSucursal();
+    } else {
+      console.log(
+        "EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO"
+      );
+    }
+  }
+}
+
 function menuModificarSucursal(): void {}
 function menuBorrarSucursal(): void {}
 function menuNuevaSucursal(): void {}
+function mostrarListaSucursales(lista: Array<Sucursal>): void {
+  console.log("ID Sucursal / Direccion / Telefono");
+  console.log(" ");
+  for (let i: number = 0; i < lista.length; i++) {
+    console.log(
+      lista[i].getIDsucursal() +
+        " / " +
+        lista[i].getDireccion() +
+        " / " +
+        lista[i].getTelefono()
+    );
+  }
+  console.log(" ");
+}
 
-function menuEnSucursal(): void {
+function menuEnSucursal() {
   let opcionMenuEnSucursal: number = Number(8);
   while (opcionMenuEnSucursal != Number(9)) {
     console.clear();
     console.log("------------------------- ");
+    console.log(
+      "ID Sucursal: " +
+        sucursalInstanciada.getIDsucursal() +
+        " Direccion: " +
+        sucursalInstanciada.getDireccion() +
+        " Telefono: " +
+        sucursalInstanciada.getTelefono()
+    );
     /* MOSTRAR ID DIRECCION Y TELEFONO */
     console.log("------------------------- ");
     console.log(" ");
@@ -185,7 +317,7 @@ function menuEnSucursal(): void {
 
     switch (opcionMenuEnSucursal) {
       case 1:
-        /* LISTAR CLIENTES */
+        /*mostrarListaClientes(veterinariaInstanciada.listarClientes()); */
         break;
       case 2:
         /* LISTAR PACIENTES */
@@ -209,6 +341,26 @@ function menuEnSucursal(): void {
   }
 }
 
+function mostrarListaClientes(lista: Array<Cliente>): void {
+  console.log(
+    "ID Cliente / Nombre / Telefono / Cantidad de visitas / ¿Es vip?"
+  );
+  console.log(" ");
+  for (let i: number = 0; i < lista.length; i++) {
+    console.log(
+      lista[i].getIdCliente() +
+        " / " +
+        lista[i].getNombre() +
+        " / " +
+        lista[i].getTelefono() +
+        " / " +
+        lista[i].getCantidadVisitas() +
+        " / " +
+        lista[i].getEsVip()
+    );
+  }
+  console.log(" ");
+}
 function menuBorrarCliente(): void {}
 function menuNuevoCliente(): void {}
 
