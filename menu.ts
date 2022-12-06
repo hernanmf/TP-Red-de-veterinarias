@@ -36,11 +36,15 @@ let datosProveedor: LectorArchivos = new LectorArchivos(
 );
 let arregloProveedor: Array<Proveedor> = [];
 let arregloHistClinica: Array<string> = [];
+let arregloIdSucursal: Array<number>=[];
+let arregloIdCliente: Array<number>=[];
+
 for (let i: number = 0; i < datosClientes.getArregloString().length; i++) {
   crearCliente(
     datosClientes.getArregloString()[i],
     arregloClientes,
-    arregloPacientes
+    arregloPacientes,
+    arregloIdCliente
   );
 }
 for (let i: number = 0; i < datosPacientes.getArregloString().length; i++) {
@@ -55,7 +59,7 @@ for (let i: number = 0; i < datosProveedor.getArregloString().length; i++) {
 }
 
 for (let i: number = 0; i < datosSucursales.getArregloString().length; i++) {
-  crearSucursal(datosSucursales.getArregloString()[i], arregloSucursales);
+  crearSucursal(datosSucursales.getArregloString()[i], arregloSucursales,arregloIdSucursal);
 }
 var veterinariaInstanciada = new Veterinaria(
   "Camerun Soft",
@@ -265,7 +269,7 @@ function menuEntrarASucursal() {
     let listaDeSucursales: Array<Sucursal> =
       veterinariaInstanciada.listarSucursal();
     while (
-      i < listaDeSucursales.length &&
+      i < listaDeSucursales.length -1 &&
       listaDeSucursales[i].getIDsucursal() != IDSucursalAInstanciar
     ) {
       i++;
@@ -324,8 +328,29 @@ function menuBorrarSucursal() {
     veterinariaInstanciada.borrarSucursal(IDaCambiar);
   }
 }
+//Funcion que genera una nueva Sucursal desde consola
+function nuevaSucursal(arregloSucursales:Array<Sucursal>, arregloCliente:Array<Cliente>,arregloIdSucursal:Array<number>): void {
+  let IDSucursal : number= generadorDeID(arregloIdSucursal);
+  let direccionSucursal : string = ReadlineSync.question(" Ingrese la direccion de la nueva Sucursal:  ");
+  let telefonoSucursal: number = Number(ReadlineSync.question("Ingrese el telefono de la Sucursal:   "));
+  let listaSucursal : Array<Sucursal> = arregloSucursales;
+  let nuevaSucursal : Sucursal= new Sucursal(IDSucursal,direccionSucursal,telefonoSucursal,arregloCliente);
+  listaSucursal.push(nuevaSucursal);
+}
 
-function menuNuevaSucursal(): void {}
+//Menu de una Nueva Sucursal
+function menuNuevaSucursal(): void {
+  console.clear();
+  console.log("---------------------------");
+  console.log(" Ingresar nueva Sucursal");
+  console.log("---------------------------");
+  console.log("");
+  nuevaSucursal(arregloSucursales,arregloClientes,arregloIdSucursal);
+
+}
+
+
+
 function mostrarListaSucursales(lista: Array<Sucursal>): void {
   console.log("ID Sucursal / Direccion / Telefono");
   console.log(" ");
@@ -430,7 +455,29 @@ function menuBorrarCliente() {
     sucursalInstanciada.borrarCliente(IDaCambiar);
   }
 }
-function menuNuevoCliente(): void {}
+
+//Funcion que genera un nuevo Cliente desde consola
+function nuevoCliente(arregloCliente:Array<Cliente>, arregloPacientes:Array<Paciente>,arregloIdCliente:Array<number>): void {
+  let IDCliente : number= generadorDeID(arregloIdCliente);
+  let nombreCliente : string = ReadlineSync.question(" Ingrese Nombre y Apellido del nuevo Cliente:  ");
+  let telefonoCliente: number = Number(ReadlineSync.question("Ingrese el telefono del Cliente:   "));
+  let listaCliente : Array<Cliente> = arregloCliente;
+  let nuevoCliente : Cliente = new Cliente(IDCliente,nombreCliente,telefonoCliente,false,0,arregloPacientes);
+  listaCliente.push(nuevoCliente);
+  arregloIdCliente.push(IDCliente);
+}
+
+//Menu de un Nuevo Cliente
+function menuNuevoCliente(): void {
+  
+  console.clear();
+  console.log("---------------------------");
+  console.log(" Ingresar nuevo Cliente");
+  console.log("---------------------------");
+  console.log("");
+  nuevoCliente(arregloClientes, arregloPacientes,arregloIdCliente);
+
+}
 
 function menuEntrarACliente() {
   let IDClienteAInstanciar: number = Number(
@@ -625,7 +672,24 @@ function menuBorrarPaciente() {
   }
 }
 
-function menuNuevoPaciente(): void {}
+//Funcion que genera un nuevo Paciente desde consola
+function nuevoPaciente(IDDueño: number, arregloPacientes:Array<Paciente>, arregloHistoriaClinica:Array<string>): void {
+  let IDDueñoPaciente : number = IDDueño;
+  let nombrePaciente : string = ReadlineSync.question(" Ingrese el Nombre del Paciente:   ");
+  let especie : string = ReadlineSync.question(" Ingrese la especie del Paciente---(GATO/PERRO/EXOTICA):   ");
+  let listaPaciente : Array<Paciente> = arregloPacientes;
+  let nuevoPaciente: Paciente = new Paciente(IDDueñoPaciente,nombrePaciente,especie);
+  listaPaciente.push(nuevoPaciente);   
+}
+//Menu de un nuevo Paciente
+function menuNuevoPaciente(): void {
+  console.clear();
+  console.log("---------------------------");
+  console.log(" Ingresar nuevo Paciente");
+  console.log("---------------------------");
+  console.log("");
+  nuevoPaciente(this.IDdueño ,arregloPacientes,arregloHistClinica);
+}
 
 //INICIO DEL PROGRAMA
 
