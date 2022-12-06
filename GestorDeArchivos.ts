@@ -120,7 +120,7 @@ let datosProveedor: LectorArchivos = new LectorArchivos(
 );
 let arregloProveedor: Array<Proveedor> = [];
 let arregloHistClinica: Array<string> = [];
-
+let arregloIdClientes:Array<number>=[];
 for (let i: number = 0; i < datosClientes.getArregloString().length; i++) {
   crearCliente(
     datosClientes.getArregloString()[i],

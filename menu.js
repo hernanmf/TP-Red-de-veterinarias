@@ -178,7 +178,7 @@ function menuSucursales() {
         opcionMenuSucursal = Number(ReadlineSync.questionInt("Ingrese una opcion: "));
         switch (opcionMenuSucursal) {
             case 1:
-                menuEntrarASucursal();
+                menuEntrarASucursal(sucursalInstanciada);
                 break;
             case 2:
                 menuModificarSucursal();
@@ -198,7 +198,7 @@ function menuSucursales() {
         }
     }
 }
-function menuEntrarASucursal() {
+function menuEntrarASucursal(sucursalInstanciada) {
     var IDSucursalAInstanciar = Number(ReadlineSync.questionInt("Ingrese el id de la sucursal a la que desea ingresar(0 para cancelar operacion): "));
     if (IDSucursalAInstanciar != 0) {
         var i = 0;
@@ -305,7 +305,7 @@ function menuEnSucursal() {
                 /* LISTAR PACIENTES */
                 break;
             case 3:
-                menuEntrarACliente();
+                menuEntrarACliente(clienteInstanciado);
                 break;
             case 4:
                 menuBorrarCliente();
@@ -367,7 +367,7 @@ function menuNuevoCliente() {
     console.log("");
     nuevoCliente(arregloClientes, arregloPacientes, arregloIdCliente);
 }
-function menuEntrarACliente() {
+function menuEntrarACliente(clienteInstanciado) {
     var IDClienteAInstanciar = Number(ReadlineSync.questionInt("Ingrese el id del cliente al que desea ingresar(0 para cancelar operacion): "));
     if (IDClienteAInstanciar != 0) {
         var i = 0;
