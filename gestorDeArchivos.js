@@ -88,6 +88,3 @@ for (var i = 0; i < datosPacientes.getArregloString().length; i++) {
 for (var i = 0; i < datosProveedor.getArregloString().length; i++) {
     crearProveedor(datosProveedor.getArregloString()[i], arregloProveedor);
 }
-for (var i = 0; i < datosSucursales.getArregloString().length; i++) {
-    crearSucursal(datosSucursales.getArregloString()[i], arregloSucursales);
-}

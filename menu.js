@@ -48,7 +48,7 @@ function menuBienvenida() {
         console.log("------------------------- ");
         console.log("0 - Salir");
         console.log("------------------------- ");
-        opcionMenuBienvenida = Number(ReadlineSync.question("Ingrese una opcion: "));
+        opcionMenuBienvenida = Number(ReadlineSync.questionInt("Ingrese una opcion: "));
         switch (opcionMenuBienvenida) {
             case 1:
                 /* console.clear(); */
@@ -90,7 +90,7 @@ function menuProveedores() {
         console.log("------------------------- ");
         console.log("9 - Atras");
         console.log("------------------------- ");
-        opcionMenuProveedores = Number(ReadlineSync.question("Ingrese una opcion: "));
+        opcionMenuProveedores = Number(ReadlineSync.questionInt("Ingrese una opcion: "));
         console.clear;
         switch (opcionMenuProveedores) {
             case 1:
@@ -143,7 +143,15 @@ function mostrarListaProveedores(lista) {
     }
     console.log(" ");
 }
-function menuBorrarProveedor() { }
+function menuBorrarProveedor() {
+    var IDaCambiar = Number(ReadlineSync.questionInt("Ingrese el id del Proveedor a borrar: "));
+    if (IDaCambiar === 0) {
+        console.log("MODIFICACION CANCELADA");
+    }
+    else {
+        veterinariaInstanciada.borrarProveedor(IDaCambiar);
+    }
+}
 function menuNuevoProveedor() { }
 function menuSucursales() {
     var opcionMenuSucursal = Number(8);
@@ -164,7 +172,7 @@ function menuSucursales() {
         console.log("------------------------- ");
         console.log("9 - Atras");
         console.log("------------------------- ");
-        opcionMenuSucursal = Number(ReadlineSync.question("Ingrese una opcion: "));
+        opcionMenuSucursal = Number(ReadlineSync.questionInt("Ingrese una opcion: "));
         switch (opcionMenuSucursal) {
             case 1:
                 menuEntrarASucursal();
@@ -188,7 +196,7 @@ function menuSucursales() {
     }
 }
 function menuEntrarASucursal() {
-    var IDSucursalAInstanciar = Number(ReadlineSync.question("Ingrese el id de la sucursal a la que desea ingresar(0 para cancelar operacion): "));
+    var IDSucursalAInstanciar = Number(ReadlineSync.questionInt("Ingrese el id de la sucursal a la que desea ingresar(0 para cancelar operacion): "));
     if (IDSucursalAInstanciar != 0) {
         var i = 0;
         var listaDeSucursales = veterinariaInstanciada.listarSucursal();
@@ -196,8 +204,8 @@ function menuEntrarASucursal() {
             listaDeSucursales[i].getIDsucursal() != IDSucursalAInstanciar) {
             i++;
         }
-        if (i < listaDeSucursales.length) {
-            sucursalInstanciada = veterinariaInstanciada.getSucursal(IDSucursalAInstanciar);
+        if (i < listaDeSucursales.length - 1) {
+            sucursalInstanciada = veterinariaInstanciada[i].getSucursal(IDSucursalAInstanciar);
             menuEnSucursal();
         }
         else {
@@ -221,7 +229,15 @@ function menuModificarSucursal() {
         veterinariaInstanciada.setSucursal(IDaCambiar, nuevaSucursal);
     }
 }
-function menuBorrarSucursal() { }
+function menuBorrarSucursal() {
+    var IDaCambiar = Number(ReadlineSync.questionInt("Ingrese el id de la sucursal a borrar: "));
+    if (IDaCambiar === 0) {
+        console.log("MODIFICACION CANCELADA");
+    }
+    else {
+        veterinariaInstanciada.borrarSucursal(IDaCambiar);
+    }
+}
 function menuNuevaSucursal() { }
 function mostrarListaSucursales(lista) {
     console.log("ID Sucursal / Direccion / Telefono");
@@ -303,10 +319,18 @@ function mostrarListaClientes(lista) {
     }
     console.log(" ");
 }
-function menuBorrarCliente() { }
+function menuBorrarCliente() {
+    var IDaCambiar = Number(ReadlineSync.questionInt("Ingrese el id del Cliente a borrar: "));
+    if (IDaCambiar === 0) {
+        console.log("MODIFICACION CANCELADA");
+    }
+    else {
+        sucursalInstanciada.borrarCliente(IDaCambiar);
+    }
+}
 function menuNuevoCliente() { }
 function menuEntrarACliente() {
-    var IDClienteAInstanciar = Number(ReadlineSync.question("Ingrese el id del cliente al que desea ingresar(0 para cancelar operacion): "));
+    var IDClienteAInstanciar = Number(ReadlineSync.questionInt("Ingrese el id del cliente al que desea ingresar(0 para cancelar operacion): "));
     if (IDClienteAInstanciar != 0) {
         var i = 0;
         var listaDeClientes = sucursalInstanciada.listarClientes();
@@ -361,7 +385,7 @@ function menuEnCliente() {
         console.log("------------------------- ");
         console.log("9 - Atras");
         console.log("------------------------- ");
-        opcionMenuEnCliente = Number(ReadlineSync.question("Ingrese una opcion: "));
+        opcionMenuEnCliente = Number(ReadlineSync.questionInt("Ingrese una opcion: "));
         switch (opcionMenuEnCliente) {
             case 1:
                 menuRegistrarVisita();
@@ -437,7 +461,15 @@ function menuRegistrarVisita() {
         console.log("LA VISITA NO SE HA REGISTRADO");
     }
 }
-function menuBorrarPaciente() { }
+function menuBorrarPaciente() {
+    var IDaCambiar = Number(ReadlineSync.questionInt("Ingrese el id del Paciente a borrar: "));
+    if (IDaCambiar === 0) {
+        console.log("MODIFICACION CANCELADA");
+    }
+    else {
+        clienteInstanciado.borrarPaciente(IDaCambiar);
+    }
+}
 function menuNuevoPaciente() { }
 //INICIO DEL PROGRAMA
 /* CARGA DE BBDD */

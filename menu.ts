@@ -82,7 +82,7 @@ export function menuBienvenida(): void {
     console.log("0 - Salir");
     console.log("------------------------- ");
     opcionMenuBienvenida = Number(
-      ReadlineSync.question("Ingrese una opcion: ")
+      ReadlineSync.questionInt("Ingrese una opcion: ")
     );
 
     switch (opcionMenuBienvenida) {
@@ -127,7 +127,7 @@ function menuProveedores(): void {
     console.log("9 - Atras");
     console.log("------------------------- ");
     opcionMenuProveedores = Number(
-      ReadlineSync.question("Ingrese una opcion: ")
+      ReadlineSync.questionInt("Ingrese una opcion: ")
     );
     console.clear;
 
@@ -196,7 +196,16 @@ function mostrarListaProveedores(lista: Array<Proveedor>): void {
   console.log(" ");
 }
 
-function menuBorrarProveedor(): void {}
+function menuBorrarProveedor() {
+  let IDaCambiar: number = Number(
+    ReadlineSync.questionInt("Ingrese el id del Proveedor a borrar: ")
+  );
+  if (IDaCambiar === 0) {
+    console.log("MODIFICACION CANCELADA");
+  } else {
+    veterinariaInstanciada.borrarProveedor(IDaCambiar);
+  }
+}
 function menuNuevoProveedor(): void {}
 
 function menuSucursales(): void {
@@ -218,7 +227,9 @@ function menuSucursales(): void {
     console.log("------------------------- ");
     console.log("9 - Atras");
     console.log("------------------------- ");
-    opcionMenuSucursal = Number(ReadlineSync.question("Ingrese una opcion: "));
+    opcionMenuSucursal = Number(
+      ReadlineSync.questionInt("Ingrese una opcion: ")
+    );
 
     switch (opcionMenuSucursal) {
       case 1:
@@ -245,7 +256,7 @@ function menuSucursales(): void {
 
 function menuEntrarASucursal() {
   let IDSucursalAInstanciar: number = Number(
-    ReadlineSync.question(
+    ReadlineSync.questionInt(
       "Ingrese el id de la sucursal a la que desea ingresar(0 para cancelar operacion): "
     )
   );
@@ -259,7 +270,7 @@ function menuEntrarASucursal() {
     ) {
       i++;
     }
-    if (i < listaDeSucursales.length) {
+    if (i < listaDeSucursales.length - 1) {
       sucursalInstanciada = veterinariaInstanciada.getSucursal(
         IDSucursalAInstanciar
       );
@@ -303,7 +314,17 @@ function menuModificarSucursal() {
   }
 }
 
-function menuBorrarSucursal(): void {}
+function menuBorrarSucursal() {
+  let IDaCambiar: number = Number(
+    ReadlineSync.questionInt("Ingrese el id de la sucursal a borrar: ")
+  );
+  if (IDaCambiar === 0) {
+    console.log("MODIFICACION CANCELADA");
+  } else {
+    veterinariaInstanciada.borrarSucursal(IDaCambiar);
+  }
+}
+
 function menuNuevaSucursal(): void {}
 function mostrarListaSucursales(lista: Array<Sucursal>): void {
   console.log("ID Sucursal / Direccion / Telefono");
@@ -399,12 +420,21 @@ function mostrarListaClientes(lista: Array<Cliente>): void {
   console.log(" ");
 }
 
-function menuBorrarCliente(): void {}
+function menuBorrarCliente() {
+  let IDaCambiar: number = Number(
+    ReadlineSync.questionInt("Ingrese el id del Cliente a borrar: ")
+  );
+  if (IDaCambiar === 0) {
+    console.log("MODIFICACION CANCELADA");
+  } else {
+    sucursalInstanciada.borrarCliente(IDaCambiar);
+  }
+}
 function menuNuevoCliente(): void {}
 
 function menuEntrarACliente() {
   let IDClienteAInstanciar: number = Number(
-    ReadlineSync.question(
+    ReadlineSync.questionInt(
       "Ingrese el id del cliente al que desea ingresar(0 para cancelar operacion): "
     )
   );
@@ -470,7 +500,9 @@ function menuEnCliente(): void {
     console.log("------------------------- ");
     console.log("9 - Atras");
     console.log("------------------------- ");
-    opcionMenuEnCliente = Number(ReadlineSync.question("Ingrese una opcion: "));
+    opcionMenuEnCliente = Number(
+      ReadlineSync.questionInt("Ingrese una opcion: ")
+    );
 
     switch (opcionMenuEnCliente) {
       case 1:
@@ -582,7 +614,17 @@ function menuRegistrarVisita() {
   }
 }
 
-function menuBorrarPaciente(): void {}
+function menuBorrarPaciente() {
+  let IDaCambiar: number = Number(
+    ReadlineSync.questionInt("Ingrese el id del Paciente a borrar: ")
+  );
+  if (IDaCambiar === 0) {
+    console.log("MODIFICACION CANCELADA");
+  } else {
+    clienteInstanciado.borrarPaciente(IDaCambiar);
+  }
+}
+
 function menuNuevoPaciente(): void {}
 
 //INICIO DEL PROGRAMA

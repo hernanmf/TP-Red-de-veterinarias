@@ -53,6 +53,18 @@ var Cliente = /** @class */ (function () {
     Cliente.prototype.listarPacientes = function () {
         return this.pacientes;
     };
+    Cliente.prototype.borrarPaciente = function (idPaciente) {
+        for (var i = 0; i < this.pacientes.length; i++) {
+            if (this.pacientes[i].getIDpaciente() === idPaciente) {
+                this.pacientes.splice(i, 1);
+                return console.log("El Paciente ha sido borrado");
+            }
+            else if (i === this.pacientes.length - 1 &&
+                idPaciente != this.pacientes[i].getIDpaciente()) {
+                return console.log("El id de Paciente ".concat(idPaciente, " no fue encontrado."));
+            }
+        }
+    };
     return Cliente;
 }());
 exports["default"] = Cliente;

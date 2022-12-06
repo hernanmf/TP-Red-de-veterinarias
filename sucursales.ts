@@ -68,9 +68,20 @@ export default class Sucursal {
     }
   }
 
-  public borrarCliente(posicion: number) {
-    this.clientes = this.clientes.splice(posicion, 1);
+  public borrarCliente(idCliente: number) {
+    for (let i = 0; i < this.clientes.length; i++) {
+      if (this.clientes[i].getIdCliente() === idCliente) {
+        this.clientes.splice(i, 1);
+        return console.log("El cliente ha sido borrado");
+      } else if (
+        i === this.clientes.length - 1 &&
+        idCliente != this.clientes[i].getIdCliente()
+      ) {
+        return console.log(`El id de cliente ${idCliente} no fue encontrado.`);
+      }
+    }
   }
+
   public listarClientes(): Array<Cliente> {
     return this.clientes;
   }

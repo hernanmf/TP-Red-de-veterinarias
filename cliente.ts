@@ -74,6 +74,21 @@ export default class Cliente {
     return this.pacientes;
   }
 
+  public borrarPaciente(idPaciente: number) {
+    for (let i = 0; i < this.pacientes.length; i++) {
+      if (this.pacientes[i].getIDpaciente() === idPaciente) {
+        this.pacientes.splice(i, 1);
+        return console.log("El Paciente ha sido borrado");
+      } else if (
+        i === this.pacientes.length - 1 &&
+        idPaciente != this.pacientes[i].getIDpaciente()
+      ) {
+        return console.log(
+          `El id de Paciente ${idPaciente} no fue encontrado.`
+        );
+      }
+    }
+  }
   /*   public borrarPaciente(arregloPaciente:<Paciente>, nombrePaciente:string){
 
      } */

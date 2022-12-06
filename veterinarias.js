@@ -59,21 +59,21 @@ var Veterinaria = /** @class */ (function () {
     };
     Veterinaria.prototype.borrarSucursal = function (IDsucursal) {
         var i = 0;
-        while (i < this.sucursales.length &&
+        while (i < this.sucursales.length - 1 &&
             this.sucursales[i].IDsucursal != IDsucursal) {
             i++;
         }
         if (this.sucursales[i].IDsucursal === IDsucursal) {
             this.sucursales.splice(i, 1);
-            console.log("se elimino la sucursal");
+            console.log("Se elimino la sucursal");
         }
         else {
-            console.log("no se encontro la sucursal a eliminar");
+            console.log("No se encontro la sucursal a eliminar");
         }
     };
     Veterinaria.prototype.borrarProveedor = function (IDproveedor) {
         var i = 0;
-        while (i < this.proveedores.length &&
+        while (i < this.proveedores.length - 1 &&
             this.proveedores[i].getIDProveedor() != IDproveedor) {
             i++;
         }
