@@ -23,7 +23,8 @@ export class LectorArchivos {
 export function crearCliente(
   cliente: string,
   arregloClientes: Array<Cliente>,
-  arregloPacientes: Array<Paciente>
+  arregloPacientes: Array<Paciente>,
+  arregloIdCliente: Array<number>
 ): Array<Cliente> {
   let propiedadCliente: string[] = cliente.split(",");
   let idCliente: number = Number(propiedadCliente[0]);
@@ -41,12 +42,14 @@ export function crearCliente(
     arregloPacientes
   );
   listaCliente.push(nuevoCliente);
+  arregloIdCliente.push(idCliente);
   return listaCliente;
 }
 
 export function crearSucursal(
   sucursal: string,
-  arregloSucursales: Array<Sucursal>
+  arregloSucursales: Array<Sucursal>,
+  arregloIdSucursal: Array<number>
 ): Array<Sucursal> {
   let propiedadSucursal: string[] = sucursal.split(",");
   let IDsucursal: number = Number(propiedadSucursal[0]);
@@ -60,6 +63,7 @@ export function crearSucursal(
     arregloClientes
   );
   listaSucursal.push(nuevaSucursal);
+  arregloIdSucursal.push(IDsucursal);
   return listaSucursal;
 }
 //funcion que genera un Objeto de tipo Proveedor desde una base de datos(.txt)==>
@@ -121,8 +125,9 @@ for (let i: number = 0; i < datosClientes.getArregloString().length; i++) {
   crearCliente(
     datosClientes.getArregloString()[i],
     arregloClientes,
-    arregloPacientes
-  );
+    arregloPacientes,
+    arregloIdClientes
+    );
 }
 for (let i: number = 0; i < datosPacientes.getArregloString().length; i++) {
   crearPaciente(

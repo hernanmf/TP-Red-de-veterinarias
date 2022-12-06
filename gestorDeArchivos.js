@@ -21,7 +21,7 @@ var LectorArchivos = /** @class */ (function () {
 }());
 exports.LectorArchivos = LectorArchivos;
 //funcion que genera un Objeto de tipo Cliente desde una base de datos(.txt)==>
-function crearCliente(cliente, arregloClientes, arregloPacientes) {
+function crearCliente(cliente, arregloClientes, arregloPacientes, arregloIdCliente) {
     var propiedadCliente = cliente.split(",");
     var idCliente = Number(propiedadCliente[0]);
     var nombreCliente = propiedadCliente[1];
@@ -31,10 +31,11 @@ function crearCliente(cliente, arregloClientes, arregloPacientes) {
     var listaCliente = arregloClientes;
     var nuevoCliente = new cliente_1["default"](idCliente, nombreCliente, telefonoCliente, clienteVip, cantidadVisitas, arregloPacientes);
     listaCliente.push(nuevoCliente);
+    arregloIdCliente.push(idCliente);
     return listaCliente;
 }
 exports.crearCliente = crearCliente;
-function crearSucursal(sucursal, arregloSucursales) {
+function crearSucursal(sucursal, arregloSucursales, arregloIdSucursal) {
     var propiedadSucursal = sucursal.split(",");
     var IDsucursal = Number(propiedadSucursal[0]);
     var Direccion = propiedadSucursal[1];
@@ -42,6 +43,7 @@ function crearSucursal(sucursal, arregloSucursales) {
     var listaSucursal = arregloSucursales;
     var nuevaSucursal = new sucursales_1["default"](IDsucursal, Direccion, Telefono, arregloClientes);
     listaSucursal.push(nuevaSucursal);
+    arregloIdSucursal.push(IDsucursal);
     return listaSucursal;
 }
 exports.crearSucursal = crearSucursal;
@@ -80,7 +82,7 @@ var datosProveedor = new LectorArchivos("./baseDeDatos/proveedores.txt");
 var arregloProveedor = [];
 var arregloHistClinica = [];
 for (var i = 0; i < datosClientes.getArregloString().length; i++) {
-    crearCliente(datosClientes.getArregloString()[i], arregloClientes, arregloPacientes);
+    crearCliente(datosClientes.getArregloString()[i], arregloClientes, arregloPacientes, arregloIdClientes);
 }
 for (var i = 0; i < datosPacientes.getArregloString().length; i++) {
     crearPaciente(datosPacientes.getArregloString()[i], arregloPacientes, arregloHistClinica);
