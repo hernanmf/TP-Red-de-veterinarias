@@ -16,6 +16,7 @@ import {
 import * as ReadFileSync from "readline-sync";
 import * as ReadlineSync from "readline-sync";
 import Veterinaria from "./veterinarias";
+import generadorDeId from "./generadorId";
 
 //Cargamos los arreglos clientes, pacientes y proveedores--->
 let datosSucursales: LectorArchivos = new LectorArchivos(
@@ -38,6 +39,7 @@ let arregloProveedor: Array<Proveedor> = [];
 let arregloHistClinica: Array<string> = [];
 let arregloIdSucursal: Array<number>=[];
 let arregloIdCliente: Array<number>=[];
+let arregloIdProveedor: Array<number>=[];
 
 for (let i: number = 0; i < datosClientes.getArregloString().length; i++) {
   crearCliente(
@@ -67,8 +69,8 @@ var veterinariaInstanciada = new Veterinaria(
   arregloProveedor
 );
 
-var sucursalInstanciada: Sucursal;
-var clienteInstanciado: Cliente;
+let sucursalInstanciada: Sucursal;
+let clienteInstanciado: Cliente;
 
 /* menues en funcion */
 export function menuBienvenida(): void {
@@ -210,7 +212,13 @@ function menuBorrarProveedor() {
     veterinariaInstanciada.borrarProveedor(IDaCambiar);
   }
 }
-function menuNuevoProveedor(): void {}
+function menuNuevoProveedor(): void {
+ let IDproveedor: number= generadorDeId(arregloIdProveedor);
+ let Nombre: string= ReadlineSync.question("Ingrese el nombre del nuevo proveedor");
+ let Telefono: number= ReadlineSync.questionInt("Ingrese el numero de telefono del nuevo proveedor");
+ let nuevoProveedor= new Proveedor(IDproveedor,Nombre,Telefono);
+ arregloProveedor.push(nuevoProveedor);
+}
 
 function menuSucursales(): void {
   let opcionMenuSucursal: number = Number(8);
@@ -237,7 +245,7 @@ function menuSucursales(): void {
 
     switch (opcionMenuSucursal) {
       case 1:
-        menuEntrarASucursal();
+        menuEntrarASucursal(sucursalInstanciada);
         break;
       case 2:
         menuModificarSucursal();
@@ -258,7 +266,7 @@ function menuSucursales(): void {
   }
 }
 
-function menuEntrarASucursal() {
+function menuEntrarASucursal(sucursalInstanciada) {
   let IDSucursalAInstanciar: number = Number(
     ReadlineSync.questionInt(
       "Ingrese el id de la sucursal a la que desea ingresar(0 para cancelar operacion): "
@@ -405,7 +413,7 @@ function menuEnSucursal() {
         /* LISTAR PACIENTES */
         break;
       case 3:
-        menuEntrarACliente();
+        menuEntrarACliente(clienteInstanciado);
         break;
       case 4:
         menuBorrarCliente();
@@ -479,7 +487,7 @@ function menuNuevoCliente(): void {
 
 }
 
-function menuEntrarACliente() {
+function menuEntrarACliente(clienteInstanciado) {
   let IDClienteAInstanciar: number = Number(
     ReadlineSync.questionInt(
       "Ingrese el id del cliente al que desea ingresar(0 para cancelar operacion): "

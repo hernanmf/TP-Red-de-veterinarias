@@ -81,6 +81,7 @@ var arregloPacientes = [];
 var datosProveedor = new LectorArchivos("./baseDeDatos/proveedores.txt");
 var arregloProveedor = [];
 var arregloHistClinica = [];
+var arregloIdClientes = [];
 for (var i = 0; i < datosClientes.getArregloString().length; i++) {
     crearCliente(datosClientes.getArregloString()[i], arregloClientes, arregloPacientes, arregloIdClientes);
 }
