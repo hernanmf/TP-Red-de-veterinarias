@@ -114,6 +114,10 @@ export function menuBienvenida(): void {
   }
 }
 
+
+
+/*********************************PROVEEDORES************************************ */
+
 function menuProveedores(): void {
   let opcionMenuProveedores: number = Number(8);
   while (opcionMenuProveedores != Number(9)) {
@@ -220,6 +224,11 @@ function menuNuevoProveedor(): void {
  arregloProveedor.push(nuevoProveedor);
 }
 
+
+/*****************************SUCURSALES************************************** */
+
+
+
 function menuSucursales(): void {
   let opcionMenuSucursal: number = Number(8);
   while (opcionMenuSucursal != Number(9)) {
@@ -282,18 +291,22 @@ function menuEntrarASucursal(/* sucursalInstanciada:Sucursal */) {
     ) {
       i++;
     }
-    if (i < listaDeSucursales.length /*- 1*/) {
+    /* if (i < listaDeSucursales.length ) {
       sucursalInstanciada = veterinariaInstanciada.getSucursal(
         IDSucursalAInstanciar
-      );
+      ); */
+
+    if (i < listaDeSucursales.length && IDSucursalAInstanciar===listaDeSucursales[i].getIDsucursal()/*- 1*/) {
+      sucursalInstanciada =listaDeSucursales[i]
       menuEnSucursal();
+    };  
     } else {
       console.log(
         "EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO"
       );
     }
   }
-}
+
 
 function menuModificarSucursal(sucursalInstanciada) {
   let IDaCambiar: number = Number(
@@ -431,6 +444,10 @@ function menuEnSucursal() {
   }
 }
 
+
+/**********************************CLIENTES********************************* */
+
+
 function mostrarListaClientes(lista: Array<Cliente>): void {
   console.log("CLIENTES");
   console.log(
@@ -483,7 +500,7 @@ function menuNuevoCliente(): void {
   console.log(" Ingresar nuevo Cliente");
   console.log("---------------------------");
   console.log("");
-  nuevoCliente(arregloClientes, arregloPacientes,arregloIdCliente);
+  nuevoCliente(sucursalInstanciada.clientes, arregloPacientes,arregloIdCliente);
 
 }
 
@@ -502,10 +519,16 @@ function menuEntrarACliente(clienteInstanciado:Cliente) {
     ) {
       i++;
     }
-    if (i < listaDeClientes.length) {
-      clienteInstanciado = sucursalInstanciada.getCliente(/* listaDeClientes[i].getIdCliente() */IDClienteAInstanciar);
+    /* if (i < listaDeClientes.length ) {
+      clienteInstanciado = sucursalInstanciada.getCliente(IDClienteAInstanciar);
       menuEnCliente();
-    } else {
+    } */ 
+    if (i < listaDeClientes.length && IDClienteAInstanciar===listaDeClientes[i].getIdCliente()/*- 1*/) {
+      clienteInstanciado =listaDeClientes[i]
+      menuEnCliente();
+    }
+    
+    else {
       console.log(
         "EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO"
       );
@@ -623,6 +646,11 @@ function menuModificarCliente(): void {
   }
 }
 
+
+/******************PACIENTES****************** */
+
+
+
 function menuModificarPaciente() {
   let IDaCambiar: number = Number(
     ReadlineSync.question(
@@ -639,10 +667,15 @@ function menuModificarPaciente() {
     let nuevoNombre: string = ReadlineSync.question(
       "Ingrese el nuevo nombre del paciente, si no cambia, ingrese el mismo: "
     );
+    let nuevaEspecie:string= ReadlineSync.question(
+      "Ingrese la nueva especie del paciente, si no cambia, ingrese la misma: "
+    )
+    /* let pacienteAcambiar=clienteInstanciado.getPaciente(IDaCambiar); */
+    
     nuevoPaciente = new Paciente(
       IDaCambiar,
       nuevoNombre,
-      clienteInstanciado.getPaciente(IDaCambiar).getEspecie()
+      nuevaEspecie
     );
     clienteInstanciado.setPaciente(IDaCambiar, nuevoPaciente);
   }
@@ -681,6 +714,7 @@ function menuBorrarPaciente() {
 }
 
 function menuListarPacientes(){
+  
   for (let i=0;i<clienteInstanciado.listarPacientes().length;i++){
     console.log(`Nombre del paciente: ${clienteInstanciado.listarPacientes()[i].getNombre()}`)
     console.log(`Especie del paciente: ${clienteInstanciado.listarPacientes()[i].getEspecie()}`)

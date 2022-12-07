@@ -24,9 +24,11 @@ var Sucursal = /** @class */ (function () {
         }
     };
     Sucursal.prototype.getPaciente = function (id_Cliente, nombrePaciente) {
+        var _a;
         for (var i = 0; i < this.clientes.length; i++) {
-            if (id_Cliente === this.clientes[i].getIdCliente()) {
-                return this.clientes[i].getPacientes(nombrePaciente);
+            if (id_Cliente === this.clientes[i].getIdCliente()
+                && nombrePaciente === ((_a = this.clientes[i].getPaciente(id_Cliente)) === null || _a === void 0 ? void 0 : _a.getNombre())) {
+                return this.clientes[i].getPaciente(id_Cliente);
             }
         }
     };

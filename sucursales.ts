@@ -39,8 +39,9 @@ export default class Sucursal {
   }
   public getPaciente(id_Cliente: number, nombrePaciente: string) {
     for (let i = 0; i < this.clientes.length; i++) {
-      if (id_Cliente === this.clientes[i].getIdCliente()) {
-        return this.clientes[i].getPacientes(nombrePaciente);
+      if (id_Cliente === this.clientes[i].getIdCliente()
+      && nombrePaciente === this.clientes[i].getPaciente(id_Cliente)?.getNombre() ) {
+        return this.clientes[i].getPaciente(id_Cliente);
       }
     }
   }
