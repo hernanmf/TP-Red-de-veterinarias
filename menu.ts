@@ -69,8 +69,8 @@ var veterinariaInstanciada = new Veterinaria(
   arregloProveedor
 );
 
-let sucursalInstanciada: Sucursal;
-let clienteInstanciado: Cliente;
+var sucursalInstanciada: Sucursal/* =arregloSucursales[0] */;
+var clienteInstanciado: Cliente/* =arregloClientes[2] */;
 
 /* menues en funcion */
 export function menuBienvenida(): void {
@@ -236,7 +236,7 @@ function menuSucursales(): void {
     console.log("3 - Borrar sucursal");
     console.log("4 - Nueva sucursal");
     console.log(" ");
-    console.log("------------------------- ");
+   console.log("------------------------- ");
     console.log("9 - Atras");
     console.log("------------------------- ");
     opcionMenuSucursal = Number(
@@ -245,10 +245,10 @@ function menuSucursales(): void {
 
     switch (opcionMenuSucursal) {
       case 1:
-        menuEntrarASucursal(sucursalInstanciada);
+        menuEntrarASucursal(/* sucursalInstanciada */);
         break;
       case 2:
-        menuModificarSucursal();
+        menuModificarSucursal(sucursalInstanciada);
         break;
       case 3:
         menuBorrarSucursal();
@@ -266,7 +266,7 @@ function menuSucursales(): void {
   }
 }
 
-function menuEntrarASucursal(sucursalInstanciada) {
+function menuEntrarASucursal(/* sucursalInstanciada:Sucursal */) {
   let IDSucursalAInstanciar: number = Number(
     ReadlineSync.questionInt(
       "Ingrese el id de la sucursal a la que desea ingresar(0 para cancelar operacion): "
@@ -277,12 +277,12 @@ function menuEntrarASucursal(sucursalInstanciada) {
     let listaDeSucursales: Array<Sucursal> =
       veterinariaInstanciada.listarSucursal();
     while (
-      i < listaDeSucursales.length -1 &&
+      i < listaDeSucursales.length /*-1*/ &&
       listaDeSucursales[i].getIDsucursal() != IDSucursalAInstanciar
     ) {
       i++;
     }
-    if (i < listaDeSucursales.length - 1) {
+    if (i < listaDeSucursales.length /*- 1*/) {
       sucursalInstanciada = veterinariaInstanciada.getSucursal(
         IDSucursalAInstanciar
       );
@@ -295,7 +295,7 @@ function menuEntrarASucursal(sucursalInstanciada) {
   }
 }
 
-function menuModificarSucursal() {
+function menuModificarSucursal(sucursalInstanciada) {
   let IDaCambiar: number = Number(
     ReadlineSync.question(
       "Ingrese el id de la sucursal que desea cambiar(0 para cancelar operacion): "
@@ -487,7 +487,7 @@ function menuNuevoCliente(): void {
 
 }
 
-function menuEntrarACliente(clienteInstanciado) {
+function menuEntrarACliente(clienteInstanciado:Cliente) {
   let IDClienteAInstanciar: number = Number(
     ReadlineSync.questionInt(
       "Ingrese el id del cliente al que desea ingresar(0 para cancelar operacion): "
@@ -503,7 +503,7 @@ function menuEntrarACliente(clienteInstanciado) {
       i++;
     }
     if (i < listaDeClientes.length) {
-      clienteInstanciado = sucursalInstanciada.getCliente(IDClienteAInstanciar);
+      clienteInstanciado = sucursalInstanciada.getCliente(/* listaDeClientes[i].getIdCliente() */IDClienteAInstanciar);
       menuEnCliente();
     } else {
       console.log(
@@ -567,8 +567,8 @@ function menuEnCliente(): void {
         menuModificarCliente();
         break;
       case 3:
-        /* LISTAR PACIENTES */
-        break;
+        menuListarPacientes()
+        break; 
       case 4:
         menuModificarPaciente();
         break;
@@ -642,7 +642,7 @@ function menuModificarPaciente() {
     nuevoPaciente = new Paciente(
       IDaCambiar,
       nuevoNombre,
-      clienteInstanciado.getPacientes(IDaCambiar).getEspecie()
+      clienteInstanciado.getPaciente(IDaCambiar).getEspecie()
     );
     clienteInstanciado.setPaciente(IDaCambiar, nuevoPaciente);
   }
@@ -677,6 +677,14 @@ function menuBorrarPaciente() {
     console.log("MODIFICACION CANCELADA");
   } else {
     clienteInstanciado.borrarPaciente(IDaCambiar);
+  }
+}
+
+function menuListarPacientes(){
+  for (let i=0;i<clienteInstanciado.listarPacientes().length;i++){
+    console.log(`Nombre del paciente: ${clienteInstanciado.listarPacientes()[i].getNombre()}`)
+    console.log(`Especie del paciente: ${clienteInstanciado.listarPacientes()[i].getEspecie()}`)
+    console.log(`ID del Cliente: ${clienteInstanciado.listarPacientes()[i].getIDpaciente()}`)  
   }
 }
 

@@ -21,8 +21,12 @@ var Cliente = /** @class */ (function () {
     Cliente.prototype.getEsVip = function () {
         return this.esVip;
     };
-    Cliente.prototype.getPacientes = function (n) {
-        return this.pacientes[n];
+    Cliente.prototype.getPaciente = function (id) {
+        for (var i = 0; i < this.pacientes.length; i++) {
+            if (id === this.pacientes[i].getIDpaciente()) {
+                return this.pacientes[i];
+            }
+        }
     };
     Cliente.prototype.getCantidadVisitas = function () {
         return this.cantidadVisitas;
