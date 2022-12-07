@@ -320,7 +320,7 @@ function menuEnSucursal() {
                 /* LISTAR PACIENTES */
                 break;
             case 3:
-                menuEntrarACliente(clienteInstanciado);
+                menuEntrarACliente( /* clienteInstanciado */);
                 break;
             case 4:
                 menuBorrarCliente();
@@ -383,7 +383,7 @@ function menuNuevoCliente() {
     console.log("");
     nuevoCliente(sucursalInstanciada.clientes, arregloPacientes, arregloIdCliente);
 }
-function menuEntrarACliente(clienteInstanciado) {
+function menuEntrarACliente( /* clienteInstanciado:Cliente */) {
     var IDClienteAInstanciar = Number(ReadlineSync.questionInt("Ingrese el id del cliente al que desea ingresar(0 para cancelar operacion): "));
     if (IDClienteAInstanciar != 0) {
         var i = 0;
