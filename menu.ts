@@ -426,7 +426,7 @@ function menuEnSucursal() {
         /* LISTAR PACIENTES */
         break;
       case 3:
-        menuEntrarACliente(clienteInstanciado);
+        menuEntrarACliente(/* clienteInstanciado */);
         break;
       case 4:
         menuBorrarCliente();
@@ -504,7 +504,7 @@ function menuNuevoCliente(): void {
 
 }
 
-function menuEntrarACliente(clienteInstanciado:Cliente) {
+function menuEntrarACliente(/* clienteInstanciado:Cliente */) {
   let IDClienteAInstanciar: number = Number(
     ReadlineSync.questionInt(
       "Ingrese el id del cliente al que desea ingresar(0 para cancelar operacion): "
