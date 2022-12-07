@@ -35,8 +35,12 @@ export default class Cliente {
   public getEsVip(): boolean {
     return this.esVip;
   }
-  public getPacientes(n): Paciente {
-    return this.pacientes[n];
+  public getPaciente(id: number) {
+    for (let i = 0; i < this.pacientes.length; i++) {
+      if (id === this.pacientes[i].getIDpaciente()) {
+        return this.pacientes[i];
+      }
+    }
   }
   public getCantidadVisitas(): number {
     return this.cantidadVisitas;

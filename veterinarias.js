@@ -14,6 +14,19 @@ var Veterinaria = /** @class */ (function () {
     };
     Veterinaria.prototype.getSucursal = function (IDsucursal) {
         return this.sucursales.find(function (Element) { return Element.getIDsucursal() === IDsucursal; });
+        /* let i: number = 0;
+        while (
+          i < this.sucursales.length &&
+          this.sucursales[i].IDsucursal != IDsucursal
+        ) {
+          i++;
+        }
+        if (i < this.sucursales.length) {
+          return this.sucursales[i]
+        } else {
+          console.log(
+            "EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO"
+          ); */
     };
     Veterinaria.prototype.setSucursal = function (IDsucursal, nuevaSucursal) {
         var i = 0;

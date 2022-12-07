@@ -9,6 +9,7 @@ var generadorId_1 = require("./generadorId");
 var GestorDeArchivos_1 = require("./GestorDeArchivos");
 var ReadlineSync = require("readline-sync");
 var veterinarias_1 = require("./veterinarias");
+var generadorId_2 = require("./generadorId");
 //Cargamos los arreglos clientes, pacientes y proveedores--->
 var datosSucursales = new GestorDeArchivos_1.LectorArchivos("./baseDeDatos/sucursales.txt");
 var arregloSucursales = [];
@@ -21,6 +22,7 @@ var arregloProveedor = [];
 var arregloHistClinica = [];
 var arregloIdSucursal = [];
 var arregloIdCliente = [];
+var arregloIdProveedor = [];
 for (var i = 0; i < datosClientes.getArregloString().length; i++) {
     (0, GestorDeArchivos_1.crearCliente)(datosClientes.getArregloString()[i], arregloClientes, arregloPacientes, arregloIdCliente);
 }
@@ -34,8 +36,8 @@ for (var i = 0; i < datosSucursales.getArregloString().length; i++) {
     (0, GestorDeArchivos_1.crearSucursal)(datosSucursales.getArregloString()[i], arregloSucursales, arregloIdSucursal);
 }
 var veterinariaInstanciada = new veterinarias_1["default"]("Camerun Soft", arregloSucursales, arregloProveedor);
-var sucursalInstanciada;
-var clienteInstanciado;
+var sucursalInstanciada /* =arregloSucursales[0] */;
+var clienteInstanciado /* =arregloClientes[2] */;
 /* menues en funcion */
 function menuBienvenida() {
     var opcionMenuBienvenida = Number(8);
@@ -155,7 +157,13 @@ function menuBorrarProveedor() {
         veterinariaInstanciada.borrarProveedor(IDaCambiar);
     }
 }
-function menuNuevoProveedor() { }
+function menuNuevoProveedor() {
+    var IDproveedor = (0, generadorId_2["default"])(arregloIdProveedor);
+    var Nombre = ReadlineSync.question("Ingrese el nombre del nuevo proveedor");
+    var Telefono = ReadlineSync.questionInt("Ingrese el numero de telefono del nuevo proveedor");
+    var nuevoProveedor = new Proveedor_1["default"](IDproveedor, Nombre, Telefono);
+    arregloProveedor.push(nuevoProveedor);
+}
 function menuSucursales() {
     var opcionMenuSucursal = Number(8);
     while (opcionMenuSucursal != Number(9)) {
@@ -178,10 +186,10 @@ function menuSucursales() {
         opcionMenuSucursal = Number(ReadlineSync.questionInt("Ingrese una opcion: "));
         switch (opcionMenuSucursal) {
             case 1:
-                menuEntrarASucursal(sucursalInstanciada);
+                menuEntrarASucursal( /* sucursalInstanciada */);
                 break;
             case 2:
-                menuModificarSucursal();
+                menuModificarSucursal(sucursalInstanciada);
                 break;
             case 3:
                 menuBorrarSucursal();
@@ -198,16 +206,16 @@ function menuSucursales() {
         }
     }
 }
-function menuEntrarASucursal(sucursalInstanciada) {
+function menuEntrarASucursal( /* sucursalInstanciada:Sucursal */) {
     var IDSucursalAInstanciar = Number(ReadlineSync.questionInt("Ingrese el id de la sucursal a la que desea ingresar(0 para cancelar operacion): "));
     if (IDSucursalAInstanciar != 0) {
         var i = 0;
         var listaDeSucursales = veterinariaInstanciada.listarSucursal();
-        while (i < listaDeSucursales.length - 1 &&
+        while (i < listaDeSucursales.length /*-1*/ &&
             listaDeSucursales[i].getIDsucursal() != IDSucursalAInstanciar) {
             i++;
         }
-        if (i < listaDeSucursales.length - 1) {
+        if (i < listaDeSucursales.length /*- 1*/) {
             sucursalInstanciada = veterinariaInstanciada.getSucursal(IDSucursalAInstanciar);
             menuEnSucursal();
         }
@@ -216,7 +224,7 @@ function menuEntrarASucursal(sucursalInstanciada) {
         }
     }
 }
-function menuModificarSucursal() {
+function menuModificarSucursal(sucursalInstanciada) {
     var IDaCambiar = Number(ReadlineSync.question("Ingrese el id de la sucursal que desea cambiar(0 para cancelar operacion): "));
     if (IDaCambiar === 0) {
         console.log("MODIFICACION CANCELADA");
@@ -377,7 +385,7 @@ function menuEntrarACliente(clienteInstanciado) {
             i++;
         }
         if (i < listaDeClientes.length) {
-            clienteInstanciado = sucursalInstanciada.getCliente(IDClienteAInstanciar);
+            clienteInstanciado = sucursalInstanciada.getCliente(/* listaDeClientes[i].getIdCliente() */ IDClienteAInstanciar);
             menuEnCliente();
         }
         else {
@@ -432,7 +440,7 @@ function menuEnCliente() {
                 menuModificarCliente();
                 break;
             case 3:
-                /* LISTAR PACIENTES */
+                menuListarPacientes();
                 break;
             case 4:
                 menuModificarPaciente();
@@ -506,6 +514,13 @@ function menuBorrarPaciente() {
     }
     else {
         clienteInstanciado.borrarPaciente(IDaCambiar);
+    }
+}
+function menuListarPacientes() {
+    for (var i = 0; i < clienteInstanciado.listarPacientes().length; i++) {
+        console.log("Nombre del paciente: ".concat(clienteInstanciado.listarPacientes()[i].getNombre()));
+        console.log("Especie del paciente: ".concat(clienteInstanciado.listarPacientes()[i].getEspecie()));
+        console.log("ID del Cliente: ".concat(clienteInstanciado.listarPacientes()[i].getIDpaciente()));
     }
 }
 //Funcion que genera un nuevo Paciente desde consola
