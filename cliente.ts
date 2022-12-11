@@ -29,67 +29,92 @@ export default class Cliente {
   public getNombre(): string {
     return this.nombre;
   }
-  public getTelefono(): number {
-    return this.telefono;
-  }
-  public getEsVip(): boolean {
-    return this.esVip;
-  }
-  public getPacientes(n): Paciente {
-    return this.pacientes[n];
-  }
-  public getCantidadVisitas(): number {
-    return this.cantidadVisitas;
-  }
   public setNombre(nuevoNombre: string) {
     this.nombre = nuevoNombre;
+  }
+  public getTelefono(): number {
+    return this.telefono;
   }
   public setTelefono(nuevoTelefono: number) {
     this.telefono = nuevoTelefono;
   }
+  public getEsVip(): boolean {
+    return this.esVip;
+  }
+  public getCantidadVisitas(): number {
+    return this.cantidadVisitas;
+  }
+  public registrarVisita() {
+    this.cantidadVisitas++;
+  }
+  public getPaciente(id_Cliente: number, nombrePaciente: string) {
+    /* for (let i = 0; i < this.pacientes.length; i++) {
+      if (id_Cliente === this.pacientes[i].getIDdueño()) {
+        return this.pacientes[i].getPacientes(nombrePaciente);
+      }
+    } */
+    return this.pacientes.find(
+      (Element) =>
+        Element.getIDPaciente() === id_Cliente &&
+        Element.getNombre() === nombrePaciente
+    );
+  }
 
-  public setPaciente(IDpaciente: number, nuevoPaciente: Paciente) {
-    let i: number = 0;
-    while (
-      i < this.pacientes.length &&
-      this.pacientes[i].getIDpaciente() != IDpaciente
-    ) {
-      i++;
+  public listarPacientes(): Array<Paciente> {
+    return this.pacientes.filter(
+      (Element) => Element.getIDPaciente() === this.id_Cliente
+    );
+    /*     return this.pacientes;
+     */
+  }
+
+  public setPaciente(
+    nombrePaciente: string,
+    IDPaciente: number,
+    nuevoPaciente: Paciente
+  ) {
+    let existiaPaciente: boolean = false;
+    for (let i: number = 0; i < this.pacientes.length; i++) {
+      if (
+        this.pacientes[i].getNombre() === nombrePaciente &&
+        this.pacientes[i].getIDPaciente() === IDPaciente
+      ) {
+        this.pacientes[i] = nuevoPaciente;
+        existiaPaciente = true;
+      }
     }
-    if (i < this.pacientes.length) {
-      this.pacientes[i] = nuevoPaciente;
+    if (existiaPaciente) {
+      console.clear();
       console.log("MODIFICACION REALIZADA");
     } else {
       console.log(
-        "EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO"
+        "EL PACIENTE NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTAR"
       );
     }
   }
 
-  public registrarVisita() {
-    this.cantidadVisitas++;
-  }
-
-  public listarPacientes(): Array<Paciente> {
-    return this.pacientes;
-  }
-
-  public borrarPaciente(idPaciente: number) {
-    for (let i = 0; i < this.pacientes.length; i++) {
-      if (this.pacientes[i].getIDpaciente() === idPaciente) {
-        this.pacientes.splice(i, 1);
-        return console.log("El Paciente ha sido borrado");
-      } else if (
-        i === this.pacientes.length - 1 &&
-        idPaciente != this.pacientes[i].getIDpaciente()
+  public borrarPaciente(nombrePaciente: string, IDPaciente: number) {
+    let existiaPaciente: boolean = false;
+    for (let i: number = 0; i < this.pacientes.length; i++) {
+      if (
+        this.pacientes[i].getNombre() === nombrePaciente &&
+        this.pacientes[i].getIDPaciente() === IDPaciente
       ) {
-        return console.log(
-          `El id de Paciente ${idPaciente} no fue encontrado.`
-        );
+        this.pacientes.splice(i, 1);
+        existiaPaciente = true;
       }
     }
+    if (existiaPaciente) {
+      console.clear();
+      console.log("EL PACIENTE HA SIDO ELIMINADO");
+    } else {
+      console.log(
+        "EL PACIENTE NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTAR"
+      );
+    }
   }
-  /*   public borrarPaciente(arregloPaciente:<Paciente>, nombrePaciente:string){
 
-     } */
+  public agregarPaciente(paciente: Paciente) {
+    this.pacientes.push(paciente);
+  }
 }

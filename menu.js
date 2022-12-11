@@ -5,6 +5,7 @@ var cliente_1 = require("./cliente");
 var Paciente_1 = require("./Paciente");
 var Proveedor_1 = require("./Proveedor");
 var sucursales_1 = require("./sucursales");
+var generadorId_1 = require("./generadorId");
 var GestorDeArchivos_1 = require("./GestorDeArchivos");
 var ReadlineSync = require("readline-sync");
 var veterinarias_1 = require("./veterinarias");
@@ -17,12 +18,11 @@ var datosPacientes = new GestorDeArchivos_1.LectorArchivos("./baseDeDatos/pacien
 var arregloPacientes = [];
 var datosProveedor = new GestorDeArchivos_1.LectorArchivos("./baseDeDatos/proveedores.txt");
 var arregloProveedor = [];
-var arregloHistClinica = [];
 for (var i = 0; i < datosClientes.getArregloString().length; i++) {
     (0, GestorDeArchivos_1.crearCliente)(datosClientes.getArregloString()[i], arregloClientes, arregloPacientes);
 }
 for (var i = 0; i < datosPacientes.getArregloString().length; i++) {
-    (0, GestorDeArchivos_1.crearPaciente)(datosPacientes.getArregloString()[i], arregloPacientes, arregloHistClinica);
+    (0, GestorDeArchivos_1.crearPaciente)(datosPacientes.getArregloString()[i], arregloPacientes);
 }
 for (var i = 0; i < datosProveedor.getArregloString().length; i++) {
     (0, GestorDeArchivos_1.crearProveedor)(datosProveedor.getArregloString()[i], arregloProveedor);
@@ -30,8 +30,10 @@ for (var i = 0; i < datosProveedor.getArregloString().length; i++) {
 for (var i = 0; i < datosSucursales.getArregloString().length; i++) {
     (0, GestorDeArchivos_1.crearSucursal)(datosSucursales.getArregloString()[i], arregloSucursales);
 }
-var veterinariaInstanciada = new veterinarias_1["default"]("Camerun Soft", arregloSucursales, arregloProveedor);
-var sucursalInstanciada;
+var veterinariaInstanciada = new veterinarias_1["default"]("Camerun Soft", arregloSucursales, arregloProveedor, arregloClientes);
+var arregloDeId = [
+    50, 365, 898, 555, 222, 120, 10, 87, 180, 345, 900, 610, 121, 237, 122,
+];
 var clienteInstanciado;
 /* menues en funcion */
 function menuBienvenida() {
@@ -44,6 +46,7 @@ function menuBienvenida() {
         console.log(" ");
         console.log("1 - Ver Proveedores");
         console.log("2 - Ver Sucursales");
+        console.log("3 - Ver Clientes");
         console.log(" ");
         console.log("------------------------- ");
         console.log("0 - Salir");
@@ -51,19 +54,23 @@ function menuBienvenida() {
         opcionMenuBienvenida = Number(ReadlineSync.questionInt("Ingrese una opcion: "));
         switch (opcionMenuBienvenida) {
             case 1:
-                /* console.clear(); */
+                console.clear();
                 menuProveedores();
                 break;
             case 2:
-                /* console.clear(); */
+                console.clear();
                 menuSucursales();
+                break;
+            case 3:
+                console.clear();
+                menuClientes();
                 break;
             case 0:
                 /* console.clear(); */
                 console.log("FIN DEL PROGRAMA");
                 break;
             default:
-                console.log("Opcion erronea");
+                console.log("OPCION ERRONEA");
                 setTimeout(function () {
                     console.log(" ");
                 }, 2000);
@@ -72,13 +79,73 @@ function menuBienvenida() {
     }
 }
 exports.menuBienvenida = menuBienvenida;
+function menuClientes() {
+    var opcionMenuClientes = Number(8);
+    while (opcionMenuClientes != Number(9)) {
+        console.log("------------------------- ");
+        console.log("CLIENTES");
+        console.log("------------------------- ");
+        console.log(" ");
+        mostrarListaClientes(veterinariaInstanciada.listarClientes());
+        console.log("------------------------- ");
+        console.log(" ");
+        console.log("1 - Ingresar a cliente");
+        console.log("2 - Borrar cliente");
+        console.log("3 - Nuevo cliente");
+        console.log(" ");
+        console.log("------------------------- ");
+        console.log("9 - Atras");
+        console.log("------------------------- ");
+        opcionMenuClientes = Number(ReadlineSync.questionInt("Ingrese una opcion: "));
+        switch (opcionMenuClientes) {
+            case 1:
+                menuEntrarACliente();
+                break;
+            case 2:
+                menuBorrarCliente();
+                break;
+            case 3:
+                menuNuevoCliente();
+                break;
+            default:
+                console.log("OPCION ERRONEA");
+                setTimeout(function () {
+                    console.log(" ");
+                }, 2000);
+                break;
+        }
+    }
+}
+function menuNuevoCliente() {
+    console.clear();
+    console.log("----------------------");
+    console.log("Ingresar nuevo Cliente");
+    console.log("----------------------");
+    console.log("");
+    var IDCliente = (0, generadorId_1["default"])(arregloDeId);
+    var nombreCliente = ReadlineSync.question(" Ingrese Nombre y Apellido del nuevo Cliente:  ");
+    var telefonoCliente = Number(ReadlineSync.questionInt("Ingrese el telefono del Cliente: "));
+    var arregloPacientes = [];
+    var nuevoCliente = new cliente_1["default"](IDCliente, nombreCliente.toUpperCase(), telefonoCliente, false, 0, arregloPacientes);
+    var estaSeguro = 0;
+    while (estaSeguro != 1 && estaSeguro != 2) {
+        estaSeguro = Number(ReadlineSync.questionInt("Confirma el ingreso del nuevo cliente? 1-Si 2-No :"));
+    }
+    if (estaSeguro == 1) {
+        veterinariaInstanciada.agregarCliente(nuevoCliente);
+        console.clear();
+        console.log("EL CLIENTE HA SIDO CREADO");
+    }
+    else {
+        console.log("LOS CAMBIOS NO SE HAN REALIZADO");
+    }
+}
 function menuProveedores() {
     var opcionMenuProveedores = Number(8);
     while (opcionMenuProveedores != Number(9)) {
-        /* ß */
-        console.log("------------------------- ");
-        console.log("PROVEEDORES");
-        console.log("------------------------- ");
+        console.log("--------------------------------");
+        console.log("         PROVEEDORES");
+        console.log("--------------------------------");
         console.log(" ");
         mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
         console.log("------------------------- ");
@@ -91,15 +158,13 @@ function menuProveedores() {
         console.log("9 - Atras");
         console.log("------------------------- ");
         opcionMenuProveedores = Number(ReadlineSync.questionInt("Ingrese una opcion: "));
-        console.clear;
+        console.clear();
         switch (opcionMenuProveedores) {
             case 1:
-                /* console.clear(); */
                 mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
                 menuModificarProveedor();
                 break;
             case 2:
-                /* console.clear(); */
                 mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
                 menuBorrarProveedor();
                 break;
@@ -118,6 +183,7 @@ function menuProveedores() {
 function menuModificarProveedor() {
     var IDaCambiar = Number(ReadlineSync.question("Ingrese el id del proveedor que desea cambiar(0 para cancelar operacion): "));
     if (IDaCambiar === 0) {
+        console.clear();
         console.log("MODIFICACION CANCELADA");
         setTimeout(function () {
             console.log(" ");
@@ -126,9 +192,20 @@ function menuModificarProveedor() {
     else {
         var NvoProveedor = void 0;
         var NvoNombre = ReadlineSync.question("Nuevo nombre para el proveedor, si no cambia, ingrese el mismo: ");
+        NvoNombre = NvoNombre.toUpperCase();
         var nvoTelefono = Number(ReadlineSync.questionInt("Nuevo telefono para el proveedor, si no cambia, ingrese el mismo: "));
-        NvoProveedor = new Proveedor_1["default"](IDaCambiar, NvoNombre, nvoTelefono);
-        veterinariaInstanciada.setProveedor(IDaCambiar, NvoProveedor);
+        var estaSeguro = 0;
+        while (estaSeguro != 1 && estaSeguro != 2) {
+            estaSeguro = Number(ReadlineSync.questionInt("Confirma los cambios en el proveedor? 1-Si 2-No :"));
+        }
+        if (estaSeguro == 1) {
+            NvoProveedor = new Proveedor_1["default"](IDaCambiar, NvoNombre, nvoTelefono);
+            console.clear();
+            veterinariaInstanciada.setProveedor(IDaCambiar, NvoProveedor);
+        }
+        else {
+            console.log("LOS CAMBIOS SE HAN CANCELADO");
+        }
     }
 }
 function mostrarListaProveedores(lista) {
@@ -152,7 +229,29 @@ function menuBorrarProveedor() {
         veterinariaInstanciada.borrarProveedor(IDaCambiar);
     }
 }
-function menuNuevoProveedor() { }
+function menuNuevoProveedor() {
+    console.clear();
+    console.log("------------------------");
+    console.log("Ingresar nuevo Proveedor");
+    console.log("------------------------");
+    console.log("");
+    var IDProveedor = (0, generadorId_1["default"])(arregloDeId);
+    var nombreProveedor = ReadlineSync.question(" Ingrese Nombre del nuevo Proveedor:  ");
+    var telefonoProveedor = Number(ReadlineSync.questionInt("Ingrese el telefono del Proveedor: "));
+    var nuevoProveedor = new Proveedor_1["default"](IDProveedor, nombreProveedor.toUpperCase(), telefonoProveedor);
+    var estaSeguro = 0;
+    while (estaSeguro != 1 && estaSeguro != 2) {
+        estaSeguro = Number(ReadlineSync.questionInt("Confirma el ingreso del nuevo proveedor? 1-Si 2-No :"));
+    }
+    if (estaSeguro == 1) {
+        veterinariaInstanciada.agregarProveedor(nuevoProveedor);
+        console.clear();
+        console.log("EL PROVEEDOR HA SIDO CREADO");
+    }
+    else {
+        console.log("LOS CAMBIOS NO SE HAN REALIZADO");
+    }
+}
 function menuSucursales() {
     var opcionMenuSucursal = Number(8);
     while (opcionMenuSucursal != Number(9)) {
@@ -164,10 +263,9 @@ function menuSucursales() {
         mostrarListaSucursales(veterinariaInstanciada.listarSucursal());
         console.log("------------------------- ");
         console.log(" ");
-        console.log("1 - Ingresar a sucursal");
-        console.log("2 - Modificar sucursal");
-        console.log("3 - Borrar sucursal");
-        console.log("4 - Nueva sucursal");
+        console.log("1 - Modificar sucursal");
+        console.log("2 - Borrar sucursal");
+        console.log("3 - Nueva sucursal");
         console.log(" ");
         console.log("------------------------- ");
         console.log("9 - Atras");
@@ -175,15 +273,12 @@ function menuSucursales() {
         opcionMenuSucursal = Number(ReadlineSync.questionInt("Ingrese una opcion: "));
         switch (opcionMenuSucursal) {
             case 1:
-                menuEntrarASucursal();
-                break;
-            case 2:
                 menuModificarSucursal();
                 break;
-            case 3:
+            case 2:
                 menuBorrarSucursal();
                 break;
-            case 4:
+            case 3:
                 menuNuevaSucursal();
                 break;
             default:
@@ -195,27 +290,12 @@ function menuSucursales() {
         }
     }
 }
-function menuEntrarASucursal() {
-    var IDSucursalAInstanciar = Number(ReadlineSync.questionInt("Ingrese el id de la sucursal a la que desea ingresar(0 para cancelar operacion): "));
-    if (IDSucursalAInstanciar != 0) {
-        var i = 0;
-        var listaDeSucursales = veterinariaInstanciada.listarSucursal();
-        while (i < listaDeSucursales.length &&
-            listaDeSucursales[i].getIDsucursal() != IDSucursalAInstanciar) {
-            i++;
-        }
-        if (i < listaDeSucursales.length - 1) {
-            sucursalInstanciada = veterinariaInstanciada[i].getSucursal(IDSucursalAInstanciar);
-            menuEnSucursal();
-        }
-        else {
-            console.log("EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO");
-        }
-    }
-}
 function menuModificarSucursal() {
+    console.clear();
+    mostrarListaSucursales(veterinariaInstanciada.listarSucursal());
     var IDaCambiar = Number(ReadlineSync.question("Ingrese el id de la sucursal que desea cambiar(0 para cancelar operacion): "));
     if (IDaCambiar === 0) {
+        console.clear();
         console.log("MODIFICACION CANCELADA");
         setTimeout(function () {
             console.log(" ");
@@ -224,21 +304,47 @@ function menuModificarSucursal() {
     else {
         var nuevaSucursal = void 0;
         var nuevaDireccion = ReadlineSync.question("Ingrese la nueva direccion de la sucursal, si no cambia, ingrese la misma: ");
+        nuevaDireccion = nuevaDireccion.toUpperCase();
         var nuevoTelefono = Number(ReadlineSync.questionInt("Ingrese el nuevo telefono de la sucursal, si no cambia, ingrese el mismo: "));
-        nuevaSucursal = new sucursales_1["default"](IDaCambiar, nuevaDireccion, nuevoTelefono, sucursalInstanciada.listarClientes());
+        nuevaSucursal = new sucursales_1["default"](IDaCambiar, nuevaDireccion, nuevoTelefono);
         veterinariaInstanciada.setSucursal(IDaCambiar, nuevaSucursal);
     }
 }
 function menuBorrarSucursal() {
+    console.clear();
+    mostrarListaSucursales(veterinariaInstanciada.listarSucursal());
     var IDaCambiar = Number(ReadlineSync.questionInt("Ingrese el id de la sucursal a borrar: "));
     if (IDaCambiar === 0) {
+        console.clear();
         console.log("MODIFICACION CANCELADA");
     }
     else {
         veterinariaInstanciada.borrarSucursal(IDaCambiar);
     }
 }
-function menuNuevaSucursal() { }
+function menuNuevaSucursal() {
+    console.clear();
+    console.log("------------------------");
+    console.log("Ingresar nueva Sucursal");
+    console.log("------------------------");
+    console.log("");
+    var IDSucursal = (0, generadorId_1["default"])(arregloDeId);
+    var direccionSucursal = ReadlineSync.question(" Ingrese direccion de la nueva sucursal:  ");
+    var telefonoSucursal = Number(ReadlineSync.questionInt("Ingrese el telefono del Sucursal: "));
+    var nuevaSucursal = new sucursales_1["default"](IDSucursal, direccionSucursal.toUpperCase(), telefonoSucursal);
+    var estaSeguro = 0;
+    while (estaSeguro != 1 && estaSeguro != 2) {
+        estaSeguro = Number(ReadlineSync.questionInt("Confirma el ingreso del nuevo Sucursal? 1-Si 2-No :"));
+    }
+    if (estaSeguro == 1) {
+        veterinariaInstanciada.agregarSucursal(nuevaSucursal);
+        console.clear();
+        console.log("LA SUCURSAL HA SIDO CREADA");
+    }
+    else {
+        console.log("LOS CAMBIOS NO SE HAN REALIZADO");
+    }
+}
 function mostrarListaSucursales(lista) {
     console.log("ID Sucursal / Direccion / Telefono");
     console.log(" ");
@@ -250,57 +356,6 @@ function mostrarListaSucursales(lista) {
             lista[i].getTelefono());
     }
     console.log(" ");
-}
-function menuEnSucursal() {
-    var opcionMenuEnSucursal = Number(8);
-    while (opcionMenuEnSucursal != Number(9)) {
-        /* console.clear(); */
-        console.log("------------------------- ");
-        console.log("ID Sucursal: " +
-            sucursalInstanciada.getIDsucursal() +
-            " Direccion: " +
-            sucursalInstanciada.getDireccion() +
-            " Telefono: " +
-            sucursalInstanciada.getTelefono());
-        console.log("------------------------- ");
-        console.log(" ");
-        mostrarListaClientes(sucursalInstanciada.listarClientes());
-        console.log("------------------------- ");
-        console.log(" ");
-        console.log("1 - Listar clientes");
-        console.log("2 - Listar pacientes");
-        console.log("3 - Ingresar a cliente");
-        console.log("4 - Borrar cliente");
-        console.log("5 - Nuevo cliente");
-        console.log(" ");
-        console.log("------------------------- ");
-        console.log("9 - Atras");
-        console.log("------------------------- ");
-        opcionMenuEnSucursal = Number(ReadlineSync.questionInt("Ingrese una opcion: "));
-        switch (opcionMenuEnSucursal) {
-            case 1:
-                mostrarListaClientes(sucursalInstanciada.listarClientes());
-                break;
-            case 2:
-                /* LISTAR PACIENTES */
-                break;
-            case 3:
-                menuEntrarACliente();
-                break;
-            case 4:
-                menuBorrarCliente();
-                break;
-            case 5:
-                menuNuevoCliente();
-                break;
-            default:
-                console.log("Opcion erronea");
-                setTimeout(function () {
-                    console.log(" ");
-                }, 2000);
-                break;
-        }
-    }
 }
 function mostrarListaClientes(lista) {
     console.log("CLIENTES");
@@ -322,36 +377,30 @@ function mostrarListaClientes(lista) {
 function menuBorrarCliente() {
     var IDaCambiar = Number(ReadlineSync.questionInt("Ingrese el id del Cliente a borrar: "));
     if (IDaCambiar === 0) {
+        console.clear();
         console.log("MODIFICACION CANCELADA");
     }
     else {
-        sucursalInstanciada.borrarCliente(IDaCambiar);
+        veterinariaInstanciada.borrarCliente(IDaCambiar);
     }
 }
-function menuNuevoCliente() { }
 function menuEntrarACliente() {
     var IDClienteAInstanciar = Number(ReadlineSync.questionInt("Ingrese el id del cliente al que desea ingresar(0 para cancelar operacion): "));
     if (IDClienteAInstanciar != 0) {
-        var i = 0;
-        var listaDeClientes = sucursalInstanciada.listarClientes();
-        while (i < listaDeClientes.length &&
-            listaDeClientes[i].getIdCliente() != IDClienteAInstanciar) {
-            i++;
-        }
-        if (i < listaDeClientes.length) {
-            clienteInstanciado = sucursalInstanciada.getCliente(IDClienteAInstanciar);
-            menuEnCliente();
+        if (veterinariaInstanciada.getCliente(IDClienteAInstanciar) != null) {
+            console.clear();
+            clienteInstanciado =
+                veterinariaInstanciada.getCliente(IDClienteAInstanciar);
+            menuEnCliente(clienteInstanciado);
         }
         else {
             console.log("EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO");
         }
     }
 }
-function menuEnCliente() {
+function menuEnCliente(clienteInstanciado) {
     var opcionMenuEnCliente = Number(8);
-    var listaDePacientes = clienteInstanciado.listarPacientes();
     while (opcionMenuEnCliente != Number(9)) {
-        /* console.clear(); */
         console.log("------------------------- ");
         console.log("ID Cliente: " +
             clienteInstanciado.getIdCliente() +
@@ -363,24 +412,23 @@ function menuEnCliente() {
             clienteInstanciado.getEsVip() +
             " Visitas: " +
             clienteInstanciado.getCantidadVisitas());
-        console.log(" ");
-        console.log("ID Paciente / Nombre / Especie");
-        for (var i = 0; i < listaDePacientes.length; i++) {
-            console.log(listaDePacientes[i].getIDpaciente() +
-                " / " +
-                listaDePacientes[i].getNombre() +
-                " / " +
-                listaDePacientes[i].getEspecie());
+        if (clienteInstanciado.listarPacientes() != null) {
+            console.log(" ");
+            console.log("Nombre / Especie");
+            for (var i = 0; i < clienteInstanciado.listarPacientes().length; i++) {
+                console.log(clienteInstanciado.listarPacientes()[i].getNombre() +
+                    " / " +
+                    clienteInstanciado.listarPacientes()[i].getEspecie());
+            }
         }
         console.log(" ");
         console.log("------------------------- ");
         console.log(" ");
         console.log("1 - Registrar visita");
         console.log("2 - Modificar datos");
-        console.log("3 - Listar pacientes");
-        console.log("4 - Modificar paciente");
-        console.log("5 - Borrar paciente");
-        console.log("6 - Nuevo paciente");
+        console.log("3 - Modificar paciente");
+        console.log("4 - Borrar paciente");
+        console.log("5 - Nuevo paciente");
         console.log(" ");
         console.log("------------------------- ");
         console.log("9 - Atras");
@@ -391,19 +439,19 @@ function menuEnCliente() {
                 menuRegistrarVisita();
                 break;
             case 2:
-                menuModificarCliente();
+                clienteInstanciado = menuModificarCliente(clienteInstanciado);
                 break;
             case 3:
-                /* LISTAR PACIENTES */
+                menuModificarPaciente(clienteInstanciado);
                 break;
             case 4:
-                menuModificarPaciente();
-                break;
-            case 5:
                 menuBorrarPaciente();
                 break;
-            case 6:
+            case 5:
                 menuNuevoPaciente();
+                break;
+            case 9:
+                console.clear();
                 break;
             default:
                 console.log("Opcion erronea");
@@ -414,36 +462,76 @@ function menuEnCliente() {
         }
     }
 }
-function menuModificarCliente() {
-    var nuevoCliente;
+function menuModificarCliente(clienteInstanciado) {
+    console.log(" Nombre: " +
+        clienteInstanciado.getNombre() +
+        " Telefono: " +
+        clienteInstanciado.getTelefono());
     var nuevoNombre = ReadlineSync.question("Ingrese el nuevo nombre del cliente, si no cambia, ingrese el mismo: ");
+    nuevoNombre = nuevoNombre.toUpperCase();
     var nuevoTelefono = Number(ReadlineSync.questionInt("Ingrese el nuevo telefono del cliente, si no cambia, ingrese el mismo: "));
     var estaSeguro = 0;
     while (estaSeguro != 1 && estaSeguro != 2) {
-        estaSeguro = Number(ReadlineSync.questionInt("Esta seguro de realizar los cambios? 1-Si 2-No"));
+        estaSeguro = Number(ReadlineSync.questionInt("Esta seguro de realizar los cambios? 1-Si 2-No :"));
     }
     if (estaSeguro == 1) {
-        nuevoCliente = new cliente_1["default"](clienteInstanciado.getIdCliente(), nuevoNombre, nuevoTelefono, clienteInstanciado.getEsVip(), clienteInstanciado.getCantidadVisitas(), clienteInstanciado.listarPacientes());
-        sucursalInstanciada.setCliente(clienteInstanciado.getIdCliente(), nuevoCliente);
+        /*      let listaDePacientes: Array<Paciente> =
+            clienteInstanciado.listarPacientes(); */
+        var nuevoCliente = new cliente_1["default"](clienteInstanciado.getIdCliente(), nuevoNombre, nuevoTelefono, clienteInstanciado.getEsVip(), clienteInstanciado.getCantidadVisitas(), clienteInstanciado.listarPacientes());
+        veterinariaInstanciada.setCliente(clienteInstanciado.getIdCliente(), nuevoCliente);
+        console.clear();
         console.log("CAMBIOS GUARDADOS");
+        return nuevoCliente;
     }
     else {
         console.log("CAMBIOS DESCARTADOS");
+        return clienteInstanciado;
     }
 }
-function menuModificarPaciente() {
-    var IDaCambiar = Number(ReadlineSync.question("Ingrese el id del paciente que desea cambiar(0 para cancelar operacion): "));
-    if (IDaCambiar === 0) {
+function menuModificarPaciente(clienteInstanciado) {
+    var pacienteACambiar = ReadlineSync.question("Ingrese el Nombre del paciente que desea cambiar(0 para cancelar operacion): ");
+    if (pacienteACambiar === "0") {
         console.log("MODIFICACION CANCELADA");
         setTimeout(function () {
             console.log(" ");
         }, 2000);
     }
     else {
+        pacienteACambiar = pacienteACambiar.toUpperCase();
         var nuevoPaciente = void 0;
         var nuevoNombre = ReadlineSync.question("Ingrese el nuevo nombre del paciente, si no cambia, ingrese el mismo: ");
-        nuevoPaciente = new Paciente_1["default"](IDaCambiar, nuevoNombre, clienteInstanciado.getPacientes(IDaCambiar).getEspecie());
-        clienteInstanciado.setPaciente(IDaCambiar, nuevoPaciente);
+        var noSeEligioEspecie = true;
+        var opcionEspecie = void 0;
+        var nuevaEspecie = void 0;
+        while (noSeEligioEspecie) {
+            opcionEspecie = ReadlineSync.questionInt("Ingrese la especie del paciente: 1-Perro 2-Gato 3-Exotico: ");
+            if (opcionEspecie === 1) {
+                nuevaEspecie = "PERRO";
+                noSeEligioEspecie = false;
+            }
+            else if (opcionEspecie === 2) {
+                nuevaEspecie = "GATO";
+                noSeEligioEspecie = false;
+            }
+            else {
+                nuevaEspecie = "EXOTICO";
+                noSeEligioEspecie = false;
+            }
+        }
+        nuevoNombre = nuevoNombre.toUpperCase();
+        nuevoPaciente = new Paciente_1["default"](clienteInstanciado.getIdCliente(), nuevoNombre, nuevaEspecie);
+        var estaSeguro = 0;
+        while (estaSeguro != 1 && estaSeguro != 2) {
+            estaSeguro = Number(ReadlineSync.question("Esta seguro que desea confirmar los cambios? 1-Si 2-No: "));
+        }
+        if (estaSeguro) {
+            clienteInstanciado.setPaciente(pacienteACambiar, clienteInstanciado.getIdCliente(), nuevoPaciente);
+            console.clear();
+            console.log("SE HAN GUARDADO LOS CAMBIOS");
+        }
+        else {
+            console.log("LOS CAMBIOS NO SE HAN REALIZADO");
+        }
     }
 }
 function menuRegistrarVisita() {
@@ -451,26 +539,81 @@ function menuRegistrarVisita() {
     while (estaSeguro != 1 && estaSeguro != 2) {
         estaSeguro = Number(ReadlineSync.question("El cliente tiene " +
             clienteInstanciado.getCantidadVisitas() +
-            " visitas, esta seguro que desea registrar una visita nueva? 1-Si 2-No"));
+            " visitas, esta seguro que desea registrar una visita nueva? 1-Si 2-No: "));
     }
     if (estaSeguro == 1) {
         clienteInstanciado.registrarVisita();
+        console.clear();
         console.log("VISITA REGISTRADA!! GRACIAS POR ELEGIRNOS!! VUELVA PRONTOOOSSSSS");
     }
     else {
+        console.clear();
         console.log("LA VISITA NO SE HA REGISTRADO");
     }
 }
 function menuBorrarPaciente() {
-    var IDaCambiar = Number(ReadlineSync.questionInt("Ingrese el id del Paciente a borrar: "));
-    if (IDaCambiar === 0) {
+    var pacienteABorrar = ReadlineSync.question("Ingrese el nombre del Paciente a borrar(Ingrese 0 para cancelar): ");
+    pacienteABorrar = pacienteABorrar.toUpperCase();
+    if (pacienteABorrar === "0") {
+        console.clear();
         console.log("MODIFICACION CANCELADA");
     }
     else {
-        clienteInstanciado.borrarPaciente(IDaCambiar);
+        var estaSeguro = 0;
+        while (estaSeguro != 1 && estaSeguro != 2) {
+            estaSeguro = Number(ReadlineSync.questionInt("Confirma el borrado del paciente? 1-Si 2-No :"));
+        }
+        if (estaSeguro == 1) {
+            console.clear();
+            clienteInstanciado.borrarPaciente(pacienteABorrar, clienteInstanciado.getIdCliente());
+        }
+        else {
+            console.clear();
+            console.log("LOS CAMBIOS NO SE HAN REALIZADO");
+        }
     }
 }
-function menuNuevoPaciente() { }
+function menuNuevoPaciente() {
+    console.clear();
+    console.log("-----------------------");
+    console.log("Ingresar nuevo Paciente");
+    console.log("-----------------------");
+    console.log("");
+    var IDPaciente = clienteInstanciado.getIdCliente();
+    var nombrePaciente = ReadlineSync.question(" Ingrese Nombre del nuevo Paciente:  ");
+    var noSeEligioEspecie = true;
+    var opcionEspecie;
+    var nuevaEspecie;
+    while (noSeEligioEspecie) {
+        opcionEspecie = ReadlineSync.questionInt("Ingrese la especie del paciente: 1-Perro 2-Gato 3-Exotico: ");
+        if (opcionEspecie === 1) {
+            nuevaEspecie = "PERRO";
+            noSeEligioEspecie = false;
+        }
+        else if (opcionEspecie === 2) {
+            nuevaEspecie = "GATO";
+            noSeEligioEspecie = false;
+        }
+        else {
+            nuevaEspecie = "EXOTICO";
+            noSeEligioEspecie = false;
+        }
+    }
+    var nuevoPaciente = new Paciente_1["default"](IDPaciente, nombrePaciente.toUpperCase(), nuevaEspecie);
+    var estaSeguro = 0;
+    while (estaSeguro != 1 && estaSeguro != 2) {
+        estaSeguro = Number(ReadlineSync.questionInt("Confirma el ingreso del nuevo paciente? 1-Si 2-No :"));
+    }
+    if (estaSeguro == 1) {
+        clienteInstanciado.agregarPaciente(nuevoPaciente);
+        console.clear();
+        console.log("EL PACIENTE HA SIDO CREADO");
+    }
+    else {
+        console.clear();
+        console.log("LOS CAMBIOS NO SE HAN REALIZADO");
+    }
+}
 //INICIO DEL PROGRAMA
 /* CARGA DE BBDD */
 menuBienvenida();

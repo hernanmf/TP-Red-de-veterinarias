@@ -40,7 +40,7 @@ function crearSucursal(sucursal, arregloSucursales) {
     var Direccion = propiedadSucursal[1];
     var Telefono = Number(propiedadSucursal[2]);
     var listaSucursal = arregloSucursales;
-    var nuevaSucursal = new sucursales_1["default"](IDsucursal, Direccion, Telefono, arregloClientes);
+    var nuevaSucursal = new sucursales_1["default"](IDsucursal, Direccion, Telefono);
     listaSucursal.push(nuevaSucursal);
     return listaSucursal;
 }
@@ -58,7 +58,7 @@ function crearProveedor(proveedor, arregloProveedor) {
 }
 exports.crearProveedor = crearProveedor;
 //funcion que genera un Objeto de tipo Paciente desde una base de datos(.txt)==>
-function crearPaciente(paciente, arregloPacientes, arregloHistClinica) {
+function crearPaciente(paciente, arregloPacientes) {
     var propiedadPaciente = paciente.split(",");
     var idPaciente = Number(propiedadPaciente[0]);
     var nombre = propiedadPaciente[1];
@@ -83,7 +83,7 @@ for (var i = 0; i < datosClientes.getArregloString().length; i++) {
     crearCliente(datosClientes.getArregloString()[i], arregloClientes, arregloPacientes);
 }
 for (var i = 0; i < datosPacientes.getArregloString().length; i++) {
-    crearPaciente(datosPacientes.getArregloString()[i], arregloPacientes, arregloHistClinica);
+    crearPaciente(datosPacientes.getArregloString()[i], arregloPacientes);
 }
 for (var i = 0; i < datosProveedor.getArregloString().length; i++) {
     crearProveedor(datosProveedor.getArregloString()[i], arregloProveedor);
