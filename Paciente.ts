@@ -1,31 +1,42 @@
 export default class Paciente {
-  private IDPaciente: number;
+  private IDdueño: number;
   private Nombre: string;
   private Especie: string;
+  private HistoriaClinica: Array<string>;
 
-  constructor(IDPaciente: number, Nombre: string, Especie: string) {
-    this.IDPaciente = IDPaciente;
+  constructor(
+    IDdueño: number,
+    Nombre: string,
+    Especie: string,
+    HistoriaClinica: Array<string>
+  ) {
+    this.IDdueño = IDdueño;
     this.Nombre = Nombre;
     this.Especie = Especie;
+    this.HistoriaClinica = HistoriaClinica;
   }
 
-  public getIDPaciente(): number {
-    return this.IDPaciente;
+  public getIDdueño(): number {
+    return this.IDdueño;
   }
-
   public getNombre(): string {
     return this.Nombre;
+  }
+  public getEspecie(): string {
+    return this.Especie;
+  }
+  public getHistoriaClinica(): Array<string> {
+    return this.HistoriaClinica;
   }
 
   public setNombre(Nombre: string): void {
     this.Nombre = Nombre;
   }
-
-  public getEspecie(): string {
-    return this.Especie;
-  }
-
   public setEspecie(Especie: string): void {
     this.Especie = Especie;
+  }
+
+  public addHistoriaClinica(NuevaHistoria: string): void {
+    this.HistoriaClinica.push(NuevaHistoria);
   }
 }

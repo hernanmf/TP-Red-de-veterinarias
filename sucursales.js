@@ -1,48 +1,42 @@
 "use strict";
 exports.__esModule = true;
 var Sucursal = /** @class */ (function () {
-    function Sucursal(IDsucursal, direccion, telefono) {
+    function Sucursal(IDsucursal, direccion, telefono, clientes) {
         this.IDsucursal = IDsucursal;
         this.direccion = direccion;
         this.telefono = telefono;
+        this.clientes = clientes;
     }
-    Sucursal.prototype.getIDsucursal = function () {
-        return this.IDsucursal;
-    };
     Sucursal.prototype.getDireccion = function () {
         return this.direccion;
     };
-<<<<<<< HEAD
     Sucursal.prototype.getTelefono = function () {
         return this.telefono;
     };
-    Sucursal.prototype.getCliente = function (id) {
-        for (var i = 0; i < this.clientes.length; i++) {
-            if (id === this.clientes[i].getIdCliente()) {
-                return this.clientes[i];
-            }
-        }
+    Sucursal.prototype.getCliente = function (n) {
+        return this.clientes[n];
     };
-    Sucursal.prototype.getPaciente = function (id_Cliente, nombrePaciente) {
-        var _a;
-        for (var i = 0; i < this.clientes.length; i++) {
-            if (id_Cliente === this.clientes[i].getIdCliente()
-                && nombrePaciente === ((_a = this.clientes[i].getPaciente(id_Cliente)) === null || _a === void 0 ? void 0 : _a.getNombre())) {
-                return this.clientes[i].getPaciente(id_Cliente);
-            }
-        }
+    Sucursal.prototype.getPaciente = function (posicion) {
+        return this.clientes[posicion].getPacientes();
     };
-=======
->>>>>>> hernan
     Sucursal.prototype.setDireccion = function (nuevaDireccion) {
         this.direccion = nuevaDireccion;
-    };
-    Sucursal.prototype.getTelefono = function () {
-        return this.telefono;
     };
     Sucursal.prototype.setTelefono = function (nuevoTelefono) {
         this.telefono = nuevoTelefono;
     };
+    Sucursal.prototype.setCliente = function (posicion, nuevoCliente) {
+        this.clientes[posicion] = nuevoCliente;
+    };
+    Sucursal.prototype.borrarCliente = function (posicion) {
+        this.clientes = this.clientes.splice(posicion, 1);
+    };
+    Sucursal.prototype.listarClientes = function () {
+        for (var i = 0; i < this.clientes.length; i++) {
+            console.log("cliente: ".concat(this.clientes[i].getNombre(), "\n            id: ").concat(this.clientes[i].getIdCliente()));
+        }
+    };
+    Sucursal.prototype.listarSucursales = function () { };
     return Sucursal;
 }());
 exports["default"] = Sucursal;

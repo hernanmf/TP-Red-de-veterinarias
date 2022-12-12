@@ -12,11 +12,11 @@ var Proveedor = /** @class */ (function () {
     Proveedor.prototype.getNombre = function () {
         return this.Nombre;
     };
-    Proveedor.prototype.setNombre = function (Nombre) {
-        this.Nombre = Nombre;
-    };
     Proveedor.prototype.getTelefono = function () {
         return this.Telefono;
+    };
+    Proveedor.prototype.setNombre = function (Nombre) {
+        this.Nombre = Nombre;
     };
     Proveedor.prototype.setTelefono = function (Telefono) {
         this.Telefono = Telefono;
