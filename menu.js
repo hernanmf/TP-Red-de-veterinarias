@@ -475,8 +475,6 @@ function menuModificarCliente(clienteInstanciado) {
         estaSeguro = Number(ReadlineSync.questionInt("Esta seguro de realizar los cambios? 1-Si 2-No :"));
     }
     if (estaSeguro == 1) {
-        /*      let listaDePacientes: Array<Paciente> =
-            clienteInstanciado.listarPacientes(); */
         var nuevoCliente = new cliente_1["default"](clienteInstanciado.getIdCliente(), nuevoNombre, nuevoTelefono, clienteInstanciado.getEsVip(), clienteInstanciado.getCantidadVisitas(), clienteInstanciado.listarPacientes());
         veterinariaInstanciada.setCliente(clienteInstanciado.getIdCliente(), nuevoCliente);
         console.clear();
@@ -526,8 +524,6 @@ function menuModificarPaciente(clienteInstanciado) {
         }
         if (estaSeguro) {
             clienteInstanciado.setPaciente(pacienteACambiar, clienteInstanciado.getIdCliente(), nuevoPaciente);
-            /* console.clear(); */
-            /* console.log("SE HAN GUARDADO LOS CAMBIOS"); */
         }
         else {
             console.log("LOS CAMBIOS NO SE HAN REALIZADO");
