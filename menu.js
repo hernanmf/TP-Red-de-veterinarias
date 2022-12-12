@@ -526,8 +526,8 @@ function menuModificarPaciente(clienteInstanciado) {
         }
         if (estaSeguro) {
             clienteInstanciado.setPaciente(pacienteACambiar, clienteInstanciado.getIdCliente(), nuevoPaciente);
-            console.clear();
-            console.log("SE HAN GUARDADO LOS CAMBIOS");
+            /* console.clear(); */
+            /* console.log("SE HAN GUARDADO LOS CAMBIOS"); */
         }
         else {
             console.log("LOS CAMBIOS NO SE HAN REALIZADO");
