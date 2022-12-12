@@ -630,8 +630,6 @@ function menuModificarCliente(clienteInstanciado: Cliente): Cliente {
     );
   }
   if (estaSeguro == 1) {
-    /*      let listaDePacientes: Array<Paciente> =
-        clienteInstanciado.listarPacientes(); */
     let nuevoCliente: Cliente = new Cliente(
       clienteInstanciado.getIdCliente(),
       nuevoNombre,
@@ -706,8 +704,6 @@ function menuModificarPaciente(clienteInstanciado: Cliente) {
         clienteInstanciado.getIdCliente(),
         nuevoPaciente
       );
-      /* console.clear(); */
-      /* console.log("SE HAN GUARDADO LOS CAMBIOS"); */
     } else {
       console.log("LOS CAMBIOS NO SE HAN REALIZADO");
     }
