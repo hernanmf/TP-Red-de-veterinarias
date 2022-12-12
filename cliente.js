@@ -15,12 +15,19 @@ var Cliente = /** @class */ (function () {
     Cliente.prototype.getNombre = function () {
         return this.nombre;
     };
+    Cliente.prototype.setNombre = function (nuevoNombre) {
+        this.nombre = nuevoNombre;
+    };
     Cliente.prototype.getTelefono = function () {
         return this.telefono;
+    };
+    Cliente.prototype.setTelefono = function (nuevoTelefono) {
+        this.telefono = nuevoTelefono;
     };
     Cliente.prototype.getEsVip = function () {
         return this.esVip;
     };
+<<<<<<< HEAD
     Cliente.prototype.getPaciente = function (id) {
         for (var i = 0; i < this.pacientes.length; i++) {
             if (id === this.pacientes[i].getIDpaciente()) {
@@ -28,46 +35,67 @@ var Cliente = /** @class */ (function () {
             }
         }
     };
+=======
+>>>>>>> hernan
     Cliente.prototype.getCantidadVisitas = function () {
         return this.cantidadVisitas;
-    };
-    Cliente.prototype.setNombre = function (nuevoNombre) {
-        this.nombre = nuevoNombre;
-    };
-    Cliente.prototype.setTelefono = function (nuevoTelefono) {
-        this.telefono = nuevoTelefono;
-    };
-    Cliente.prototype.setPaciente = function (IDpaciente, nuevoPaciente) {
-        var i = 0;
-        while (i < this.pacientes.length &&
-            this.pacientes[i].getIDpaciente() != IDpaciente) {
-            i++;
-        }
-        if (i < this.pacientes.length) {
-            this.pacientes[i] = nuevoPaciente;
-            console.log("MODIFICACION REALIZADA");
-        }
-        else {
-            console.log("EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO");
-        }
     };
     Cliente.prototype.registrarVisita = function () {
         this.cantidadVisitas++;
     };
-    Cliente.prototype.listarPacientes = function () {
-        return this.pacientes;
+    Cliente.prototype.getPaciente = function (id_Cliente, nombrePaciente) {
+        /* for (let i = 0; i < this.pacientes.length; i++) {
+          if (id_Cliente === this.pacientes[i].getIDdueño()) {
+            return this.pacientes[i].getPacientes(nombrePaciente);
+          }
+        } */
+        return this.pacientes.find(function (Element) {
+            return Element.getIDPaciente() === id_Cliente &&
+                Element.getNombre() === nombrePaciente;
+        });
     };
-    Cliente.prototype.borrarPaciente = function (idPaciente) {
+    Cliente.prototype.listarPacientes = function () {
+        var _this = this;
+        return this.pacientes.filter(function (Element) { return Element.getIDPaciente() === _this.id_Cliente; });
+        /*     return this.pacientes;
+         */
+    };
+    Cliente.prototype.setPaciente = function (nombrePaciente, IDPaciente, nuevoPaciente) {
+        var existiaPaciente = false;
         for (var i = 0; i < this.pacientes.length; i++) {
-            if (this.pacientes[i].getIDpaciente() === idPaciente) {
-                this.pacientes.splice(i, 1);
-                return console.log("El Paciente ha sido borrado");
-            }
-            else if (i === this.pacientes.length - 1 &&
-                idPaciente != this.pacientes[i].getIDpaciente()) {
-                return console.log("El id de Paciente ".concat(idPaciente, " no fue encontrado."));
+            if (this.pacientes[i].getNombre() === nombrePaciente &&
+                this.pacientes[i].getIDPaciente() === IDPaciente) {
+                this.pacientes[i] = nuevoPaciente;
+                existiaPaciente = true;
             }
         }
+        if (existiaPaciente) {
+            console.clear();
+            console.log("MODIFICACION REALIZADA");
+        }
+        else {
+            console.log("EL PACIENTE NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTAR");
+        }
+    };
+    Cliente.prototype.borrarPaciente = function (nombrePaciente, IDPaciente) {
+        var existiaPaciente = false;
+        for (var i = 0; i < this.pacientes.length; i++) {
+            if (this.pacientes[i].getNombre() === nombrePaciente &&
+                this.pacientes[i].getIDPaciente() === IDPaciente) {
+                this.pacientes.splice(i, 1);
+                existiaPaciente = true;
+            }
+        }
+        if (existiaPaciente) {
+            console.clear();
+            console.log("EL PACIENTE HA SIDO ELIMINADO");
+        }
+        else {
+            console.log("EL PACIENTE NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTAR");
+        }
+    };
+    Cliente.prototype.agregarPaciente = function (paciente) {
+        this.pacientes.push(paciente);
     };
     return Cliente;
 }());

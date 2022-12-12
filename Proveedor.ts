@@ -12,16 +12,19 @@ export default class Proveedor {
   public getIDProveedor(): number {
     return this.IDproveedor;
   }
+
   public getNombre(): string {
     return this.Nombre;
-  }
-  public getTelefono(): number {
-    return this.Telefono;
   }
 
   public setNombre(Nombre: string): void {
     this.Nombre = Nombre;
   }
+
+  public getTelefono(): number {
+    return this.Telefono;
+  }
+
   public setTelefono(Telefono: number): void {
     this.Telefono = Telefono;
   }

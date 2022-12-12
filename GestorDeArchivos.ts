@@ -56,12 +56,7 @@ export function crearSucursal(
   let Direccion: string = propiedadSucursal[1];
   let Telefono: number = Number(propiedadSucursal[2]);
   let listaSucursal: Array<Sucursal> = arregloSucursales;
-  let nuevaSucursal: Sucursal = new Sucursal(
-    IDsucursal,
-    Direccion,
-    Telefono,
-    arregloClientes
-  );
+  let nuevaSucursal: Sucursal = new Sucursal(IDsucursal, Direccion, Telefono);
   listaSucursal.push(nuevaSucursal);
   arregloIdSucursal.push(IDsucursal);
   return listaSucursal;
@@ -87,8 +82,7 @@ export function crearProveedor(
 //funcion que genera un Objeto de tipo Paciente desde una base de datos(.txt)==>
 export function crearPaciente(
   paciente: string,
-  arregloPacientes: Array<Paciente>,
-  arregloHistClinica: Array<string>
+  arregloPacientes: Array<Paciente>
 ): Array<Paciente> {
   let propiedadPaciente: string[] = paciente.split(",");
   let idPaciente: number = Number(propiedadPaciente[0]);
@@ -130,14 +124,8 @@ for (let i: number = 0; i < datosClientes.getArregloString().length; i++) {
     );
 }
 for (let i: number = 0; i < datosPacientes.getArregloString().length; i++) {
-  crearPaciente(
-    datosPacientes.getArregloString()[i],
-    arregloPacientes,
-    arregloHistClinica
-  );
+  crearPaciente(datosPacientes.getArregloString()[i], arregloPacientes);
 }
 for (let i: number = 0; i < datosProveedor.getArregloString().length; i++) {
   crearProveedor(datosProveedor.getArregloString()[i], arregloProveedor);
 }
-
-

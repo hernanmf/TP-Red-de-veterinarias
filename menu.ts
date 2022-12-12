@@ -16,7 +16,8 @@ import {
 import * as ReadFileSync from "readline-sync";
 import * as ReadlineSync from "readline-sync";
 import Veterinaria from "./veterinarias";
-import generadorDeId from "./generadorId";
+import { stringify } from "querystring";
+import { Console } from "console";
 
 //Cargamos los arreglos clientes, pacientes y proveedores--->
 let datosSucursales: LectorArchivos = new LectorArchivos(
@@ -36,11 +37,6 @@ let datosProveedor: LectorArchivos = new LectorArchivos(
   "./baseDeDatos/proveedores.txt"
 );
 let arregloProveedor: Array<Proveedor> = [];
-let arregloHistClinica: Array<string> = [];
-let arregloIdSucursal: Array<number>=[];
-let arregloIdCliente: Array<number>=[];
-let arregloIdProveedor: Array<number>=[];
-
 for (let i: number = 0; i < datosClientes.getArregloString().length; i++) {
   crearCliente(
     datosClientes.getArregloString()[i],
@@ -50,27 +46,30 @@ for (let i: number = 0; i < datosClientes.getArregloString().length; i++) {
   );
 }
 for (let i: number = 0; i < datosPacientes.getArregloString().length; i++) {
-  crearPaciente(
-    datosPacientes.getArregloString()[i],
-    arregloPacientes,
-    arregloHistClinica
-  );
+  crearPaciente(datosPacientes.getArregloString()[i], arregloPacientes);
 }
 for (let i: number = 0; i < datosProveedor.getArregloString().length; i++) {
   crearProveedor(datosProveedor.getArregloString()[i], arregloProveedor);
 }
 
 for (let i: number = 0; i < datosSucursales.getArregloString().length; i++) {
-  crearSucursal(datosSucursales.getArregloString()[i], arregloSucursales,arregloIdSucursal);
+  crearSucursal(
+    datosSucursales.getArregloString()[i],
+    arregloSucursales,
+    arregloIdSucursal
+  );
 }
 var veterinariaInstanciada = new Veterinaria(
   "Camerun Soft",
   arregloSucursales,
-  arregloProveedor
+  arregloProveedor,
+  arregloClientes
 );
+var arregloDeId: Array<number> = [
+  50, 365, 898, 555, 222, 120, 10, 87, 180, 345, 900, 610, 121, 237, 122,
+];
 
-var sucursalInstanciada: Sucursal/* =arregloSucursales[0] */;
-var clienteInstanciado: Cliente/* =arregloClientes[2] */;
+var clienteInstanciado: Cliente;
 
 /* menues en funcion */
 export function menuBienvenida(): void {
@@ -83,6 +82,7 @@ export function menuBienvenida(): void {
     console.log(" ");
     console.log("1 - Ver Proveedores");
     console.log("2 - Ver Sucursales");
+    console.log("3 - Ver Clientes");
     console.log(" ");
     console.log("------------------------- ");
     console.log("0 - Salir");
@@ -93,19 +93,23 @@ export function menuBienvenida(): void {
 
     switch (opcionMenuBienvenida) {
       case 1:
-        /* console.clear(); */
+        console.clear();
         menuProveedores();
         break;
       case 2:
-        /* console.clear(); */
+        console.clear();
         menuSucursales();
+        break;
+      case 3:
+        console.clear();
+        menuClientes();
         break;
       case 0:
         /* console.clear(); */
         console.log("FIN DEL PROGRAMA");
         break;
       default:
-        console.log("Opcion erronea");
+        console.log("OPCION ERRONEA");
         setTimeout(() => {
           console.log(" ");
         }, 2000);
@@ -114,17 +118,92 @@ export function menuBienvenida(): void {
   }
 }
 
+function menuClientes(): void {
+  let opcionMenuClientes: number = Number(8);
+  while (opcionMenuClientes != Number(9)) {
+    console.log("------------------------- ");
+    console.log("CLIENTES");
+    console.log("------------------------- ");
+    console.log(" ");
+    mostrarListaClientes(veterinariaInstanciada.listarClientes());
+    console.log("------------------------- ");
+    console.log(" ");
+    console.log("1 - Ingresar a cliente");
+    console.log("2 - Borrar cliente");
+    console.log("3 - Nuevo cliente");
+    console.log(" ");
+    console.log("------------------------- ");
+    console.log("9 - Atras");
+    console.log("------------------------- ");
+    opcionMenuClientes = Number(
+      ReadlineSync.questionInt("Ingrese una opcion: ")
+    );
 
+    switch (opcionMenuClientes) {
+      case 1:
+        menuEntrarACliente();
+        break;
+      case 2:
+        menuBorrarCliente();
+        break;
+      case 3:
+        menuNuevoCliente();
+        break;
+      default:
+        console.log("OPCION ERRONEA");
+        setTimeout(() => {
+          console.log(" ");
+        }, 2000);
+        break;
+    }
+  }
+}
 
-/*********************************PROVEEDORES************************************ */
+function menuNuevoCliente(): void {
+  console.clear();
+  console.log("----------------------");
+  console.log("Ingresar nuevo Cliente");
+  console.log("----------------------");
+  console.log("");
+  let IDCliente: number = generadorDeID(arregloDeId);
+  let nombreCliente: string = ReadlineSync.question(
+    " Ingrese Nombre y Apellido del nuevo Cliente:  "
+  );
+  let telefonoCliente: number = Number(
+    ReadlineSync.questionInt("Ingrese el telefono del Cliente: ")
+  );
+  let arregloPacientes: Array<Paciente> = [];
+  let nuevoCliente: Cliente = new Cliente(
+    IDCliente,
+    nombreCliente.toUpperCase(),
+    telefonoCliente,
+    false,
+    0,
+    arregloPacientes
+  );
+  let estaSeguro: number = 0;
+  while (estaSeguro != 1 && estaSeguro != 2) {
+    estaSeguro = Number(
+      ReadlineSync.questionInt(
+        "Confirma el ingreso del nuevo cliente? 1-Si 2-No :"
+      )
+    );
+  }
+  if (estaSeguro == 1) {
+    veterinariaInstanciada.agregarCliente(nuevoCliente);
+    console.clear();
+    console.log("EL CLIENTE HA SIDO CREADO");
+  } else {
+    console.log("LOS CAMBIOS NO SE HAN REALIZADO");
+  }
+}
 
 function menuProveedores(): void {
   let opcionMenuProveedores: number = Number(8);
   while (opcionMenuProveedores != Number(9)) {
-    /* ß */
-    console.log("------------------------- ");
-    console.log("PROVEEDORES");
-    console.log("------------------------- ");
+    console.log("--------------------------------");
+    console.log("         PROVEEDORES");
+    console.log("--------------------------------");
     console.log(" ");
     mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
     console.log("------------------------- ");
@@ -139,16 +218,14 @@ function menuProveedores(): void {
     opcionMenuProveedores = Number(
       ReadlineSync.questionInt("Ingrese una opcion: ")
     );
-    console.clear;
+    console.clear();
 
     switch (opcionMenuProveedores) {
       case 1:
-        /* console.clear(); */
         mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
         menuModificarProveedor();
         break;
       case 2:
-        /* console.clear(); */
         mostrarListaProveedores(veterinariaInstanciada.listarProveedor());
         menuBorrarProveedor();
         break;
@@ -172,6 +249,7 @@ function menuModificarProveedor(): void {
     )
   );
   if (IDaCambiar === 0) {
+    console.clear();
     console.log("MODIFICACION CANCELADA");
     setTimeout(() => {
       console.log(" ");
@@ -181,13 +259,27 @@ function menuModificarProveedor(): void {
     let NvoNombre: string = ReadlineSync.question(
       "Nuevo nombre para el proveedor, si no cambia, ingrese el mismo: "
     );
+    NvoNombre = NvoNombre.toUpperCase();
     let nvoTelefono: number = Number(
       ReadlineSync.questionInt(
         "Nuevo telefono para el proveedor, si no cambia, ingrese el mismo: "
       )
     );
-    NvoProveedor = new Proveedor(IDaCambiar, NvoNombre, nvoTelefono);
-    veterinariaInstanciada.setProveedor(IDaCambiar, NvoProveedor);
+    let estaSeguro: number = 0;
+    while (estaSeguro != 1 && estaSeguro != 2) {
+      estaSeguro = Number(
+        ReadlineSync.questionInt(
+          "Confirma los cambios en el proveedor? 1-Si 2-No :"
+        )
+      );
+    }
+    if (estaSeguro == 1) {
+      NvoProveedor = new Proveedor(IDaCambiar, NvoNombre, nvoTelefono);
+      console.clear();
+      veterinariaInstanciada.setProveedor(IDaCambiar, NvoProveedor);
+    } else {
+      console.log("LOS CAMBIOS SE HAN CANCELADO");
+    }
   }
 }
 
@@ -217,17 +309,39 @@ function menuBorrarProveedor() {
   }
 }
 function menuNuevoProveedor(): void {
- let IDproveedor: number= generadorDeId(arregloIdProveedor);
- let Nombre: string= ReadlineSync.question("Ingrese el nombre del nuevo proveedor");
- let Telefono: number= ReadlineSync.questionInt("Ingrese el numero de telefono del nuevo proveedor");
- let nuevoProveedor= new Proveedor(IDproveedor,Nombre,Telefono);
- arregloProveedor.push(nuevoProveedor);
+  console.clear();
+  console.log("------------------------");
+  console.log("Ingresar nuevo Proveedor");
+  console.log("------------------------");
+  console.log("");
+  let IDProveedor: number = generadorDeID(arregloDeId);
+  let nombreProveedor: string = ReadlineSync.question(
+    " Ingrese Nombre del nuevo Proveedor:  "
+  );
+  let telefonoProveedor: number = Number(
+    ReadlineSync.questionInt("Ingrese el telefono del Proveedor: ")
+  );
+  let nuevoProveedor: Proveedor = new Proveedor(
+    IDProveedor,
+    nombreProveedor.toUpperCase(),
+    telefonoProveedor
+  );
+  let estaSeguro: number = 0;
+  while (estaSeguro != 1 && estaSeguro != 2) {
+    estaSeguro = Number(
+      ReadlineSync.questionInt(
+        "Confirma el ingreso del nuevo proveedor? 1-Si 2-No :"
+      )
+    );
+  }
+  if (estaSeguro == 1) {
+    veterinariaInstanciada.agregarProveedor(nuevoProveedor);
+    console.clear();
+    console.log("EL PROVEEDOR HA SIDO CREADO");
+  } else {
+    console.log("LOS CAMBIOS NO SE HAN REALIZADO");
+  }
 }
-
-
-/*****************************SUCURSALES************************************** */
-
-
 
 function menuSucursales(): void {
   let opcionMenuSucursal: number = Number(8);
@@ -240,12 +354,11 @@ function menuSucursales(): void {
     mostrarListaSucursales(veterinariaInstanciada.listarSucursal());
     console.log("------------------------- ");
     console.log(" ");
-    console.log("1 - Ingresar a sucursal");
-    console.log("2 - Modificar sucursal");
-    console.log("3 - Borrar sucursal");
-    console.log("4 - Nueva sucursal");
+    console.log("1 - Modificar sucursal");
+    console.log("2 - Borrar sucursal");
+    console.log("3 - Nueva sucursal");
     console.log(" ");
-   console.log("------------------------- ");
+    console.log("------------------------- ");
     console.log("9 - Atras");
     console.log("------------------------- ");
     opcionMenuSucursal = Number(
@@ -254,15 +367,12 @@ function menuSucursales(): void {
 
     switch (opcionMenuSucursal) {
       case 1:
-        menuEntrarASucursal(/* sucursalInstanciada */);
+        menuModificarSucursal();
         break;
       case 2:
-        menuModificarSucursal(sucursalInstanciada);
-        break;
-      case 3:
         menuBorrarSucursal();
         break;
-      case 4:
+      case 3:
         menuNuevaSucursal();
         break;
       default:
@@ -275,46 +385,16 @@ function menuSucursales(): void {
   }
 }
 
-function menuEntrarASucursal(/* sucursalInstanciada:Sucursal */) {
-  let IDSucursalAInstanciar: number = Number(
-    ReadlineSync.questionInt(
-      "Ingrese el id de la sucursal a la que desea ingresar(0 para cancelar operacion): "
-    )
-  );
-  if (IDSucursalAInstanciar != 0) {
-    let i: number = 0;
-    let listaDeSucursales: Array<Sucursal> =
-      veterinariaInstanciada.listarSucursal();
-    while (
-      i < listaDeSucursales.length /*-1*/ &&
-      listaDeSucursales[i].getIDsucursal() != IDSucursalAInstanciar
-    ) {
-      i++;
-    }
-    /* if (i < listaDeSucursales.length ) {
-      sucursalInstanciada = veterinariaInstanciada.getSucursal(
-        IDSucursalAInstanciar
-      ); */
-
-    if (i < listaDeSucursales.length && IDSucursalAInstanciar===listaDeSucursales[i].getIDsucursal()/*- 1*/) {
-      sucursalInstanciada =listaDeSucursales[i]
-      menuEnSucursal();
-    };  
-    } else {
-      console.log(
-        "EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO"
-      );
-    }
-  }
-
-
-function menuModificarSucursal(sucursalInstanciada) {
+function menuModificarSucursal() {
+  console.clear();
+  mostrarListaSucursales(veterinariaInstanciada.listarSucursal());
   let IDaCambiar: number = Number(
     ReadlineSync.question(
       "Ingrese el id de la sucursal que desea cambiar(0 para cancelar operacion): "
     )
   );
   if (IDaCambiar === 0) {
+    console.clear();
     console.log("MODIFICACION CANCELADA");
     setTimeout(() => {
       console.log(" ");
@@ -324,38 +404,50 @@ function menuModificarSucursal(sucursalInstanciada) {
     let nuevaDireccion: string = ReadlineSync.question(
       "Ingrese la nueva direccion de la sucursal, si no cambia, ingrese la misma: "
     );
+    nuevaDireccion = nuevaDireccion.toUpperCase();
     let nuevoTelefono: number = Number(
       ReadlineSync.questionInt(
         "Ingrese el nuevo telefono de la sucursal, si no cambia, ingrese el mismo: "
       )
     );
-    nuevaSucursal = new Sucursal(
-      IDaCambiar,
-      nuevaDireccion,
-      nuevoTelefono,
-      sucursalInstanciada.listarClientes()
-    );
+    nuevaSucursal = new Sucursal(IDaCambiar, nuevaDireccion, nuevoTelefono);
     veterinariaInstanciada.setSucursal(IDaCambiar, nuevaSucursal);
   }
 }
 
 function menuBorrarSucursal() {
+  console.clear();
+  mostrarListaSucursales(veterinariaInstanciada.listarSucursal());
   let IDaCambiar: number = Number(
     ReadlineSync.questionInt("Ingrese el id de la sucursal a borrar: ")
   );
   if (IDaCambiar === 0) {
+    console.clear();
     console.log("MODIFICACION CANCELADA");
   } else {
     veterinariaInstanciada.borrarSucursal(IDaCambiar);
   }
 }
 //Funcion que genera una nueva Sucursal desde consola
-function nuevaSucursal(arregloSucursales:Array<Sucursal>, arregloCliente:Array<Cliente>,arregloIdSucursal:Array<number>): void {
-  let IDSucursal : number= generadorDeID(arregloIdSucursal);
-  let direccionSucursal : string = ReadlineSync.question(" Ingrese la direccion de la nueva Sucursal:  ");
-  let telefonoSucursal: number = Number(ReadlineSync.question("Ingrese el telefono de la Sucursal:   "));
-  let listaSucursal : Array<Sucursal> = arregloSucursales;
-  let nuevaSucursal : Sucursal= new Sucursal(IDSucursal,direccionSucursal,telefonoSucursal,arregloCliente);
+function nuevaSucursal(
+  arregloSucursales: Array<Sucursal>,
+  arregloCliente: Array<Cliente>,
+  arregloIdSucursal: Array<number>
+): void {
+  let IDSucursal: number = generadorDeID(arregloIdSucursal);
+  let direccionSucursal: string = ReadlineSync.question(
+    " Ingrese la direccion de la nueva Sucursal:  "
+  );
+  let telefonoSucursal: number = Number(
+    ReadlineSync.question("Ingrese el telefono de la Sucursal:   ")
+  );
+  let listaSucursal: Array<Sucursal> = arregloSucursales;
+  let nuevaSucursal: Sucursal = new Sucursal(
+    IDSucursal,
+    direccionSucursal,
+    telefonoSucursal,
+    arregloCliente
+  );
   listaSucursal.push(nuevaSucursal);
 }
 
@@ -366,11 +458,43 @@ function menuNuevaSucursal(): void {
   console.log(" Ingresar nueva Sucursal");
   console.log("---------------------------");
   console.log("");
-  nuevaSucursal(arregloSucursales,arregloClientes,arregloIdSucursal);
-
+  nuevaSucursal(arregloSucursales, arregloClientes, arregloIdSucursal);
 }
 
-
+function menuNuevaSucursal(): void {
+  console.clear();
+  console.log("------------------------");
+  console.log("Ingresar nueva Sucursal");
+  console.log("------------------------");
+  console.log("");
+  let IDSucursal: number = generadorDeID(arregloDeId);
+  let direccionSucursal: string = ReadlineSync.question(
+    " Ingrese direccion de la nueva sucursal:  "
+  );
+  let telefonoSucursal: number = Number(
+    ReadlineSync.questionInt("Ingrese el telefono del Sucursal: ")
+  );
+  let nuevaSucursal: Sucursal = new Sucursal(
+    IDSucursal,
+    direccionSucursal.toUpperCase(),
+    telefonoSucursal
+  );
+  let estaSeguro: number = 0;
+  while (estaSeguro != 1 && estaSeguro != 2) {
+    estaSeguro = Number(
+      ReadlineSync.questionInt(
+        "Confirma el ingreso del nuevo Sucursal? 1-Si 2-No :"
+      )
+    );
+  }
+  if (estaSeguro == 1) {
+    veterinariaInstanciada.agregarSucursal(nuevaSucursal);
+    console.clear();
+    console.log("LA SUCURSAL HA SIDO CREADA");
+  } else {
+    console.log("LOS CAMBIOS NO SE HAN REALIZADO");
+  }
+}
 
 function mostrarListaSucursales(lista: Array<Sucursal>): void {
   console.log("ID Sucursal / Direccion / Telefono");
@@ -386,67 +510,6 @@ function mostrarListaSucursales(lista: Array<Sucursal>): void {
   }
   console.log(" ");
 }
-
-function menuEnSucursal() {
-  let opcionMenuEnSucursal: number = Number(8);
-  while (opcionMenuEnSucursal != Number(9)) {
-    /* console.clear(); */
-    console.log("------------------------- ");
-    console.log(
-      "ID Sucursal: " +
-        sucursalInstanciada.getIDsucursal() +
-        " Direccion: " +
-        sucursalInstanciada.getDireccion() +
-        " Telefono: " +
-        sucursalInstanciada.getTelefono()
-    );
-    console.log("------------------------- ");
-    console.log(" ");
-    mostrarListaClientes(sucursalInstanciada.listarClientes());
-    console.log("------------------------- ");
-    console.log(" ");
-    console.log("1 - Listar clientes");
-    console.log("2 - Listar pacientes");
-    console.log("3 - Ingresar a cliente");
-    console.log("4 - Borrar cliente");
-    console.log("5 - Nuevo cliente");
-    console.log(" ");
-    console.log("------------------------- ");
-    console.log("9 - Atras");
-    console.log("------------------------- ");
-    opcionMenuEnSucursal = Number(
-      ReadlineSync.questionInt("Ingrese una opcion: ")
-    );
-
-    switch (opcionMenuEnSucursal) {
-      case 1:
-        mostrarListaClientes(sucursalInstanciada.listarClientes());
-        break;
-      case 2:
-        /* LISTAR PACIENTES */
-        break;
-      case 3:
-        menuEntrarACliente(/* clienteInstanciado */);
-        break;
-      case 4:
-        menuBorrarCliente();
-        break;
-      case 5:
-        menuNuevoCliente();
-        break;
-      default:
-        console.log("Opcion erronea");
-        setTimeout(() => {
-          console.log(" ");
-        }, 2000);
-        break;
-    }
-  }
-}
-
-
-/**********************************CLIENTES********************************* */
-
 
 function mostrarListaClientes(lista: Array<Cliente>): void {
   console.log("CLIENTES");
@@ -475,60 +538,26 @@ function menuBorrarCliente() {
     ReadlineSync.questionInt("Ingrese el id del Cliente a borrar: ")
   );
   if (IDaCambiar === 0) {
+    console.clear();
     console.log("MODIFICACION CANCELADA");
   } else {
-    sucursalInstanciada.borrarCliente(IDaCambiar);
+    veterinariaInstanciada.borrarCliente(IDaCambiar);
   }
 }
 
-//Funcion que genera un nuevo Cliente desde consola
-function nuevoCliente(arregloCliente:Array<Cliente>, arregloPacientes:Array<Paciente>,arregloIdCliente:Array<number>): void {
-  let IDCliente : number= generadorDeID(arregloIdCliente);
-  let nombreCliente : string = ReadlineSync.question(" Ingrese Nombre y Apellido del nuevo Cliente:  ");
-  let telefonoCliente: number = Number(ReadlineSync.question("Ingrese el telefono del Cliente:   "));
-  let listaCliente : Array<Cliente> = arregloCliente;
-  let nuevoCliente : Cliente = new Cliente(IDCliente,nombreCliente,telefonoCliente,false,0,arregloPacientes);
-  listaCliente.push(nuevoCliente);
-  arregloIdCliente.push(IDCliente);
-}
-
-//Menu de un Nuevo Cliente
-function menuNuevoCliente(): void {
-  
-  console.clear();
-  console.log("---------------------------");
-  console.log(" Ingresar nuevo Cliente");
-  console.log("---------------------------");
-  console.log("");
-  nuevoCliente(sucursalInstanciada.clientes, arregloPacientes,arregloIdCliente);
-
-}
-
-function menuEntrarACliente(/* clienteInstanciado:Cliente */) {
+function menuEntrarACliente() {
   let IDClienteAInstanciar: number = Number(
     ReadlineSync.questionInt(
       "Ingrese el id del cliente al que desea ingresar(0 para cancelar operacion): "
     )
   );
   if (IDClienteAInstanciar != 0) {
-    let i: number = 0;
-    let listaDeClientes: Array<Cliente> = sucursalInstanciada.listarClientes();
-    while (
-      i < listaDeClientes.length &&
-      listaDeClientes[i].getIdCliente() != IDClienteAInstanciar
-    ) {
-      i++;
-    }
-    /* if (i < listaDeClientes.length ) {
-      clienteInstanciado = sucursalInstanciada.getCliente(IDClienteAInstanciar);
-      menuEnCliente();
-    } */ 
-    if (i < listaDeClientes.length && IDClienteAInstanciar===listaDeClientes[i].getIdCliente()/*- 1*/) {
-      clienteInstanciado =listaDeClientes[i]
-      menuEnCliente();
-    }
-    
-    else {
+    if (veterinariaInstanciada.getCliente(IDClienteAInstanciar) != null) {
+      console.clear();
+      clienteInstanciado =
+        veterinariaInstanciada.getCliente(IDClienteAInstanciar);
+      menuEnCliente(clienteInstanciado);
+    } else {
       console.log(
         "EL ID INGRESADO NO EXISTE, REVISE LOS DATOS Y VUELVA A INTENTARLO"
       );
@@ -536,11 +565,9 @@ function menuEntrarACliente(/* clienteInstanciado:Cliente */) {
   }
 }
 
-function menuEnCliente(): void {
+function menuEnCliente(clienteInstanciado: Cliente): void {
   let opcionMenuEnCliente: number = Number(8);
-  let listaDePacientes: Array<Paciente> = clienteInstanciado.listarPacientes();
   while (opcionMenuEnCliente != Number(9)) {
-    /* console.clear(); */
     console.log("------------------------- ");
     console.log(
       "ID Cliente: " +
@@ -554,26 +581,29 @@ function menuEnCliente(): void {
         " Visitas: " +
         clienteInstanciado.getCantidadVisitas()
     );
-    console.log(" ");
-    console.log("ID Paciente / Nombre / Especie");
-    for (let i: number = 0; i < listaDePacientes.length; i++) {
-      console.log(
-        listaDePacientes[i].getIDpaciente() +
-          " / " +
-          listaDePacientes[i].getNombre() +
-          " / " +
-          listaDePacientes[i].getEspecie()
-      );
+    if (clienteInstanciado.listarPacientes() != null) {
+      console.log(" ");
+      console.log("Nombre / Especie");
+      for (
+        let i: number = 0;
+        i < clienteInstanciado.listarPacientes().length;
+        i++
+      ) {
+        console.log(
+          clienteInstanciado.listarPacientes()[i].getNombre() +
+            " / " +
+            clienteInstanciado.listarPacientes()[i].getEspecie()
+        );
+      }
     }
     console.log(" ");
     console.log("------------------------- ");
     console.log(" ");
     console.log("1 - Registrar visita");
     console.log("2 - Modificar datos");
-    console.log("3 - Listar pacientes");
-    console.log("4 - Modificar paciente");
-    console.log("5 - Borrar paciente");
-    console.log("6 - Nuevo paciente");
+    console.log("3 - Modificar paciente");
+    console.log("4 - Borrar paciente");
+    console.log("5 - Nuevo paciente");
     console.log(" ");
     console.log("------------------------- ");
     console.log("9 - Atras");
@@ -587,19 +617,19 @@ function menuEnCliente(): void {
         menuRegistrarVisita();
         break;
       case 2:
-        menuModificarCliente();
+        clienteInstanciado = menuModificarCliente(clienteInstanciado);
         break;
       case 3:
-        menuListarPacientes()
-        break; 
-      case 4:
-        menuModificarPaciente();
+        menuModificarPaciente(clienteInstanciado);
         break;
-      case 5:
+      case 4:
         menuBorrarPaciente();
         break;
-      case 6:
+      case 5:
         menuNuevoPaciente();
+        break;
+      case 9:
+        console.clear();
         break;
       default:
         console.log("Opcion erronea");
@@ -611,11 +641,18 @@ function menuEnCliente(): void {
   }
 }
 
-function menuModificarCliente(): void {
-  let nuevoCliente: Cliente;
+function menuModificarCliente(clienteInstanciado: Cliente): Cliente {
+  console.log(
+    " Nombre: " +
+      clienteInstanciado.getNombre() +
+      " Telefono: " +
+      clienteInstanciado.getTelefono()
+  );
+
   let nuevoNombre: string = ReadlineSync.question(
     "Ingrese el nuevo nombre del cliente, si no cambia, ingrese el mismo: "
   );
+  nuevoNombre = nuevoNombre.toUpperCase();
   let nuevoTelefono: number = Number(
     ReadlineSync.questionInt(
       "Ingrese el nuevo telefono del cliente, si no cambia, ingrese el mismo: "
@@ -624,11 +661,15 @@ function menuModificarCliente(): void {
   let estaSeguro: number = 0;
   while (estaSeguro != 1 && estaSeguro != 2) {
     estaSeguro = Number(
-      ReadlineSync.questionInt("Esta seguro de realizar los cambios? 1-Si 2-No")
+      ReadlineSync.questionInt(
+        "Esta seguro de realizar los cambios? 1-Si 2-No :"
+      )
     );
   }
   if (estaSeguro == 1) {
-    nuevoCliente = new Cliente(
+    /*      let listaDePacientes: Array<Paciente> =
+        clienteInstanciado.listarPacientes(); */
+    let nuevoCliente: Cliente = new Cliente(
       clienteInstanciado.getIdCliente(),
       nuevoNombre,
       nuevoTelefono,
@@ -636,48 +677,79 @@ function menuModificarCliente(): void {
       clienteInstanciado.getCantidadVisitas(),
       clienteInstanciado.listarPacientes()
     );
-    sucursalInstanciada.setCliente(
+    veterinariaInstanciada.setCliente(
       clienteInstanciado.getIdCliente(),
       nuevoCliente
     );
+    console.clear();
     console.log("CAMBIOS GUARDADOS");
+    return nuevoCliente;
   } else {
     console.log("CAMBIOS DESCARTADOS");
+    return clienteInstanciado;
   }
 }
 
-
 /******************PACIENTES****************** */
 
-
-
-function menuModificarPaciente() {
-  let IDaCambiar: number = Number(
-    ReadlineSync.question(
-      "Ingrese el id del paciente que desea cambiar(0 para cancelar operacion): "
-    )
+function menuModificarPaciente(clienteInstanciado: Cliente) {
+  let pacienteACambiar: string = ReadlineSync.question(
+    "Ingrese el Nombre del paciente que desea cambiar(0 para cancelar operacion): "
   );
-  if (IDaCambiar === 0) {
+  if (pacienteACambiar === "0") {
     console.log("MODIFICACION CANCELADA");
     setTimeout(() => {
       console.log(" ");
     }, 2000);
   } else {
+    pacienteACambiar = pacienteACambiar.toUpperCase();
     let nuevoPaciente: Paciente;
     let nuevoNombre: string = ReadlineSync.question(
       "Ingrese el nuevo nombre del paciente, si no cambia, ingrese el mismo: "
     );
-    let nuevaEspecie:string= ReadlineSync.question(
-      "Ingrese la nueva especie del paciente, si no cambia, ingrese la misma: "
-    )
-    /* let pacienteAcambiar=clienteInstanciado.getPaciente(IDaCambiar); */
-    
+    let noSeEligioEspecie: boolean = true;
+    let opcionEspecie: number;
+    let nuevaEspecie: string;
+    while (noSeEligioEspecie) {
+      opcionEspecie = ReadlineSync.questionInt(
+        "Ingrese la especie del paciente: 1-Perro 2-Gato 3-Exotico: "
+      );
+      if (opcionEspecie === 1) {
+        nuevaEspecie = "PERRO";
+        noSeEligioEspecie = false;
+      } else if (opcionEspecie === 2) {
+        nuevaEspecie = "GATO";
+        noSeEligioEspecie = false;
+      } else {
+        nuevaEspecie = "EXOTICO";
+        noSeEligioEspecie = false;
+      }
+    }
+    nuevoNombre = nuevoNombre.toUpperCase();
     nuevoPaciente = new Paciente(
-      IDaCambiar,
+      clienteInstanciado.getIdCliente(),
       nuevoNombre,
       nuevaEspecie
     );
-    clienteInstanciado.setPaciente(IDaCambiar, nuevoPaciente);
+    let estaSeguro: number = 0;
+    while (estaSeguro != 1 && estaSeguro != 2) {
+      estaSeguro = Number(
+        ReadlineSync.question(
+          "Esta seguro que desea confirmar los cambios? 1-Si 2-No: "
+        )
+      );
+    }
+    if (estaSeguro) {
+      clienteInstanciado.setPaciente(
+        pacienteACambiar,
+        clienteInstanciado.getIdCliente(),
+        nuevoPaciente
+      );
+      /* console.clear(); */
+      /* console.log("SE HAN GUARDADO LOS CAMBIOS"); */
+    } else {
+      console.log("LOS CAMBIOS NO SE HAN REALIZADO");
+    }
   }
 }
 
@@ -688,57 +760,101 @@ function menuRegistrarVisita() {
       ReadlineSync.question(
         "El cliente tiene " +
           clienteInstanciado.getCantidadVisitas() +
-          " visitas, esta seguro que desea registrar una visita nueva? 1-Si 2-No"
+          " visitas, esta seguro que desea registrar una visita nueva? 1-Si 2-No: "
       )
     );
   }
   if (estaSeguro == 1) {
     clienteInstanciado.registrarVisita();
+    console.clear();
     console.log(
       "VISITA REGISTRADA!! GRACIAS POR ELEGIRNOS!! VUELVA PRONTOOOSSSSS"
     );
   } else {
+    console.clear();
     console.log("LA VISITA NO SE HA REGISTRADO");
   }
 }
 
 function menuBorrarPaciente() {
-  let IDaCambiar: number = Number(
-    ReadlineSync.questionInt("Ingrese el id del Paciente a borrar: ")
+  let pacienteABorrar: string = ReadlineSync.question(
+    "Ingrese el nombre del Paciente a borrar(Ingrese 0 para cancelar): "
   );
-  if (IDaCambiar === 0) {
+  pacienteABorrar = pacienteABorrar.toUpperCase();
+  if (pacienteABorrar === "0") {
+    console.clear();
     console.log("MODIFICACION CANCELADA");
   } else {
-    clienteInstanciado.borrarPaciente(IDaCambiar);
+    let estaSeguro: number = 0;
+    while (estaSeguro != 1 && estaSeguro != 2) {
+      estaSeguro = Number(
+        ReadlineSync.questionInt(
+          "Confirma el borrado del paciente? 1-Si 2-No :"
+        )
+      );
+    }
+    if (estaSeguro == 1) {
+      console.clear();
+      clienteInstanciado.borrarPaciente(
+        pacienteABorrar,
+        clienteInstanciado.getIdCliente()
+      );
+    } else {
+      console.clear();
+      console.log("LOS CAMBIOS NO SE HAN REALIZADO");
+    }
   }
 }
 
-function menuListarPacientes(){
-  
-  for (let i=0;i<clienteInstanciado.listarPacientes().length;i++){
-    console.log(`Nombre del paciente: ${clienteInstanciado.listarPacientes()[i].getNombre()}`)
-    console.log(`Especie del paciente: ${clienteInstanciado.listarPacientes()[i].getEspecie()}`)
-    console.log(`ID del Cliente: ${clienteInstanciado.listarPacientes()[i].getIDpaciente()}`)  
-  }
-}
-
-//Funcion que genera un nuevo Paciente desde consola
-function nuevoPaciente(IDDueño: number, arregloPacientes:Array<Paciente>, arregloHistoriaClinica:Array<string>): void {
-  let IDDueñoPaciente : number = IDDueño;
-  let nombrePaciente : string = ReadlineSync.question(" Ingrese el Nombre del Paciente:   ");
-  let especie : string = ReadlineSync.question(" Ingrese la especie del Paciente---(GATO/PERRO/EXOTICA):   ");
-  let listaPaciente : Array<Paciente> = arregloPacientes;
-  let nuevoPaciente: Paciente = new Paciente(IDDueñoPaciente,nombrePaciente,especie);
-  listaPaciente.push(nuevoPaciente);   
-}
-//Menu de un nuevo Paciente
 function menuNuevoPaciente(): void {
   console.clear();
-  console.log("---------------------------");
-  console.log(" Ingresar nuevo Paciente");
-  console.log("---------------------------");
+  console.log("-----------------------");
+  console.log("Ingresar nuevo Paciente");
+  console.log("-----------------------");
   console.log("");
-  nuevoPaciente(this.IDdueño ,arregloPacientes,arregloHistClinica);
+  let IDPaciente: number = clienteInstanciado.getIdCliente();
+  let nombrePaciente: string = ReadlineSync.question(
+    " Ingrese Nombre del nuevo Paciente:  "
+  );
+  let noSeEligioEspecie: boolean = true;
+  let opcionEspecie: number;
+  let nuevaEspecie: string;
+  while (noSeEligioEspecie) {
+    opcionEspecie = ReadlineSync.questionInt(
+      "Ingrese la especie del paciente: 1-Perro 2-Gato 3-Exotico: "
+    );
+    if (opcionEspecie === 1) {
+      nuevaEspecie = "PERRO";
+      noSeEligioEspecie = false;
+    } else if (opcionEspecie === 2) {
+      nuevaEspecie = "GATO";
+      noSeEligioEspecie = false;
+    } else {
+      nuevaEspecie = "EXOTICO";
+      noSeEligioEspecie = false;
+    }
+  }
+  let nuevoPaciente: Paciente = new Paciente(
+    IDPaciente,
+    nombrePaciente.toUpperCase(),
+    nuevaEspecie
+  );
+  let estaSeguro: number = 0;
+  while (estaSeguro != 1 && estaSeguro != 2) {
+    estaSeguro = Number(
+      ReadlineSync.questionInt(
+        "Confirma el ingreso del nuevo paciente? 1-Si 2-No :"
+      )
+    );
+  }
+  if (estaSeguro == 1) {
+    clienteInstanciado.agregarPaciente(nuevoPaciente);
+    console.clear();
+    console.log("EL PACIENTE HA SIDO CREADO");
+  } else {
+    console.clear();
+    console.log("LOS CAMBIOS NO SE HAN REALIZADO");
+  }
 }
 
 //INICIO DEL PROGRAMA
