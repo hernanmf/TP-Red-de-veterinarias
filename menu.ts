@@ -41,8 +41,7 @@ for (let i: number = 0; i < datosClientes.getArregloString().length; i++) {
   crearCliente(
     datosClientes.getArregloString()[i],
     arregloClientes,
-    arregloPacientes,
-    arregloIdCliente
+    arregloPacientes
   );
 }
 for (let i: number = 0; i < datosPacientes.getArregloString().length; i++) {
@@ -53,11 +52,7 @@ for (let i: number = 0; i < datosProveedor.getArregloString().length; i++) {
 }
 
 for (let i: number = 0; i < datosSucursales.getArregloString().length; i++) {
-  crearSucursal(
-    datosSucursales.getArregloString()[i],
-    arregloSucursales,
-    arregloIdSucursal
-  );
+  crearSucursal(datosSucursales.getArregloString()[i], arregloSucursales);
 }
 var veterinariaInstanciada = new Veterinaria(
   "Camerun Soft",
@@ -428,38 +423,6 @@ function menuBorrarSucursal() {
     veterinariaInstanciada.borrarSucursal(IDaCambiar);
   }
 }
-//Funcion que genera una nueva Sucursal desde consola
-function nuevaSucursal(
-  arregloSucursales: Array<Sucursal>,
-  arregloCliente: Array<Cliente>,
-  arregloIdSucursal: Array<number>
-): void {
-  let IDSucursal: number = generadorDeID(arregloIdSucursal);
-  let direccionSucursal: string = ReadlineSync.question(
-    " Ingrese la direccion de la nueva Sucursal:  "
-  );
-  let telefonoSucursal: number = Number(
-    ReadlineSync.question("Ingrese el telefono de la Sucursal:   ")
-  );
-  let listaSucursal: Array<Sucursal> = arregloSucursales;
-  let nuevaSucursal: Sucursal = new Sucursal(
-    IDSucursal,
-    direccionSucursal,
-    telefonoSucursal,
-    arregloCliente
-  );
-  listaSucursal.push(nuevaSucursal);
-}
-
-//Menu de una Nueva Sucursal
-function menuNuevaSucursal(): void {
-  console.clear();
-  console.log("---------------------------");
-  console.log(" Ingresar nueva Sucursal");
-  console.log("---------------------------");
-  console.log("");
-  nuevaSucursal(arregloSucursales, arregloClientes, arregloIdSucursal);
-}
 
 function menuNuevaSucursal(): void {
   console.clear();
@@ -687,8 +650,6 @@ function menuModificarCliente(clienteInstanciado: Cliente): Cliente {
     return clienteInstanciado;
   }
 }
-
-/******************PACIENTES****************** */
 
 function menuModificarPaciente(clienteInstanciado: Cliente) {
   let pacienteACambiar: string = ReadlineSync.question(

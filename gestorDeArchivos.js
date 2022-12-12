@@ -21,7 +21,7 @@ var LectorArchivos = /** @class */ (function () {
 }());
 exports.LectorArchivos = LectorArchivos;
 //funcion que genera un Objeto de tipo Cliente desde una base de datos(.txt)==>
-function crearCliente(cliente, arregloClientes, arregloPacientes, arregloIdCliente) {
+function crearCliente(cliente, arregloClientes, arregloPacientes) {
     var propiedadCliente = cliente.split(",");
     var idCliente = Number(propiedadCliente[0]);
     var nombreCliente = propiedadCliente[1];
@@ -31,11 +31,10 @@ function crearCliente(cliente, arregloClientes, arregloPacientes, arregloIdClien
     var listaCliente = arregloClientes;
     var nuevoCliente = new cliente_1["default"](idCliente, nombreCliente, telefonoCliente, clienteVip, cantidadVisitas, arregloPacientes);
     listaCliente.push(nuevoCliente);
-    arregloIdCliente.push(idCliente);
     return listaCliente;
 }
 exports.crearCliente = crearCliente;
-function crearSucursal(sucursal, arregloSucursales, arregloIdSucursal) {
+function crearSucursal(sucursal, arregloSucursales) {
     var propiedadSucursal = sucursal.split(",");
     var IDsucursal = Number(propiedadSucursal[0]);
     var Direccion = propiedadSucursal[1];
@@ -43,7 +42,6 @@ function crearSucursal(sucursal, arregloSucursales, arregloIdSucursal) {
     var listaSucursal = arregloSucursales;
     var nuevaSucursal = new sucursales_1["default"](IDsucursal, Direccion, Telefono);
     listaSucursal.push(nuevaSucursal);
-    arregloIdSucursal.push(IDsucursal);
     return listaSucursal;
 }
 exports.crearSucursal = crearSucursal;
@@ -81,9 +79,8 @@ var arregloPacientes = [];
 var datosProveedor = new LectorArchivos("./baseDeDatos/proveedores.txt");
 var arregloProveedor = [];
 var arregloHistClinica = [];
-var arregloIdClientes = [];
 for (var i = 0; i < datosClientes.getArregloString().length; i++) {
-    crearCliente(datosClientes.getArregloString()[i], arregloClientes, arregloPacientes, arregloIdClientes);
+    crearCliente(datosClientes.getArregloString()[i], arregloClientes, arregloPacientes);
 }
 for (var i = 0; i < datosPacientes.getArregloString().length; i++) {
     crearPaciente(datosPacientes.getArregloString()[i], arregloPacientes);
