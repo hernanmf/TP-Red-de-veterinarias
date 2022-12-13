@@ -132,9 +132,8 @@ function menuNuevoCliente() {
         estaSeguro = Number(ReadlineSync.questionInt("Confirma el ingreso del nuevo cliente? 1-Si 2-No :"));
     }
     if (estaSeguro == 1) {
-        veterinariaInstanciada.agregarCliente(nuevoCliente);
         console.clear();
-        console.log("EL CLIENTE HA SIDO CREADO");
+        veterinariaInstanciada.agregarCliente(nuevoCliente);
     }
     else {
         console.log("LOS CAMBIOS NO SE HAN REALIZADO");
@@ -244,9 +243,9 @@ function menuNuevoProveedor() {
         estaSeguro = Number(ReadlineSync.questionInt("Confirma el ingreso del nuevo proveedor? 1-Si 2-No :"));
     }
     if (estaSeguro == 1) {
-        veterinariaInstanciada.agregarProveedor(nuevoProveedor);
         console.clear();
-        console.log("EL PROVEEDOR HA SIDO CREADO");
+        veterinariaInstanciada.agregarProveedor(nuevoProveedor);
+        /* console.log("EL PROVEEDOR HA SIDO CREADO"); */
     }
     else {
         console.log("LOS CAMBIOS NO SE HAN REALIZADO");
@@ -337,9 +336,8 @@ function menuNuevaSucursal() {
         estaSeguro = Number(ReadlineSync.questionInt("Confirma el ingreso del nuevo Sucursal? 1-Si 2-No :"));
     }
     if (estaSeguro == 1) {
-        veterinariaInstanciada.agregarSucursal(nuevaSucursal);
         console.clear();
-        console.log("LA SUCURSAL HA SIDO CREADA");
+        veterinariaInstanciada.agregarSucursal(nuevaSucursal);
     }
     else {
         console.log("LOS CAMBIOS NO SE HAN REALIZADO");

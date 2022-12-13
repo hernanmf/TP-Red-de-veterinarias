@@ -8,13 +8,32 @@ var Veterinaria = /** @class */ (function () {
         this.clientes = clientes;
     }
     Veterinaria.prototype.agregarCliente = function (cliente) {
-        this.clientes.push(cliente);
+        if (this.clientes.find(function (Element) { return Element.getNombre() === cliente.getNombre(); }) == null) {
+            this.clientes.push(cliente);
+            console.log("SE HA REGISTRADO EL NUEVO CLIENTE");
+        }
+        else {
+            console.log("EL CLIENTE YA SE ENCUENTRA EN LA BASE DE DATOS");
+        }
     };
     Veterinaria.prototype.agregarProveedor = function (proveedor) {
-        this.proveedores.push(proveedor);
+        if (this.proveedores.find(function (Element) { return Element.getNombre() === proveedor.getNombre(); }) == null) {
+            this.proveedores.push(proveedor);
+            console.log("SE HA REGISTRADO EL NUEVO PROVEEDOR");
+        }
+        else {
+            console.log("EL PROVEEDOR YA SE ENCUENTRA EN LA BASE DE DATOS");
+        }
     };
     Veterinaria.prototype.agregarSucursal = function (sucursal) {
         this.sucursales.push(sucursal);
+        if (this.sucursales.find(function (Element) { return Element.getDireccion() === sucursal.getDireccion(); }) == null) {
+            this.sucursales.push(sucursal);
+            console.log("SE HA REGISTRADO LA NUEVA SUCURSAL");
+        }
+        else {
+            console.log("LA SUCURSAL YA SE ENCUENTRA EN LA BASE DE DATOS");
+        }
     };
     Veterinaria.prototype.getNombre = function () {
         return this.nombre;

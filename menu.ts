@@ -185,9 +185,8 @@ function menuNuevoCliente(): void {
     );
   }
   if (estaSeguro == 1) {
-    veterinariaInstanciada.agregarCliente(nuevoCliente);
     console.clear();
-    console.log("EL CLIENTE HA SIDO CREADO");
+    veterinariaInstanciada.agregarCliente(nuevoCliente);
   } else {
     console.log("LOS CAMBIOS NO SE HAN REALIZADO");
   }
@@ -330,9 +329,9 @@ function menuNuevoProveedor(): void {
     );
   }
   if (estaSeguro == 1) {
-    veterinariaInstanciada.agregarProveedor(nuevoProveedor);
     console.clear();
-    console.log("EL PROVEEDOR HA SIDO CREADO");
+    veterinariaInstanciada.agregarProveedor(nuevoProveedor);
+    /* console.log("EL PROVEEDOR HA SIDO CREADO"); */
   } else {
     console.log("LOS CAMBIOS NO SE HAN REALIZADO");
   }
@@ -451,9 +450,8 @@ function menuNuevaSucursal(): void {
     );
   }
   if (estaSeguro == 1) {
-    veterinariaInstanciada.agregarSucursal(nuevaSucursal);
     console.clear();
-    console.log("LA SUCURSAL HA SIDO CREADA");
+    veterinariaInstanciada.agregarSucursal(nuevaSucursal);
   } else {
     console.log("LOS CAMBIOS NO SE HAN REALIZADO");
   }

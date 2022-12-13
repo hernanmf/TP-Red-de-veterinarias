@@ -32,6 +32,9 @@ var Cliente = /** @class */ (function () {
     };
     Cliente.prototype.registrarVisita = function () {
         this.cantidadVisitas++;
+        if (this.cantidadVisitas >= 5) {
+            this.esVip = true;
+        }
     };
     Cliente.prototype.getPaciente = function (id_Cliente, nombrePaciente) {
         /* for (let i = 0; i < this.pacientes.length; i++) {

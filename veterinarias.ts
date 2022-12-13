@@ -22,15 +22,42 @@ export default class Veterinaria {
   }
 
   public agregarCliente(cliente: Cliente) {
-    this.clientes.push(cliente);
+    if (
+      this.clientes.find(
+        (Element) => Element.getNombre() === cliente.getNombre()
+      ) == null
+    ) {
+      this.clientes.push(cliente);
+      console.log("SE HA REGISTRADO EL NUEVO CLIENTE");
+    } else {
+      console.log("EL CLIENTE YA SE ENCUENTRA EN LA BASE DE DATOS");
+    }
   }
 
   public agregarProveedor(proveedor: Proveedor) {
-    this.proveedores.push(proveedor);
+    if (
+      this.proveedores.find(
+        (Element) => Element.getNombre() === proveedor.getNombre()
+      ) == null
+    ) {
+      this.proveedores.push(proveedor);
+      console.log("SE HA REGISTRADO EL NUEVO PROVEEDOR");
+    } else {
+      console.log("EL PROVEEDOR YA SE ENCUENTRA EN LA BASE DE DATOS");
+    }
   }
 
   public agregarSucursal(sucursal: Sucursal) {
-    this.sucursales.push(sucursal);
+    if (
+      this.sucursales.find(
+        (Element) => Element.getDireccion() === sucursal.getDireccion()
+      ) == null
+    ) {
+      this.sucursales.push(sucursal);
+      console.log("SE HA REGISTRADO LA NUEVA SUCURSAL");
+    } else {
+      console.log("LA SUCURSAL YA SE ENCUENTRA EN LA BASE DE DATOS");
+    }
   }
 
   public getNombre(): string {
@@ -56,7 +83,6 @@ export default class Veterinaria {
       i++;
     }
     if (i < this.proveedores.length) {
-      /*preguntando si this.proveedores[i].getIDProveedor() === IDproveedor, si no existe en el array se rompe, entonces preguntamos si i no llego al largo del arreglo, que quiere decir q encontro una existencia del id*/
       this.proveedores[i] = nuevoProveedor;
       console.clear();
       console.log("MODIFICACION REALIZADA");

@@ -46,6 +46,9 @@ export default class Cliente {
   }
   public registrarVisita() {
     this.cantidadVisitas++;
+    if (this.cantidadVisitas >= 5) {
+      this.esVip = true;
+    }
   }
   public getPaciente(id_Cliente: number, nombrePaciente: string) {
     /* for (let i = 0; i < this.pacientes.length; i++) {
